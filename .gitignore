@@ -3,7 +3,10 @@
 
 #ignore logs
 /logs/*
-!/logs/*
+
+#ignore .vagrant folder
+.vagrant/
+/.vagrant/
 
 # we dont want to save any of the developer's sites
 /www/*

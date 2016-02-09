@@ -291,9 +291,17 @@ mysql_setup() {
   fi
 }
 
-# mailcatcher_setup() {
-#   gem install mailcatcher
-# }
+mailcatcher_install() {
+  gem install mailcatcher
+
+  if [[ ! -d "/etc/init/" ]]; then
+    mkdir "/etc/init/"
+  fi
+
+  cp "/srv/config/init/mailcatcher.conf" "/etc/init/mailcatcher.conf"
+
+  echo " * Copied /srv/config/init/mailcatcher                      to /etc/init/mailcatcher.conf"
+}
 
 services_restart() {
   # RESTART SERVICES
@@ -316,6 +324,7 @@ services_restart() {
 
   service php5 restart
   service apache2 restart
+  service mailcatcher restart
 
 }
 
@@ -467,6 +476,7 @@ echo '-------------------------------'
 network_check
 package_install
 tools_install
+mailcatcher_install
 apache_setup
 
 
