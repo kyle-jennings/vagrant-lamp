@@ -1,11 +1,4 @@
 <?php
-// examine arrays and objects
-function kjd($obj){
-    if(empty($obj))
-        return;
-
-    print_r($obj);
-}
 
 
 // create the certs
@@ -184,11 +177,21 @@ if (!file_exists($file)) {
             create_certs($args['url']);
 
             if($l == 0){
-                $first_dirname =$args['dirname'];
-                $first_cert =$args['url'];
+                $first_dirname = $args['dirname'];# ? $args['dirname'] : 'www/app' ;
+                $first_cert = $args['url'];# ? $args['dirname'] : 'www/app' ;
             }
             $l++;
         }
 
     }
+}
+
+
+
+function get_dirname(){
+
+    $file = strstr(__FILE__, 'www/');
+    $file = ltrim($file,'www/');
+    $path = explode('/', $file);
+    return $path[0].'/app';
 }
