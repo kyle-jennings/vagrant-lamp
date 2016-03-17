@@ -15,5 +15,11 @@
 /www/default/vhosts-init
 /www/default/certs/
 /www/default/vhosts/
+/www/default/database-admin/
 
 !/www/default/
+
+# dont need the trucks list
+/lib/trucks.json
+
+node_modules

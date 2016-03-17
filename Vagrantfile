@@ -63,7 +63,7 @@ Vagrant.configure("2") do |config|
   # A private network is created by default. This is the IP address through which your
   # host machine will communicate to the guest.
   #
-  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.50.4"
+  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.50.5"
 
 
   config.vm.provider :hyperv do |v, override|
@@ -111,16 +111,28 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell, inline: "sudo service apache2 restart", run: "always"
   end
 
-
+  # triggers
+  #
+  # These are run when vagrant is brought up, down, and destroyed
   if defined? VagrantPlugins::Triggers
+
+    config.trigger.after :up do
+      run "vagrant ssh -c 'vagrant_up'"
+    end
+
     config.trigger.before :halt, :stdout => true do
       run "vagrant ssh -c 'vagrant_halt'"
     end
+
     config.trigger.before :suspend, :stdout => true do
       run "vagrant ssh -c 'vagrant_suspend'"
     end
+
     config.trigger.before :destroy, :stdout => true do
       run "vagrant ssh -c 'vagrant_destroy'"
     end
+
   end
+
+
 end

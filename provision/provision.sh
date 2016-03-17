@@ -43,8 +43,6 @@ apt_package_check_list=(
   #apache2
   apache2
 
-  #phpmyadmi
-
   # mysql is the default database
   mysql-server
   libapache2-mod-auth-mysql
@@ -358,16 +356,51 @@ webgrind_install() {
   fi
 }
 
-# phpmyadmin_setup() {
+phpmyadmin_setup() {
+  # Download phpMyAdmin
+  if [[ ! -d /srv/www/default/database-admin ]]; then
+    echo "Downloading phpMyAdmin..."
+    cd /srv/www/default
+    wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/4.4.10/phpMyAdmin-4.4.10-all-languages.tar.gz"
+    tar -xf phpmyadmin.tar.gz
+    mv phpMyAdmin-4.4.10-all-languages database-admin
+    rm phpmyadmin.tar.gz
+  else
+    echo "PHPMyAdmin already installed."
+  fi
+  cp "/srv/config/phpmyadmin/config.inc.php" "/srv/www/default/database-admin/"
+}
 
-# }
 
 custom_vvv(){
+
   # Find new sites to setup.
   # Kill previously symlinked Nginx configs
   # We can't know what sites have been removed, so we have to remove all
   # the configs and add them back in again.
-  # find /etc/nginx/custom-sites -name 'vvv-auto-*.conf' -exec rm {} \;
+
+
+  if [[ ! -d /etc/apache2/.keys ]]; then
+    mkdir -p /etc/apache2/.keys
+  fi
+
+  # create a shared key and cert for https
+  if [[ ! -e /etc/apache2/.keys/server.key ]]; then
+    echo "Generate Nginx server private key..."
+    genRSA="$(openssl genrsa -out /etc/apache2/.keys/server.key 2048 2>&1)"
+    echo "$genRSA"
+  fi
+
+  if [[ ! -e /etc/apache2/.keys/server.crt ]]; then
+    echo "Sign the certificate using the above private key..."
+    vvvsigncert="$(openssl req -new -x509 \
+            -key /etc/apache2/.keys/server.key \
+            -out /etc/apache2/.keys/server.crt \
+            -days 3650 \
+            -subj /CN=*.wordpress-develop.dev/CN=*.wordpress.dev/CN=*.vvv.dev/CN=*.wordpress-trunk.dev 2>&1)"
+    echo "$vvvsigncert"
+  fi
+
 
   # Look for site setup scripts
   for SITE_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name 'vvv-init.sh'); do
