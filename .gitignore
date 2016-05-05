@@ -8,6 +8,9 @@
 .vagrant/
 /.vagrant/
 
+# ignore database backups
+/database/backups/
+
 # we dont want to save any of the developer's sites
 /www/*
 

@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
 
   # Configurations from 1.0.x can be placed in Vagrant 1.1.x specs like the following.
   config.vm.provider :virtualbox do |v|
-    v.customize ["modifyvm", :id, "--memory", 2048]
+    v.customize ["modifyvm", :id, "--memory", 4096]
     v.customize ["modifyvm", :id, "--cpus", 1]
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
@@ -81,11 +81,16 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # /srv/config/
-  config.vm.synced_folder "config/", "/srv/config"
+  # syncing
+  if vagrant_version >= "1.3.0"
+    config.vm.synced_folder "config/", "/srv/config"
+    config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "www-data"
+    config.vm.synced_folder "vhosts/", "/etc/apache2/sites-available", :mount_options => [ "dmode=775", "fmode=774" ]
+    config.vm.synced_folder "database/", "/srv/database/", :mount_options => [ "dmode=775", "fmode=774" ]
+  else
+    config.vm.synced_folder "database/", "/srv/database/", :extra => 'dmode=775,fmode=774'
+  end
 
-  # /srv/log/
-  config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "www-data"
 
   # /srv/www/
   if vagrant_version >= "1.3.0"
@@ -93,6 +98,11 @@ Vagrant.configure("2") do |config|
   else
     config.vm.synced_folder "www/", "/srv/www/", :owner => "www-data", :extra => 'dmode=775,fmode=774'
   end
+
+
+
+
+
 
   config.vm.provision "fix-no-tty", type: "shell" do |s|
     s.privileged = false
@@ -115,10 +125,6 @@ Vagrant.configure("2") do |config|
   #
   # These are run when vagrant is brought up, down, and destroyed
   if defined? VagrantPlugins::Triggers
-
-    config.trigger.after :up do
-      run "vagrant ssh -c 'vagrant_up'"
-    end
 
     config.trigger.before :halt, :stdout => true do
       run "vagrant ssh -c 'vagrant_halt'"
