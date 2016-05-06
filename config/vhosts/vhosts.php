@@ -1,28 +1,13 @@
 <?php
 
 
-// create the certs
-function create_certs($url){
-
-    global $dest;
-    $cert_dest = str_replace('/vhosts/','',$dest);
-
-    $command = '';
-
-    $command .= 'sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 ';
-    $command .= '-keyout '.$cert_dest.'/certs/cert--'.$url.'.key -out '.$cert_dest.'/certs/cert--'.$url.'.crt ';
-    $command .= '-subj "/C=US/ST=District of Columbia/L=DC/O=gsa/OU=ocsit/CN='.$url.'"';
-
-    shell_exec($command);
-}
-
 
 // copy default http and ssl conf files and rename them
 function create_vhost_files($url){
 
     global $dest;
 
-    $file = $dest.'vhost--'.$url.'.conf';
+    $file = $dest.''.$url.'.conf';
     $templates = array('default-http.conf');
 
     // lets just assume we have certs for everything (as we should)
@@ -41,7 +26,8 @@ function create_vhost_files($url){
         unlink($file);
 
     // create new vhosts
-    $new_file = fopen($dest.'vhost--'.$url.'.conf', 'x+');
+    $new_file = fopen($dest.''.$url.'.conf', 'x+');
+
     // write the contents from the templates
     fwrite($new_file, $file_contents);
 
@@ -52,7 +38,7 @@ function create_vhost_files($url){
 
 
 // replace placeholder values in newly created vhost files with appropriate values
-function set_vhost_values($args){
+function set_vhost_values($args, $cert_name){
 
     global $dest;
     global $first_dirname;
@@ -67,8 +53,8 @@ function set_vhost_values($args){
     $dirname = isset($dirname) ? $dirname : $first_dirname;
 
     // set the find and replace
-    $find = array('{{URL}}','{{ALIASES}}','{{DIRNAME}}','{{CERT}}');
-    $replace = array($url, $aliases, $dirname);
+    $find = array('{{URL}}','{{ALIASES}}','{{DIRNAME}}','{{CERTNAME}}');
+    $replace = array($url, $aliases, $dirname, $cert_name);
 
 
     // if a cert is set, then use that value. otherwise use the url
@@ -78,7 +64,7 @@ function set_vhost_values($args){
         $replace[] = $url;
 
     // set the file names
-    $file = $dest.'vhost--'.$url.'.conf';
+    $file = $dest.''.$url.'.conf';
 
     // if the file doesnt exist we need to bail
     if(!file_exists($file))
@@ -135,63 +121,97 @@ if (!(isset($argv) && isset($argv[1]))){
 
 
 
-// Compose path from argument
-$file = $argv[1];
-$dest = $argv[2] ? $argv[2]: '';
-
-
-if (!file_exists($file)) {
-
-    // Error
-    echo 'Error: input file does not exists'."\n";
-    echo $file."\n\n";
-
-    // File exists
-} else {
-
-    // Get file contents
-    if (!($fp = fopen($file, 'r'))) {
-
-      // Error
-      echo 'Error: can`t open input file for read'."\n";
-      echo $file."\n\n";
-
-    // File opened for read
-    } else {
-
-        $l = 0;
-        $first_dirname = '';
-        $first_cert = '';
-        // echo each line
-        while (($line = fgets($fp, 4096)) !== false) {
-
-            if( (substr($line, 0, 1) === '#') )
-                continue;
-
-
-            $site = explode(' ',$line);
-            $args = map_args($site);
-
-            create_vhost_files($args['url']);
-            set_vhost_values($args);
-            create_certs($args['url']);
-
-            if($l == 0){
-                $first_dirname = $args['dirname'];# ? $args['dirname'] : 'www/app' ;
-                $first_cert = $args['url'];# ? $args['dirname'] : 'www/app' ;
-            }
-            $l++;
-        }
-
-    }
-}
-
-
-
+// unused function - to be deleted
 function get_dirname(){
 
     $file = strstr(__FILE__, 'www/');
     $file = ltrim($file,'www/');
     $path = explode('/', $file);
     return $path[0].'/app';
+}
+
+
+
+// Compose path from argument
+$file = $argv[1];
+$dest = $argv[2] ? $argv[2]: '';
+
+
+// first we need to make sure we have a vhost-ini file. if we dont then we bail
+if (!file_exists($file)) {
+
+    // Error
+    echo 'Error: input file does not exists'."\n";
+    echo $file."\n\n";
+
+// if the file exists, lets do some stuff
+} else {
+
+    // try to open file for reading
+
+    // if we cant then fail
+    if (!($fp = fopen($file, 'r'))) {
+
+      // Error
+      echo 'Error: can`t open input file for read'."\n";
+      echo $file."\n\n";
+
+    // if we can, then we need to set things up, and then get each URL
+    } else {
+
+        $l = 0;
+        $first_dirname = '';
+        $first_cert = '';
+
+        // the cert urls will be used to list all the URLs for the CNs
+        $cert_urls = '';
+
+
+        // for each line in the vhost file...
+        while (($line = fgets($fp, 4096)) !== false) {
+
+            // if the line is commented out, lets ignore it and continue
+            if( (substr($line, 0, 1) === '#') )
+                continue;
+
+            // explode and map the line to get the atts as an array
+            $site = explode(' ',$line);
+            $args = map_args($site);
+
+            // the meat
+
+
+            // we can use the first entry's URL and dirname for the rest of the vhosts if we want to be lazy
+            if($l == 0){
+                $first_dirname = $args['dirname'];# ? $args['dirname'] : 'www/app' ;
+                $first_cert = $args['url'];# ? $args['dirname'] : 'www/app' ;
+            }
+
+
+            // add the CN to the cer urls list
+            $cert_urls .= '/CN='.$args['url'];
+
+            // ok no, create teh vhost file for the given URL
+            create_vhost_files($args['url']);
+
+            // now set the vhost values (its basically a template)
+            set_vhost_values($args, $first_cert);
+
+            // create the cert for the URL
+            // create_certs($args['url']);
+
+            $l++;
+        }
+
+        // build our new key and cert
+        // we want to make a single SSL cert for all the domains, so lets set that up
+        // we are just building a command as a string to run
+        $cert_name = $first_cert;
+        $cert_command = 'sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 ';
+        $cert_command .= '-keyout /etc/apache2/.keys/'.$cert_name.'.key -out /etc/apache2/.keys/'.$cert_name.'.crt ';
+        $cert_command .= '-subj "/C=US/ST=District of Columbia/L=DC/O=gsa/OU=ocsit'.$cert_urls.'"';
+
+        shell_exec($cert_command);
+
+    }
 }

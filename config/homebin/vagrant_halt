@@ -10,5 +10,6 @@
 if [[ -f /home/vagrant/bin/vagrant_halt_custom ]]; then
 	vagrant_halt_custom
 else
+    db_rm_backups
 	db_backup
 fi

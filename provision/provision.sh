@@ -261,7 +261,7 @@ tools_install() {
 
 
 apache_setup() {
-  sed -i 's/ServerName/#ServerName/' /etc/apache2/apache2.conf
+  sed -i.bak 's/ServerName/#ServerName/g' /etc/apache2/apache2.conf
   echo "ServerName vagrant" >> /etc/apache2/apache2.conf
 }
 
@@ -372,7 +372,7 @@ phpmyadmin_setup() {
 }
 
 
-custom_vvv(){
+custom_tasks(){
 
   # Find new sites to setup.
   # Kill previously symlinked Nginx configs
@@ -383,6 +383,7 @@ custom_vvv(){
   if [[ ! -d /etc/apache2/.keys ]]; then
     mkdir -p /etc/apache2/.keys
   fi
+
 
   # create a shared key and cert for https
   if [[ ! -e /etc/apache2/.keys/server.key ]]; then
@@ -397,17 +398,18 @@ custom_vvv(){
             -key /etc/apache2/.keys/server.key \
             -out /etc/apache2/.keys/server.crt \
             -days 3650 \
-            -subj /CN=*.wordpress-develop.dev/CN=*.wordpress.dev/CN=*.vvv.dev/CN=*.wordpress-trunk.dev 2>&1)"
+            -subj /CN=*.loc 2>&1)"
     echo "$vvvsigncert"
   fi
 
 
   # Look for site setup scripts
-  for SITE_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name 'vvv-init.sh'); do
+  for SITE_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name 'init.sh'); do
     DIR="$(dirname "$SITE_CONFIG_FILE")"
     (
+    echo "$DIR"
     cd "$DIR"
-    source vvv-init.sh
+    source init.sh
     )
   done
 
@@ -415,14 +417,16 @@ custom_vvv(){
   # deactivate and remove any and all site confs from apache
   echo "cleaning up all sites vhosts"
   cd "/etc/apache2/sites-enabled"
-  sudo a2dissite vhost--*
-  sudo rm /etc/apache2/sites-available/vhost--*
+  sudo a2dissite *
+  sudo rm /etc/apache2/sites-available/v*
 
   # remove all previously generated vhost files
   # so we can rebuild them with presumably new options
-  for OLD_VHOST_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name "vhost--*.conf"); do
+  for OLD_VHOST_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name "*.conf"); do
     rm $OLD_VHOST_CONFIG_FILE;
   done
+
+
   # remove all previously generated ssl cert, and ssl files
   # so we can rebuild them with presumably new options
   for OLD_CERT_FILE in $(find /srv/www -maxdepth 5 -name "cert--*"); do
@@ -446,7 +450,7 @@ custom_vvv(){
   done
 
   #move the vhosts to the sites-available directory
-  for VHOST_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name "vhost--*.conf"); do
+  for VHOST_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name "*.conf"); do
 
     DIR="$(dirname "$VHOST_CONFIG_FILE")/"
     DEST="/etc/apache2/sites-available/"
@@ -460,7 +464,7 @@ custom_vvv(){
   #activate our sites
   echo "activating the sites";
   cd "/etc/apache2/sites-enabled"
-  sudo a2ensite vhost--*
+  sudo a2ensite *
   sudo service apache2 restart
 
 
@@ -533,7 +537,7 @@ echo '-------------------------------'
 echo "Installing your custom sites"
 echo '-------------------------------'
 network_check
-custom_vvv
+custom_tasks
 
 
 #set +xv

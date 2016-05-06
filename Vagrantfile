@@ -81,27 +81,25 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # syncing
-  if vagrant_version >= "1.3.0"
-    config.vm.synced_folder "config/", "/srv/config"
-    config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "www-data"
-    config.vm.synced_folder "vhosts/", "/etc/apache2/sites-available", :mount_options => [ "dmode=775", "fmode=774" ]
-    config.vm.synced_folder "database/", "/srv/database/", :mount_options => [ "dmode=775", "fmode=774" ]
-  else
-    config.vm.synced_folder "database/", "/srv/database/", :extra => 'dmode=775,fmode=774'
-  end
+  # /srv/config/
+  config.vm.synced_folder "config/", "/srv/config"
 
+  # /srv/log/
+  config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "www-data"
 
-  # /srv/www/
+  # /Projects
   if vagrant_version >= "1.3.0"
     config.vm.synced_folder "www/", "/srv/www/", :owner => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
   else
     config.vm.synced_folder "www/", "/srv/www/", :owner => "www-data", :extra => 'dmode=775,fmode=774'
   end
 
-
-
-
+  # database backups
+  if vagrant_version >= "1.3.0"
+    config.vm.synced_folder "database/backups", "/srv/database/backups/", :mount_options => [ "dmode=775", "fmode=774" ]
+  else
+    config.vm.synced_folder "database/backups", "/srv/database/backups/", :extra => 'dmode=775,fmode=774'
+  end
 
 
   config.vm.provision "fix-no-tty", type: "shell" do |s|
