@@ -96,9 +96,9 @@ Vagrant.configure("2") do |config|
 
   # database backups
   if vagrant_version >= "1.3.0"
-    config.vm.synced_folder "database/backups", "/srv/database/backups/", :mount_options => [ "dmode=775", "fmode=774" ]
+    config.vm.synced_folder "database/backups", "/srv/database/backups/", :owner => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
   else
-    config.vm.synced_folder "database/backups", "/srv/database/backups/", :extra => 'dmode=775,fmode=774'
+    config.vm.synced_folder "database/backups", "/srv/database/backups/", :owner => "www-data", :extra => 'dmode=775,fmode=774'
   end
 
 
