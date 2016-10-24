@@ -62,8 +62,8 @@ Vagrant.configure("2") do |config|
   #
   # A private network is created by default. This is the IP address through which your
   # host machine will communicate to the guest.
+  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.50.9"
   #
-  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.50.5"
 
 
   config.vm.provider :hyperv do |v, override|
@@ -89,9 +89,9 @@ Vagrant.configure("2") do |config|
 
   # /Projects
   if vagrant_version >= "1.3.0"
-    config.vm.synced_folder "www/", "/srv/www/", :owner => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
+    config.vm.synced_folder "www/", "/var/www/", :owner => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
   else
-    config.vm.synced_folder "www/", "/srv/www/", :owner => "www-data", :extra => 'dmode=775,fmode=774'
+    config.vm.synced_folder "www/", "/var/www/", :owner => "www-data", :extra => 'dmode=775,fmode=774'
   end
 
   # database backups

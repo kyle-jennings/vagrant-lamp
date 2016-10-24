@@ -81,7 +81,7 @@ apt_package_check_list=(
   #Mailcatcher requirements
   ruby-dev
   libsqlite3-dev
-
+  ruby2.2
 )
 
 ### FUNCTIONS
@@ -289,6 +289,11 @@ mysql_setup() {
   fi
 }
 
+ruby_install() {
+  sudo apt-add-repository -y ppa:brightbox/ruby-ng
+  sudo apt-get update
+}
+
 mailcatcher_install() {
   gem install mailcatcher
 
@@ -299,6 +304,15 @@ mailcatcher_install() {
   cp "/srv/config/init/mailcatcher.conf" "/etc/init/mailcatcher.conf"
 
   echo " * Copied /srv/config/init/mailcatcher                      to /etc/init/mailcatcher.conf"
+
+  echo "sendmail_path = /usr/bin/env $(which catchmail) -f test@local.dev" | sudo tee /etc/php5/mods-available/mailcatcher.ini
+
+    # Enable sendmail config for all php SAPIs (apache2, fpm, cli)
+    sudo php5enmod mailcatcher
+
+    # Restart Apache if using mod_php
+    sudo service apache2 restart
+
 }
 
 services_restart() {
@@ -328,39 +342,39 @@ services_restart() {
 
 wp_cli() {
   # WP-CLI Install
-  if [[ ! -d "/srv/www/wp-cli" ]]; then
+  if [[ ! -d "/var/www/wp-cli" ]]; then
     echo -e "\nDownloading wp-cli, see http://wp-cli.org"
-    git clone "https://github.com/wp-cli/wp-cli.git" "/srv/www/wp-cli"
-    cd /srv/www/wp-cli
+    git clone "https://github.com/wp-cli/wp-cli.git" "/var/www/wp-cli"
+    cd /var/www/wp-cli
     composer install
   else
     echo -e "\nUpdating wp-cli..."
-    cd /srv/www/wp-cli
+    cd /var/www/wp-cli
     git pull --rebase origin master
     composer update
   fi
   # Link `wp` to the `/usr/local/bin` directory
-  ln -sf "/srv/www/wp-cli/bin/wp" "/usr/local/bin/wp"
+  ln -sf "/var/www/wp-cli/bin/wp" "/usr/local/bin/wp"
 }
 
 webgrind_install() {
   # Webgrind install (for viewing callgrind/cachegrind files produced by
   # xdebug profiler)
-  if [[ ! -d "/srv/www/default/webgrind" ]]; then
+  if [[ ! -d "/var/www/default/webgrind" ]]; then
     echo -e "\nDownloading webgrind, see https://github.com/michaelschiller/webgrind.git"
-    git clone "https://github.com/michaelschiller/webgrind.git" "/srv/www/default/webgrind"
+    git clone "https://github.com/michaelschiller/webgrind.git" "/var/www/default/webgrind"
   else
     echo -e "\nUpdating webgrind..."
-    cd /srv/www/default/webgrind
+    cd /var/www/default/webgrind
     git pull --rebase origin master
   fi
 }
 
 phpmyadmin_setup() {
   # Download phpMyAdmin
-  if [[ ! -d /srv/www/default/database-admin ]]; then
+  if [[ ! -d /var/www/default/database-admin ]]; then
     echo "Downloading phpMyAdmin..."
-    cd /srv/www/default
+    cd /var/www/default
     wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/4.4.10/phpMyAdmin-4.4.10-all-languages.tar.gz"
     tar -xf phpmyadmin.tar.gz
     mv phpMyAdmin-4.4.10-all-languages database-admin
@@ -368,7 +382,7 @@ phpmyadmin_setup() {
   else
     echo "PHPMyAdmin already installed."
   fi
-  cp "/srv/config/phpmyadmin/config.inc.php" "/srv/www/default/database-admin/"
+  cp "/srv/config/phpmyadmin/config.inc.php" "/var/www/default/database-admin/"
 }
 
 
@@ -403,8 +417,8 @@ custom_tasks(){
   fi
 
 
+  for SITE_CONFIG_FILE in $(find /var/www -maxdepth 5 -name 'init.sh'); do
   # Look for site setup scripts
-  for SITE_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name 'init.sh'); do
     DIR="$(dirname "$SITE_CONFIG_FILE")"
     (
     echo "$DIR"
@@ -421,21 +435,21 @@ custom_tasks(){
   sudo rm /etc/apache2/sites-available/v*
 
   # remove all previously generated vhost files
+  for OLD_VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
   # so we can rebuild them with presumably new options
-  for OLD_VHOST_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name "*.conf"); do
     rm $OLD_VHOST_CONFIG_FILE;
   done
 
 
   # remove all previously generated ssl cert, and ssl files
+  for OLD_CERT_FILE in $(find /var/www -maxdepth 5 -name "cert--*"); do
   # so we can rebuild them with presumably new options
-  for OLD_CERT_FILE in $(find /srv/www -maxdepth 5 -name "cert--*"); do
     rm $OLD_CERT_FILE;
   done
 
 
+  for VHOSTS_INIT_FILE in $(find /var/www/ -maxdepth 5 -name 'vhosts-init'); do
   # create the vhosts for the sites
-  for VHOSTS_INIT_FILE in $(find /srv/www/ -maxdepth 5 -name 'vhosts-init'); do
 
     #set variables
     DIR="$(dirname "$VHOSTS_INIT_FILE")"
@@ -449,8 +463,8 @@ custom_tasks(){
 
   done
 
+  for VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
   #move the vhosts to the sites-available directory
-  for VHOST_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name "*.conf"); do
 
     DIR="$(dirname "$VHOST_CONFIG_FILE")/"
     DEST="/etc/apache2/sites-available/"
@@ -477,8 +491,8 @@ custom_tasks(){
   echo "Cleaning the virtual machine's /etc/hosts file..."
   sed -n '/# vvv-auto$/!p' /etc/hosts > /tmp/hosts
   mv /tmp/hosts /etc/hosts
+  find /var/www/ -maxdepth 5 -name 'vvv-hosts' | \
   echo "Adding domains to the virtual machine's /etc/hosts file..."
-  find /srv/www/ -maxdepth 5 -name 'vvv-hosts' | \
   while read hostfile; do
     while IFS='' read -r line || [ -n "$line" ]; do
       if [[ "#" != ${line:0:1} ]]; then
@@ -511,10 +525,11 @@ echo '-------------------------------'
 echo "Main packages check and install."
 echo '-------------------------------'
 network_check
+ruby_install
 package_install
 tools_install
-mailcatcher_install
 apache_setup
+mailcatcher_install
 
 
 echo '---------------------------------------'

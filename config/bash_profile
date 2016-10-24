@@ -40,3 +40,4 @@ export WP_CORE_DIR=/srv/www/wordpress-develop/src/
 
 # PHPCS path
 export PATH="$PATH:/srv/www/phpcs/scripts/"
+source /home/vagrant/.rvm/scripts/rvm
