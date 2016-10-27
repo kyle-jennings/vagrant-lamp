@@ -9,9 +9,10 @@
 /.vagrant/
 
 # ignore database backups
-/database/backups/
+/database/backups/*.sql
+*/**/*.sql
 
-#ignore vhosts 
+#ignore vhosts
 /vhosts/
 # we dont want to save any of the developer's sites
 /www/*

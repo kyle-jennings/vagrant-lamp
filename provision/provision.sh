@@ -261,6 +261,7 @@ tools_install() {
 
 
 apache_setup() {
+  cp "/srv/config/init/php.ini" "/etc/php5/apache2/php.ini"
   sed -i.bak 's/ServerName/#ServerName/g' /etc/apache2/apache2.conf
   echo "ServerName vagrant" >> /etc/apache2/apache2.conf
 }
