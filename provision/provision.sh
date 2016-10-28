@@ -77,6 +77,7 @@ apt_package_check_list=(
   # nodejs for use by grunt
   g++
   nodejs
+  npm
 
   #Mailcatcher requirements
   ruby-dev
@@ -210,12 +211,30 @@ package_install() {
   fi
 }
 
-tools_install() {
-  # npm
-  #
+npm_installs(){
+
+  ln -s /usr/bin/nodejs /usr/bin/node
+  if [ ! -d ~/.npm ]; then
+    mkdir ~/.npm
+  fi
+  sudo chown -R $(whoami) ~/.npm
+
+  if [ ! -d /usr/local/lib/node_modules ]; then
+    mkdir /usr/local/lib/node_modules
+  fi
+  sudo chown -R $(whoami) /usr/local/lib/node_modules
   # Make sure we have the latest npm version and the update checker module
   npm install -g npm
   npm install -g npm-check-updates
+
+  # Make sure we have the latest npm version and the update checker module
+  npm install -g gulp-cli
+  npm install -g grunt-cli
+  npm install -g bower
+}
+
+tools_install() {
+
 
   # ack-grep
   #
@@ -387,6 +406,32 @@ phpmyadmin_setup() {
 }
 
 
+create_ssl_certs(){
+
+    if [[ ! -d /etc/apache2/.keys ]]; then
+      mkdir -p /etc/apache2/.keys
+    fi
+
+
+    # create a shared key and cert for https
+    if [[ ! -e /etc/apache2/.keys/server.key ]]; then
+      echo "Generate Nginx server private key..."
+      genRSA="$(openssl genrsa -out /etc/apache2/.keys/server.key 2048 2>&1)"
+      echo "$genRSA"
+    fi
+
+    if [[ ! -e /etc/apache2/.keys/server.crt ]]; then
+      echo "Sign the certificate using the above private key..."
+      vvvsigncert="$(openssl req -new -x509 \
+              -key /etc/apache2/.keys/server.key \
+              -out /etc/apache2/.keys/server.crt \
+              -days 3650 \
+              -subj /CN=*.loc 2>&1)"
+      echo "$vvvsigncert"
+    fi
+
+}
+
 custom_tasks(){
 
   # Find new sites to setup.
@@ -394,28 +439,6 @@ custom_tasks(){
   # We can't know what sites have been removed, so we have to remove all
   # the configs and add them back in again.
 
-
-  if [[ ! -d /etc/apache2/.keys ]]; then
-    mkdir -p /etc/apache2/.keys
-  fi
-
-
-  # create a shared key and cert for https
-  if [[ ! -e /etc/apache2/.keys/server.key ]]; then
-    echo "Generate Nginx server private key..."
-    genRSA="$(openssl genrsa -out /etc/apache2/.keys/server.key 2048 2>&1)"
-    echo "$genRSA"
-  fi
-
-  if [[ ! -e /etc/apache2/.keys/server.crt ]]; then
-    echo "Sign the certificate using the above private key..."
-    vvvsigncert="$(openssl req -new -x509 \
-            -key /etc/apache2/.keys/server.key \
-            -out /etc/apache2/.keys/server.crt \
-            -days 3650 \
-            -subj /CN=*.loc 2>&1)"
-    echo "$vvvsigncert"
-  fi
 
 
   for SITE_CONFIG_FILE in $(find /var/www -maxdepth 5 -name 'init.sh'); do
@@ -449,6 +472,7 @@ custom_tasks(){
   done
 
 
+  # Setup all vhosts needed for project
   for VHOSTS_INIT_FILE in $(find /var/www/ -maxdepth 5 -name 'vhosts-init'); do
   # create the vhosts for the sites
 
@@ -464,8 +488,8 @@ custom_tasks(){
 
   done
 
+  # move the vhosts to the sites-available directory
   for VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
-  #move the vhosts to the sites-available directory
 
     DIR="$(dirname "$VHOST_CONFIG_FILE")/"
     DEST="/etc/apache2/sites-available/"
@@ -528,10 +552,11 @@ echo '-------------------------------'
 network_check
 ruby_install
 package_install
+npm_installs
 tools_install
 apache_setup
 mailcatcher_install
-
+create_ssl_certs
 
 echo '---------------------------------------'
 echo 'restarting services and setting up mysl'

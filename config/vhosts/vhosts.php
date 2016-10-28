@@ -53,8 +53,8 @@ function set_vhost_values($args, $cert_name){
     $dirname = isset($dirname) ? $dirname : $first_dirname;
 
     // set the find and replace
-    $find = array('{{URL}}','{{ALIASES}}','{{DIRNAME}}','{{CERTNAME}}');
-    $replace = array($url, $aliases, $dirname, $cert_name);
+    $find = array('{{URL}}','{{ALIASES}}','{{DIRNAME}}');
+    $replace = array($url, $aliases, $dirname);
 
 
     // if a cert is set, then use that value. otherwise use the url
@@ -202,16 +202,6 @@ if (!file_exists($file)) {
 
             $l++;
         }
-
-        // build our new key and cert
-        // we want to make a single SSL cert for all the domains, so lets set that up
-        // we are just building a command as a string to run
-        $cert_name = $first_cert;
-        $cert_command = 'sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 ';
-        $cert_command .= '-keyout /etc/apache2/.keys/'.$cert_name.'.key -out /etc/apache2/.keys/'.$cert_name.'.crt ';
-        $cert_command .= '-subj "/C=US/ST=District of Columbia/L=DC/O=gsa/OU=ocsit'.$cert_urls.'"';
-
-        shell_exec($cert_command);
 
     }
 }

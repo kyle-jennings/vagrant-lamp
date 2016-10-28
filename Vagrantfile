@@ -132,8 +132,9 @@ Vagrant.configure("2") do |config|
       run "vagrant ssh -c 'vagrant_suspend'"
     end
 
+    # if File.exists?()
     config.trigger.before :destroy, :stdout => true do
-      run "vagrant ssh -c 'vagrant_destroy'"
+      # run "vagrant ssh -c 'vagrant_destroy'"
     end
 
   end
