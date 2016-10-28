@@ -18,7 +18,6 @@
 /www/*
 
 #we want to keep the default site's skeleton however
-/www/default/vhosts-init
 /www/default/certs/
 /www/default/vhosts/
 /www/default/database-admin/
