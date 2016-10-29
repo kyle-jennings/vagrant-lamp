@@ -84,6 +84,13 @@ Vagrant.configure("2") do |config|
   # /srv/config/
   config.vm.synced_folder "config/", "/srv/config"
 
+  # sync trigger scripts
+  if vagrant_version >= "1.3.0"
+      config.vm.synced_folder "triggers/", "/home/vagrant/bin", :mount_options => [ "dmode=777", "fmode=777" ]
+  else
+      config.vm.synced_folder "triggers/", "/home/vagrant/bin", :extra => 'dmode=777,fmode=777'
+  end
+
   # /srv/log/
   config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "www-data"
 
@@ -123,6 +130,9 @@ Vagrant.configure("2") do |config|
   #
   # These are run when vagrant is brought up, down, and destroyed
   if defined? VagrantPlugins::Triggers
+    config.trigger.after [:up, :resume] do
+        run "vagrant ssh -c 'vagrant_init'"
+    end
 
     config.trigger.before :halt, :stdout => true do
       run "vagrant ssh -c 'vagrant_halt'"
@@ -134,7 +144,7 @@ Vagrant.configure("2") do |config|
 
     # if File.exists?()
     config.trigger.before :destroy, :stdout => true do
-      # run "vagrant ssh -c 'vagrant_destroy'"
+      run "vagrant ssh -c 'vagrant_destroy'"
     end
 
   end

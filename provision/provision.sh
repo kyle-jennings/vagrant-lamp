@@ -124,14 +124,12 @@ profile_setup() {
     mkdir "/home/vagrant/bin"
   fi
 
-  rsync -rvzh --delete "/srv/config/homebin/" "/home/vagrant/bin/"
 
   echo " * Copied /srv/config/bash_profile                      to /home/vagrant/.bash_profile"
   echo " * Copied /srv/config/bash_aliases                      to /home/vagrant/.bash_aliases"
   echo " * Copied /srv/config/vimrc                             to /home/vagrant/.vimrc"
-  echo " * rsync'd /srv/config/homebin                          to /home/vagrant/bin"
 
-  # If a bash_prompt file exists in the VVV config/ directory, copy to the VM.
+  # If a bash_prompt file exists in the config/ directory, copy to the VM.
   if [[ -f "/srv/config/bash_prompt" ]]; then
     cp "/srv/config/bash_prompt" "/home/vagrant/.bash_prompt"
     echo " * Copied /srv/config/bash_prompt to /home/vagrant/.bash_prompt"
@@ -436,25 +434,21 @@ create_ssl_certs(){
 
 }
 
-custom_tasks(){
 
-  # Find new sites to setup.
-  # Kill previously symlinked Nginx configs
-  # We can't know what sites have been removed, so we have to remove all
-  # the configs and add them back in again.
+project_custom_tasks(){
+    for SITE_CONFIG_FILE in $(find /var/www -maxdepth 5 -name 'init.sh'); do
+    # Look for site setup scripts
+      DIR="$(dirname "$SITE_CONFIG_FILE")"
+      (
+      echo "$DIR"
+      cd "$DIR"
+      source init.sh
+      )
+    done
+}
 
 
-
-  for SITE_CONFIG_FILE in $(find /var/www -maxdepth 5 -name 'init.sh'); do
-  # Look for site setup scripts
-    DIR="$(dirname "$SITE_CONFIG_FILE")"
-    (
-    echo "$DIR"
-    cd "$DIR"
-    source init.sh
-    )
-  done
-
+vhosts_init(){
 
   # deactivate and remove any and all site confs from apache
   echo "cleaning up all sites vhosts"
@@ -516,31 +510,30 @@ custom_tasks(){
   sudo a2ensite *
   sudo service apache2 restart
 
-
-
-  # Parse any vvv-hosts file located in www/ or subdirectories of www/
-  # for domains to be added to the virtual machine's host file so that it is
-  # self aware.
-  #
-  # Domains should be entered on new lines.
-  echo "Cleaning the virtual machine's /etc/hosts file..."
-  sed -n '/# vvv-auto$/!p' /etc/hosts > /tmp/hosts
-  mv /tmp/hosts /etc/hosts
-  find /var/www/ -maxdepth 5 -name 'vvv-hosts' | \
-  echo "Adding domains to the virtual machine's /etc/hosts file..."
-  while read hostfile; do
-    while IFS='' read -r line || [ -n "$line" ]; do
-      if [[ "#" != ${line:0:1} ]]; then
-        if [[ -z "$(grep -q "^127.0.0.1 $line$" /etc/hosts)" ]]; then
-          echo "127.0.0.1 $line # vvv-auto" >> "/etc/hosts"
-          echo " * Added $line from $hostfile"
-        fi
-      fi
-    done < "$hostfile"
-  done
 }
 
-
+# Parse any vvv-hosts file located in www/ or subdirectories of www/
+# for domains to be added to the virtual machine's host file so that it is
+# self aware.
+#
+# Domains should be entered on new lines.
+hosts_init(){
+    echo "Cleaning the virtual machine's /etc/hosts file..."
+    sed -n '/# vagrant-auto$/!p' /etc/hosts > /tmp/hosts
+    mv /tmp/hosts /etc/hosts
+    find /var/www/ -maxdepth 5 -name 'hosts-init' | \
+    echo "Adding domains to the virtual machine's /etc/hosts file..."
+    while read hostfile; do
+      while IFS='' read -r line || [ -n "$line" ]; do
+        if [[ "#" != ${line:0:1} ]]; then
+          if [[ -z "$(grep -q "^127.0.0.1 $line$" /etc/hosts)" ]]; then
+            echo "127.0.0.1 $line # vagrant-auto" >> "/etc/hosts"
+            echo " * Added $line from $hostfile"
+          fi
+        fi
+      done < "$hostfile"
+    done
+}
 
 
 
@@ -588,8 +581,9 @@ echo '-------------------------------'
 echo "Installing your custom sites"
 echo '-------------------------------'
 network_check
-custom_tasks
-
+# vhosts_init
+# hosts_init
+# project_custom_tasks
 
 #set +xv
 # And it's done
