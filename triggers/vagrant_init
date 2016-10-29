@@ -11,6 +11,6 @@ if [ -f /home/vagrant/bin/vagrant_init_custom ]; then
 	vagrant_init_custom
 else
 	reset_hosts_file
-	# reset_vhosts
-	# run_project_custom_tasks
+	reset_vhosts
+	run_project_custom_tasks
 fi
