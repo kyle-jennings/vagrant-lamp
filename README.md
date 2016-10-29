@@ -44,10 +44,12 @@ your project's domain name to the Vagrant IP address. Put one hostname per line.
 Note - this only works if you have installed the vagrant-hostsupdater add-on
 Note2 - This file is slated to be removed to only use a single settings file
 Example:
+
 ~~~
 example.loc
 www.example.loc
 ~~~
+
 **vhosts-init** - this file will set up your Vagrant machine's virtual hosts files
 so Apache knows to how to serve your site.  These settings require a specific format:
 Note - This file is slated to be removed to only use a single settings file
@@ -56,20 +58,17 @@ Note - This file is slated to be removed to only use a single settings file
 url=example.loc aliases=www.example.loc dirname=example/app cert=example.loc
 ~~~
 
-*url* - this is the default url to listen for.
+***url*** - this is the default url to listen for.
 
-*aliases* - comma delimited(NO spaces) urls to use for things like subdomains, www, whatever
+***aliases*** - comma delimited(NO spaces) urls to use for things like subdomains, www, whatever
 
-*dirname* - the directory name to serve the site from.  This is a little wacky
+***dirname*** - the directory name to serve the site from.  This is a little wacky
 but it needs to start the containing project's folder name.  In the above example,
 our project has a subfolder called 'app' which contains the actual site. This is
 a good setup so the root of the project folder holds things like the init folder
 or other config files such as the compose.json file. This is slated to change
 to assume the project folder by default and a specified folder would be sub folder.
 more on that later
-
-*cert* - This will create a custom self-signed SSL for the site using the previous
-settings.  Slated to be removed to use a single premade default SSL
 
 
 So given what we just explained and the above examples, your project folder

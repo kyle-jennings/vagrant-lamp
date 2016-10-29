@@ -335,6 +335,7 @@ mailcatcher_install() {
 
 }
 
+
 services_restart() {
   # RESTART SERVICES
   #
@@ -360,6 +361,7 @@ services_restart() {
 
 }
 
+
 wp_cli() {
   # WP-CLI Install
   if [[ ! -d "/var/www/wp-cli" ]]; then
@@ -377,6 +379,7 @@ wp_cli() {
   ln -sf "/var/www/wp-cli/bin/wp" "/usr/local/bin/wp"
 }
 
+
 webgrind_install() {
   # Webgrind install (for viewing callgrind/cachegrind files produced by
   # xdebug profiler)
@@ -389,6 +392,7 @@ webgrind_install() {
     git pull --rebase origin master
   fi
 }
+
 
 phpmyadmin_setup() {
   # Download phpMyAdmin
@@ -472,7 +476,6 @@ custom_tasks(){
   done
 
 
-  # Setup all vhosts needed for project
   for VHOSTS_INIT_FILE in $(find /var/www/ -maxdepth 5 -name 'vhosts-init'); do
   # create the vhosts for the sites
 
@@ -481,10 +484,17 @@ custom_tasks(){
     DEST=${DIR}"/vhosts/"
     SCRIPT_FILE="/srv/config/vhosts/vhosts.php"
 
+    # echo $DIR | awk -F/ '{print $(NF-1)}'
+    NEWDIR=$(echo $DIR | awk -F/ '{print $(NF-1)}')
+    if [ "$NEWDIR" = "www" ]; then
+        NEWDIR=$(basename $DIR)
+    else
+        NEWDIR=$NEWDIR
+    fi
+
     #run commands
     mkdir -p $DEST
-    mkdir -p $DIR"/certs/"
-    php -d memory_limit=-1 $SCRIPT_FILE $VHOSTS_INIT_FILE $DEST
+    php -d memory_limit=-1 $SCRIPT_FILE $VHOSTS_INIT_FILE $DEST $NEWDIR
 
   done
 

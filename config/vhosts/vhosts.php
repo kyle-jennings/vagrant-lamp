@@ -11,9 +11,8 @@ function create_vhost_files($url){
     $templates = array('default-http.conf');
 
     // lets just assume we have certs for everything (as we should)
-    $cert = $url;
-    if(isset($cert))
-        $templates[] = 'default-ssl.conf';
+
+    $templates[] = 'default-ssl.conf';
 
     $file_contents = '';
 
@@ -38,7 +37,7 @@ function create_vhost_files($url){
 
 
 // replace placeholder values in newly created vhost files with appropriate values
-function set_vhost_values($args, $cert_name){
+function set_vhost_values($args){
 
     global $dest;
     global $first_dirname;
@@ -58,10 +57,7 @@ function set_vhost_values($args, $cert_name){
 
 
     // if a cert is set, then use that value. otherwise use the url
-    if(isset($cert))
-        $replace[] = $cert;
-    else
-        $replace[] = $url;
+    $replace[] = $url;
 
     // set the file names
     $file = $dest.''.$url.'.conf';
@@ -135,7 +131,7 @@ function get_dirname(){
 // Compose path from argument
 $file = $argv[1];
 $dest = $argv[2] ? $argv[2]: '';
-
+$dirname = $argv[3] ? $argv[3]: '';
 
 // first we need to make sure we have a vhost-ini file. if we dont then we bail
 if (!file_exists($file)) {
@@ -178,15 +174,10 @@ if (!file_exists($file)) {
             $site = explode(' ',$line);
             $args = map_args($site);
 
-            // the meat
-
-
             // we can use the first entry's URL and dirname for the rest of the vhosts if we want to be lazy
             if($l == 0){
-                $first_dirname = $args['dirname'];# ? $args['dirname'] : 'www/app' ;
-                $first_cert = $args['url'];# ? $args['dirname'] : 'www/app' ;
+                $first_dirname =  $dirname.'/'.$args['dirname'];# ? $args['dirname'] : 'www/app' ;
             }
-
 
             // add the CN to the cer urls list
             $cert_urls .= '/CN='.$args['url'];
@@ -195,10 +186,8 @@ if (!file_exists($file)) {
             create_vhost_files($args['url']);
 
             // now set the vhost values (its basically a template)
-            set_vhost_values($args, $first_cert);
+            set_vhost_values($args);
 
-            // create the cert for the URL
-            // create_certs($args['url']);
 
             $l++;
         }
