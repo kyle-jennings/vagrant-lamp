@@ -130,7 +130,7 @@ Vagrant.configure("2") do |config|
   #
   # These are run when vagrant is brought up, down, and destroyed
   if defined? VagrantPlugins::Triggers
-    config.trigger.after [:up, :resume] do
+    config.trigger.after [:up] do
         run "vagrant ssh -c 'vagrant_init'"
     end
 

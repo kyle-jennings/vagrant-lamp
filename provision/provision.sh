@@ -408,6 +408,16 @@ phpmyadmin_setup() {
 }
 
 
+clear_vhosts(){
+    rm -rf /etc/apache2/sites-enabled/*
+    rm -rf /etc/apache2/sites-available/*
+
+}
+
+clear_certs(){
+    rm -rf /etc/apache2/.keys/*
+}
+
 create_ssl_certs(){
 
     if [[ ! -d /etc/apache2/.keys ]]; then
@@ -424,11 +434,7 @@ create_ssl_certs(){
 
     if [[ ! -e /etc/apache2/.keys/server.crt ]]; then
       echo "Sign the certificate using the above private key..."
-      vvvsigncert="$(openssl req -new -x509 \
-              -key /etc/apache2/.keys/server.key \
-              -out /etc/apache2/.keys/server.crt \
-              -days 3650 \
-              -subj /CN=*.loc 2>&1)"
+      vvvsigncert="$(sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/.keys/server.key -out /etc/apache2/.keys/server.crt -subj "/C=US/ST=DC/L=Washington/O=kyleco/OU=freelance/CN=sites.usa.loc")"
       echo "$vvvsigncert"
     fi
 
@@ -501,12 +507,12 @@ vhosts_init(){
     FILE=${VHOST_CONFIG_FILE/$DIR/$REPLACE}
 
     echo "copying '$FILE' to '/etc/apache2/sites-available/'"
-    sudo cp $VHOST_CONFIG_FILE "/etc/apache2/sites-available/"$FILE
+    sudo mv $VHOST_CONFIG_FILE "/etc/apache2/sites-available/"$FILE
   done
 
   #activate our sites
   echo "activating the sites";
-  cd "/etc/apache2/sites-enabled"
+  # cd "/etc/apache2/sites-enabled"
   sudo a2ensite *
   sudo service apache2 restart
 
@@ -559,6 +565,11 @@ npm_installs
 tools_install
 apache_setup
 mailcatcher_install
+
+echo '---------------------------------------'
+echo 'Clearing v-hosts and certs'
+echo '---------------------------------------'
+clear_vhosts
 create_ssl_certs
 
 echo '---------------------------------------'
@@ -581,9 +592,9 @@ echo '-------------------------------'
 echo "Installing your custom sites"
 echo '-------------------------------'
 network_check
-# vhosts_init
-# hosts_init
-# project_custom_tasks
+vhosts_init
+hosts_init
+project_custom_tasks
 
 #set +xv
 # And it's done

@@ -1,4 +1,7 @@
 #!/bin/bash
+echo "###########################"
+echo "running custom setup script"
+echo "###########################"
 
 for SITE_CONFIG_FILE in $(find /var/www -maxdepth 5 -name 'init.sh'); do
 # Look for site setup scripts

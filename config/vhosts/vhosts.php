@@ -40,20 +40,17 @@ function create_vhost_files($url){
 function set_vhost_values($args){
 
     global $dest;
-    global $first_dirname;
     $cert_dest = str_replace('/vhosts/','',$dest);
 
-
-    // expecting $url, $aliases, $dirname
+    // expecting $url, $aliases, $dirname, $cert, $common_name
     extract($args);
 
     // make sure we have some fail safes
     $aliases = isset($aliases) ? $aliases : null;
-    $dirname = isset($dirname) ? $dirname : $first_dirname;
 
     // set the find and replace
-    $find = array('{{URL}}','{{ALIASES}}','{{DIRNAME}}');
-    $replace = array($url, $aliases, $dirname);
+    $find = array('{{URL}}','{{ALIASES}}','{{DIRNAME}}','{{CERTNAME}}');
+    $replace = array($url, $aliases, $dirname, $url);
 
 
     // if a cert is set, then use that value. otherwise use the url
@@ -128,6 +125,19 @@ function get_dirname(){
 
 
 
+function create_cert($url){
+
+    $csr = '/etc/apache2/.keys/'.$url.'.csr';
+    $key = '/etc/apache2/.keys/'.$url.'.key';
+    $crt = '/etc/apache2/.keys/'.$url.'.crt';
+
+    shell_exec('sudo openssl genrsa -out "'.$key.'" 2048');
+    shell_exec('sudo openssl req -new -key "'.$key.'" -out "'.$csr.'" -subj "/C=US/ST=District of Columbia/L=DC/O=GSA/OU=OCSIT/CN='.$url.'"');
+    shell_exec('sudo openssl x509 -req -days 365 -in "'.$csr.'" -signkey "'.$key.'" -out "'.$crt.'"');
+
+}
+
+
 // Compose path from argument
 $file = $argv[1];
 $dest = $argv[2] ? $argv[2]: '';
@@ -158,10 +168,12 @@ if (!file_exists($file)) {
         $l = 0;
         $first_dirname = '';
         $first_cert = '';
-
-        // the cert urls will be used to list all the URLs for the CNs
-        $cert_urls = '';
-
+        $first_url = '';
+        $default_cert = array(
+            'first_dirname' => '',
+            'first_cert' => '',
+            'first_url' => '',
+        );
 
         // for each line in the vhost file...
         while (($line = fgets($fp, 4096)) !== false) {
@@ -174,20 +186,28 @@ if (!file_exists($file)) {
             $site = explode(' ',$line);
             $args = map_args($site);
 
-            // we can use the first entry's URL and dirname for the rest of the vhosts if we want to be lazy
-            if($l == 0){
-                $first_dirname =  $dirname.'/'.$args['dirname'];# ? $args['dirname'] : 'www/app' ;
-            }
 
-            // add the CN to the cer urls list
-            $cert_urls .= '/CN='.$args['url'];
 
-            // ok no, create teh vhost file for the given URL
+            // create teh vhost file for the given URL
             create_vhost_files($args['url']);
 
+            // we can use the first entry's URL and dirname for the rest of the vhosts if we want to be lazy
+            if($l == 0){
+                $first_dirname = $dirname.'/'.$args['dirname'];# ? $args['dirname'] : 'www/app' ;
+                $first_url = $args['url'];
+                $first_cert = isset($args['cert']) ? $args['cert'] : $first_url;
+                $first_common_name = '*.'.$first_url;
+                // create_cert($first_cert, $first_url);
+            }elseif(isset($args['cert'])){
+                // create_cert($args['url'], $args['cert']);
+            }
+
+            $args['dirname'] = isset($args['dirname']) ? $args['dirname'] : $first_dirname;
+            $args['cert'] = isset($args['cert']) ? $args['cert'] : $first_cert;
+            $args['common_name'] = isset($args['cert']) ? $args['url'] : $first_common_name ;
             // now set the vhost values (its basically a template)
             set_vhost_values($args);
-
+            create_cert($args['url']);
 
             $l++;
         }
