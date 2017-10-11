@@ -9,8 +9,4 @@
 # it does not exist, then we'll handle some basic tasks.
 if [[ -f /home/vagrant/bin/vagrant_init_custom ]]; then
 	vagrant_init_custom
-else
-	# run_project_custom_tasks
-	# reset_hosts_file
-	# reset_vhosts
 fi

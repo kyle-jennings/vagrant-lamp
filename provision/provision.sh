@@ -349,6 +349,15 @@ services_restart() {
   php5enmod mcrypt
   a2enmod rewrite
   a2enmod ssl
+  a2enmod proxy
+  a2enmod proxy_http
+  a2enmod proxy_ajp
+  a2enmod rewrite
+  a2enmod deflate
+  a2enmod headers
+  a2enmod proxy_balancer
+  a2enmod proxy_connect
+  a2enmod proxy_html
 
   # Enable PHP mailcatcher sendmail settings by default
   php5enmod mailcatcher
@@ -357,6 +366,21 @@ services_restart() {
   service apache2 restart
   service mailcatcher restart
 
+}
+
+
+aws_cli() {
+    if [[ ! -d /home/vagrant/.local/bin/pip ]]; then
+        curl -O https://bootstrap.pypa.io/get-pip.py
+        python get-pip.py --user
+        export PATH=~/.local/bin:$PATH
+        source ~/.bash_profile
+    fi
+    if [[ ! -d /home/vagrant/.local/bin/aws ]]; then
+        pip install awscli --upgrade --user
+        export PATH=~/.local/bin:$PATH
+        source ~/.bash_profile
+    fi
 }
 
 
@@ -524,6 +548,7 @@ vhosts_init(){
 #
 # Domains should be entered on new lines.
 hosts_init(){
+    touch settinghosts.txt
     echo "Cleaning the virtual machine's /etc/hosts file..."
     sed -n '/# vagrant-auto$/!p' /etc/hosts > /tmp/hosts
     mv /tmp/hosts /etc/hosts
@@ -585,7 +610,7 @@ echo '-------------------------------'
 network_check
 wp_cli
 phpmyadmin_setup
-
+aws_cli
 
 # VVV custom site import
 echo '-------------------------------'

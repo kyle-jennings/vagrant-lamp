@@ -123,6 +123,14 @@ function get_dirname(){
     return $path[0].'/app';
 }
 
+function search_for_and_add($str = '') {
+    $file = '/usr/lib/ssl/openssl.cnf';
+    $file_contents = file_get_contents($file);
+    if(strpos($file_contents, $str) > -1 )
+        return;
+
+    file_put_contents($file, PHP_EOL.$str, FILE_APPEND | LOCK_EX);
+}
 
 
 function create_cert($url){
@@ -130,12 +138,29 @@ function create_cert($url){
     $csr = '/etc/apache2/.keys/'.$url.'.csr';
     $key = '/etc/apache2/.keys/'.$url.'.key';
     $crt = '/etc/apache2/.keys/'.$url.'.crt';
+    $SAN = 'subjectAltName=DNS:*.'.$url;
+    $conf = '/usr/lib/ssl/openssl.cnf';
 
-    shell_exec('sudo openssl genrsa -out "'.$key.'" 2048');
-    shell_exec('sudo openssl req -new -key "'.$key.'" -out "'.$csr.'" -subj "/C=US/ST=District of Columbia/L=DC/O=GSA/OU=OCSIT/CN='.$url.'"');
-    shell_exec('sudo openssl x509 -req -days 365 -in "'.$csr.'" -signkey "'.$key.'" -out "'.$crt.'"');
+    search_for_and_add($SAN);
 
+    #shell_exec('sudo openssl genrsa -out '.$key.' 2048');
+
+    $generate = "openssl req \
+        -newkey rsa:4096\
+        -keyout $key \
+        -x509 \
+        -nodes \
+        -out $crt \
+        -subj /CN=$url \
+        -reqexts SAN \
+        -extensions SAN \
+        -config <(cat /usr/lib/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:*.$url')) \
+        -sha256 \
+        -days 3650";
+
+    shell_exec('bash -c "'.$generate.'"');
 }
+// -subj \"/C=US/ST=District of Columbia/L=DC/O=GSA/OU=OCSIT/CN=*.$url\" \
 
 
 // Compose path from argument
@@ -175,6 +200,7 @@ if (!file_exists($file)) {
             'first_url' => '',
         );
 
+        search_for_and_add('[SAN]');
         // for each line in the vhost file...
         while (($line = fgets($fp, 4096)) !== false) {
 
@@ -197,9 +223,6 @@ if (!file_exists($file)) {
                 $first_url = $args['url'];
                 $first_cert = isset($args['cert']) ? $args['cert'] : $first_url;
                 $first_common_name = '*.'.$first_url;
-                // create_cert($first_cert, $first_url);
-            }elseif(isset($args['cert'])){
-                // create_cert($args['url'], $args['cert']);
             }
 
             $args['dirname'] = isset($args['dirname']) ? $args['dirname'] : $first_dirname;
@@ -207,6 +230,7 @@ if (!file_exists($file)) {
             $args['common_name'] = isset($args['cert']) ? $args['url'] : $first_common_name ;
             // now set the vhost values (its basically a template)
             set_vhost_values($args);
+
             create_cert($args['url']);
 
             $l++;
