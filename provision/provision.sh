@@ -23,22 +23,22 @@ apt_package_check_list=(
   # Our base packages for php5. As long as php5-fpm and php5-cli are
   # installed, there is no need to install the general php5 package, which
   # can sometimes install apache as a requirement.
-  php5
-  php5-cli
+  php5.6
+  php5.6-cli
 
   # Common and dev packages for php
-  php5-common
-  php5-dev
+  php5.6-common
+  php5.6-dev
 
   # Extra PHP modules that we find useful
-  php5-memcache
-  php5-imagick
-  php5-mcrypt
-  php5-mysql
-  php5-imap
-  php5-curl
+  php5.6-memcache
+  php5.6-imagick
+  php5.6-mcrypt
+  php5.6-mysql
+  php5.6-imap
+  php5.6-curl
   php-pear
-  php5-gd
+  php5.6-gd
 
   #apache2
   apache2
@@ -276,6 +276,10 @@ tools_install() {
 
 }
 
+php56_repo() {
+    sudo add-apt-repository ppa:ondrej/php -y
+    sudo apt-get update -y
+}
 
 apache_setup() {
   cp "/srv/config/init/php.ini" "/etc/php5/apache2/php.ini"
@@ -310,6 +314,10 @@ mysql_setup() {
 ruby_install() {
   sudo apt-add-repository -y ppa:brightbox/ruby-ng
   sudo apt-get update
+}
+
+ruby_sass_install() {
+  sudo gem install sass -v 3.4.25
 }
 
 mailcatcher_install() {
@@ -584,7 +592,9 @@ echo '-------------------------------'
 echo "Main packages check and install."
 echo '-------------------------------'
 network_check
+php56_repo
 ruby_install
+ruby_sass_install
 package_install
 npm_installs
 tools_install
