@@ -100,11 +100,12 @@ function set_vhost_values($args)
 function map_args($args)
 {
     $new_args = array();
+    $find = [', ', ','];
     foreach ($args as $string) {
         $str_args = explode('=', $string);
         $key = $str_args[0];
         $val = $str_args[1];
-        $val = str_replace(', ', ' ', $val);
+        $val = str_replace($find, ' ', $val);
 
         $new_args[$key]=rtrim($val);
     }

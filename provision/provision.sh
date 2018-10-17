@@ -77,7 +77,6 @@ apt_package_check_list=(
   # nodejs for use by grunt
   g++
   nodejs
-  npm
 
   #Mailcatcher requirements
   ruby-dev
@@ -135,6 +134,18 @@ profile_setup() {
     echo " * Copied /srv/config/bash_prompt to /home/vagrant/.bash_prompt"
   fi
 }
+
+# First we need to 
+add_ppa() {
+    sudo add-apt-repository ppa:ondrej/php -y
+    sudo apt-add-repository -y ppa:brightbox/ruby-ng
+    curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+
+    sudo apt-get update -y
+}
+
+
+
 
 package_check() {
   # Loop through each of our packages that should be installed on the system. If
@@ -209,6 +220,7 @@ package_install() {
   fi
 }
 
+
 npm_installs(){
 
   ln -s /usr/bin/nodejs /usr/bin/node
@@ -220,7 +232,11 @@ npm_installs(){
   if [ ! -d /usr/local/lib/node_modules ]; then
     mkdir /usr/local/lib/node_modules
   fi
+
+  cd /usr/local/lib/node_modules curl -L https://www.npmjs.com/install.sh | sh
   sudo chown -R $(whoami) /usr/local/lib/node_modules
+
+  npm config set strict-ssl false
   # Make sure we have the latest npm version and the update checker module
   npm install -g npm
   npm install -g npm-check-updates
@@ -229,6 +245,7 @@ npm_installs(){
   npm install -g gulp-cli
   npm install -g grunt-cli
   npm install -g bower
+
 }
 
 tools_install() {
@@ -276,10 +293,7 @@ tools_install() {
 
 }
 
-php56_repo() {
-    sudo add-apt-repository ppa:ondrej/php -y
-    sudo apt-get update -y
-}
+
 
 apache_setup() {
   cp "/srv/config/init/php.ini" "/etc/php5/apache2/php.ini"
@@ -311,10 +325,6 @@ mysql_setup() {
   fi
 }
 
-ruby_install() {
-  sudo apt-add-repository -y ppa:brightbox/ruby-ng
-  sudo apt-get update
-}
 
 ruby_sass_install() {
   sudo gem install sass -v 3.4.25
@@ -588,8 +598,8 @@ echo '-------------------------------'
 echo "Main packages check and install."
 echo '-------------------------------'
 network_check
-php56_repo
-ruby_install
+add_ppa
+
 ruby_sass_install
 package_install
 npm_installs
