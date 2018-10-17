@@ -488,66 +488,62 @@ project_custom_tasks(){
 
 vhosts_init(){
 
-  # deactivate and remove any and all site confs from apache
-  echo "cleaning up all sites vhosts"
-  cd "/etc/apache2/sites-enabled"
-  sudo a2dissite *
-  sudo rm /etc/apache2/sites-available/v*
+    # deactivate and remove any and all site confs from apache
+    echo "cleaning up all sites vhosts"
+    cd "/etc/apache2/sites-enabled"
+    sudo a2dissite *
+    sudo rm /etc/apache2/sites-available/*
 
-  # remove all previously generated vhost files
-  for OLD_VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
-  # so we can rebuild them with presumably new options
-    rm $OLD_VHOST_CONFIG_FILE;
-  done
-
-
-  # remove all previously generated ssl cert, and ssl files
-  for OLD_CERT_FILE in $(find /var/www -maxdepth 5 -name "cert--*"); do
-  # so we can rebuild them with presumably new options
-    rm $OLD_CERT_FILE;
-  done
+    # remove all previously generated vhost files
+    for OLD_VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
+        if [ -f $OLD_VHOST_CONFIG_FILE ]; then
+            rm $OLD_VHOST_CONFIG_FILE;
+        fi
+    done
 
 
-  for VHOSTS_INIT_FILE in $(find /var/www/ -maxdepth 5 -name 'vhosts-init'); do
-  # create the vhosts for the sites
+    # remove all previously generated ssl cert, and ssl files
+    for OLD_CERT_FILE in $(find /var/www -maxdepth 5 -name "cert--*"); do
+        if [ -f $OLD_CERT_FILE ]; then
+            rm $OLD_CERT_FILE;
+        fi
+    done
 
-    #set variables
-    DIR="$(dirname "$VHOSTS_INIT_FILE")"
-    DEST=${DIR}"/vhosts/"
-    SCRIPT_FILE="/srv/config/vhosts/vhosts.php"
 
-    # echo $DIR | awk -F/ '{print $(NF-1)}'
-    NEWDIR=$(echo $DIR | awk -F/ '{print $(NF-1)}')
-    if [ "$NEWDIR" = "www" ]; then
-        NEWDIR=$(basename $DIR)
-    else
-        NEWDIR=$NEWDIR
-    fi
+    for VHOSTS_INIT_FILE in $(find /var/www -maxdepth 5 -name 'vhosts-init'); do
+        # create the vhosts for the sites
 
-    #run commands
-    mkdir -p $DEST
-    php -d memory_limit=-1 $SCRIPT_FILE $VHOSTS_INIT_FILE $DEST $NEWDIR
+        #set variables
+        DIR="$(dirname "$VHOSTS_INIT_FILE")"
+        DEST=${DIR}"/vhosts/"
+        SCRIPT_FILE="/srv/config/vhosts/vhosts.php"
 
-  done
 
-  # move the vhosts to the sites-available directory
-  for VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
+        NEWDIR=$(echo $DIR | awk -F/ '{print $(NF-1)}')
+        if [ "$NEWDIR" = "www" ]; then
+            NEWDIR=$(basename $DIR)
+        else
+            NEWDIR=$NEWDIR
+        fi
 
-    DIR="$(dirname "$VHOST_CONFIG_FILE")/"
-    DEST="/etc/apache2/sites-available/"
-    REPLACE=''
-    FILE=${VHOST_CONFIG_FILE/$DIR/$REPLACE}
+        #run commands
+        mkdir -p $DEST
+        php -d memory_limit=-1 $SCRIPT_FILE $VHOSTS_INIT_FILE $DEST $NEWDIR
 
-    echo "copying '$FILE' to '/etc/apache2/sites-available/'"
-    sudo mv $VHOST_CONFIG_FILE "/etc/apache2/sites-available/"$FILE
-  done
+    done
 
-  #activate our sites
-  echo "activating the sites";
-  # cd "/etc/apache2/sites-enabled"
-  sudo a2ensite *
-  sudo service apache2 restart
+    # move the vhosts to the sites-available directory
+    for VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
 
+        DIR="$(dirname "$VHOST_CONFIG_FILE")/"
+        mv $VHOST_CONFIG_FILE /etc/apache2/sites-available/
+
+    done
+
+    #activate our sites
+    echo "activating the sites";
+    sudo a2ensite *
+    sudo service apache2 restart
 }
 
 # Parse any vvv-hosts file located in www/ or subdirectories of www/

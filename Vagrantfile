@@ -11,8 +11,8 @@ Vagrant.configure("2") do |config|
 
   # Configurations from 1.0.x can be placed in Vagrant 1.1.x specs like the following.
   config.vm.provider :virtualbox do |v|
-    v.customize ["modifyvm", :id, "--memory", 4096]
-    v.customize ["modifyvm", :id, "--cpus", 1]
+    v.customize ["modifyvm", :id, "--memory", 4000]
+    v.customize ["modifyvm", :id, "--cpus", 2]
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
 
@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
   #
   # A private network is created by default. This is the IP address through which your
   # host machine will communicate to the guest.
-  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.50.9"
+  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.10.173"
   #
 
 
