@@ -1,2 +1,0 @@
-url=server.loc dirname=default cert=server
-url=phpmyadmin.loc dirname=default/database-admin

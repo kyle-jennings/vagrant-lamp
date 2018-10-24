@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
   #
   # A private network is created by default. This is the IP address through which your
   # host machine will communicate to the guest.
-  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.10.173"
+  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.10.175"
   #
 
 

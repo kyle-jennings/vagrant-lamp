@@ -493,15 +493,21 @@ project_custom_tasks(){
 vhosts_init(){
 
     # deactivate and remove any and all site confs from apache
-    echo "cleaning up all sites vhosts"
     cd "/etc/apache2/sites-enabled"
-    sudo a2dissite *
-    sudo rm /etc/apache2/sites-available/*
+
+    # echo "cleaning up all sites vhosts"
+    for OLD_VHOSTS in $(find /etc/apache2/sites-available/ -maxdepth 5 -type f -name "*.conf"); do
+        if [ -f $OLD_VHOSTS ]; then
+            sudo a2dissite $OLD_VHOSTS -q;
+            sudo rm $OLD_VHOSTS;
+        fi
+    done
 
     # remove all previously generated vhost files
-    for OLD_VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
-        if [ -f $OLD_VHOST_CONFIG_FILE ]; then
-            rm $OLD_VHOST_CONFIG_FILE;
+    echo "Removing old vhost config files from projects."
+    for OLD_VHOST_CONFIG_FILE in $(find /var/www -maxdepth 3 -name "vhosts"); do
+        if [ -d $OLD_VHOST_CONFIG_FILE ]; then
+            rm -rf $OLD_VHOST_CONFIG_FILE;
         fi
     done
 
@@ -531,23 +537,19 @@ vhosts_init(){
         fi
 
         #run commands
-        mkdir -p $DEST
-        php -d memory_limit=-1 $SCRIPT_FILE $VHOSTS_INIT_FILE $DEST $NEWDIR
+        mkdir -p $DEST;
+        php -d memory_limit=-1 $SCRIPT_FILE $VHOSTS_INIT_FILE $DEST $NEWDIR;
 
     done
 
     # move the vhosts to the sites-available directory
     for VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
-
-        DIR="$(dirname "$VHOST_CONFIG_FILE")/"
-        mv $VHOST_CONFIG_FILE /etc/apache2/sites-available/
-
+        sudo mv $VHOST_CONFIG_FILE /etc/apache2/sites-available/;
     done
 
-    #activate our sites
-    echo "activating the sites";
-    sudo a2ensite *
-    sudo service apache2 restart
+
+    # sudo service apache2 restart
+    sudo a2ensite * -q
 }
 
 # Parse any vvv-hosts file located in www/ or subdirectories of www/

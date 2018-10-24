@@ -9,33 +9,9 @@ function create_vhost_files($url)
     global $dest;
 
     $file = $dest.''.$url.'.conf';
-    $templates = array('default-http.conf');
-
-    // lets just assume we have certs for everything (as we should)
-
-    $templates[] = 'default-ssl.conf';
-
     $file_contents = '';
-
-    // get the templates to create the new file
-    foreach ($templates as $template) {
-        $file_contents .= file_get_contents('/srv/config/vhosts/'.$template);
-    }
-
-    // remove previous vhosts
-    if (file_exists($file)) {
-        unlink($file);
-    }
-
-    // create new vhosts
-    $new_file = fopen($dest.''.$url.'.conf', 'x+');
-
-    // write the contents from the templates
-    fwrite($new_file, $file_contents);
-
-    // save and close the new file
-    fclose($new_file);
-
+    $content = file_get_contents('/srv/config/vhosts/default.conf');
+    file_put_contents($file, $content);
 }
 
 
@@ -216,7 +192,7 @@ function init($file)
     $args['cert']           = isset($args['cert']) ? $args['cert'] : $first_cert;
     $args['common_name']    = isset($args['cert']) ? $args['url'] : $first_common_name;
     
-    // now set the vhost values (its basically a template)
+    // // now set the vhost values (its basically a template)
     set_vhost_values($args);
 
     search_for_and_add('[SAN]');
