@@ -39,7 +39,8 @@ apt_package_check_list=(
   php5.6-curl
   php-pear
   php5.6-gd
-
+  php5.6-mbstring
+  
   #apache2
   apache2
 
@@ -404,19 +405,12 @@ aws_cli() {
 
 wp_cli() {
   # WP-CLI Install
-  if [[ ! -d "/var/www/wp-cli" ]]; then
+  if [[ ! -f "/usr/local/bin/wp" ]]; then
     echo -e "\nDownloading wp-cli, see http://wp-cli.org"
-    git clone "https://github.com/wp-cli/wp-cli.git" "/var/www/wp-cli"
-    cd /var/www/wp-cli
-    composer install
-  else
-    echo -e "\nUpdating wp-cli..."
-    cd /var/www/wp-cli
-    git pull --rebase origin master
-    composer update
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    chmod +x wp-cli.phar
+    sudo mv wp-cli.phar /usr/local/bin/wp
   fi
-  # Link `wp` to the `/usr/local/bin` directory
-  ln -sf "/var/www/wp-cli/bin/wp" "/usr/local/bin/wp"
 }
 
 
