@@ -40,6 +40,7 @@ apt_package_check_list=(
   php-pear
   php5.6-gd
   php5.6-mbstring
+  php5.6-ldap
   
   #apache2
   apache2
@@ -456,23 +457,26 @@ clear_certs(){
 
 create_ssl_certs(){
 
-    if [[ ! -d /etc/apache2/.keys ]]; then
-      mkdir -p /etc/apache2/.keys
-    fi
+  echo '-------------------------------------------'
+  echo 'creating SSL certs!'
+  echo '-------------------------------------------'
+  
+  # Create an SSL key and certificate for HTTPS support.
+  if [[ ! -e /etc/nginx/server-2.1.0.key ]]; then
+    echo "Generating Nginx server private key..."
+    vvvgenrsa="$(openssl genrsa -out /etc/nginx/server-2.1.0.key 2048 2>&1)"
+    echo "$vvvgenrsa"
+  fi
 
-
-    # create a shared key and cert for https
-    if [[ ! -e /etc/apache2/.keys/server.key ]]; then
-      echo "Generate Nginx server private key..."
-      genRSA="$(openssl genrsa -out /etc/apache2/.keys/server.key 2048 2>&1)"
-      echo "$genRSA"
-    fi
-
-    if [[ ! -e /etc/apache2/.keys/server.crt ]]; then
-      echo "Sign the certificate using the above private key..."
-      vvvsigncert="$(sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/.keys/server.key -out /etc/apache2/.keys/server.crt -subj "/C=US/ST=DC/L=Washington/O=kyleco/OU=freelance/CN=sites.usa.loc")"
-      echo "$vvvsigncert"
-    fi
+  if [[ ! -e /etc/nginx/server-2.1.0.crt ]]; then
+    echo "Sign the certificate using the above private key..."
+    vvvsigncert="$(openssl req -new -x509 \
+            -key /etc/nginx/server-2.1.0.key \
+            -out /etc/nginx/server-2.1.0.crt \
+            -days 3650 \
+            -subj /CN=*.loc/CN=*.common.loc 2>&1)"
+    echo "$vvvsigncert"
+  fi
 
 }
 

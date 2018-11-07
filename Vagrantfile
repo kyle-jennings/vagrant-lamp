@@ -114,6 +114,11 @@ Vagrant.configure("2") do |config|
     s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
   end
 
+  if File.exists?('custom.rb')
+    eval File.open('custom.rb').read
+  end
+
+  # load File.expand_path('vagrant/Vagrantfile.custom') if File.exists?('vagrant/Vagrantfile.custom')
 
 
   # Provisioning

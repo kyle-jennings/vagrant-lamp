@@ -196,7 +196,7 @@ function init($file)
     set_vhost_values($args);
 
     search_for_and_add('[SAN]');
-    create_cert($args['url']);
+    // create_cert($args['url']);
 }
 
 
