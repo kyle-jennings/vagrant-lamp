@@ -18,36 +18,37 @@ apt_package_install_list=()
 # status before adding them to the apt_package_install_list array.
 apt_package_check_list=(
 
-  # PHP5
+  # PHP7.0
   #
-  # Our base packages for php5. As long as php5-fpm and php5-cli are
-  # installed, there is no need to install the general php5 package, which
+  # Our base packages for php7.2. As long as php7.2-fpm and php7.2-cli are
+  # installed, there is no need to install the general php7.2 package, which
   # can sometimes install apache as a requirement.
-  php5.6
-  php5.6-cli
+  php7.2
+  php7.2-cli
+  php7.2-common
+  php7.2-dev
+  php7.2-curl
+  php7.2-fpm
+  php7.2-gd
+  php-imagick
+  php7.2-imap
+  php7.2-ldap
+  php7.2-mbstring
+  #php7.2-mcrypt
+  #php7.2-memcache
+  php7.2-mysql
+  php7.2-opcache
 
-  # Common and dev packages for php
-  php5.6-common
-  php5.6-dev
-
-  # Extra PHP modules that we find useful
-  php5.6-memcache
-  php5.6-imagick
-  php5.6-mcrypt
-  php5.6-mysql
-  php5.6-imap
-  php5.6-curl
   php-pear
-  php5.6-gd
-  php5.6-mbstring
-  php5.6-ldap
-  
+  php-gettext  
+
   #apache2
   apache2
+  libapache2-mod-php
 
   # mysql is the default database
   mysql-server
-  libapache2-mod-auth-mysql
+
 
   # other packages that come in handy
   imagemagick
@@ -83,10 +84,21 @@ apt_package_check_list=(
   #Mailcatcher requirements
   ruby-dev
   libsqlite3-dev
-  ruby2.2
+
 )
 
 ### FUNCTIONS
+
+
+phpFPM_config() {
+    cp "/srv/config/phpfpm/*.conf" "/etc/php/7.2/fpm/pool.d/"
+    cp "/srv/config/php-config/*.ini" "/etc/php/7.2/fpm/conf.d/"
+}
+
+apache_config() {
+    cp "/srv/config/apache/*.conf" "/etc/apache2/conf-enabled/"
+    cp "/srv/config/php-config/*.ini" "/etc/php/7.2/fpm/conf.d/"
+}
 
 network_detection() {
   # Network Detection
@@ -298,7 +310,7 @@ tools_install() {
 
 
 apache_setup() {
-  cp "/srv/config/init/php.ini" "/etc/php5/apache2/php.ini"
+  cp "/srv/config/init/php.ini" "/etc/php/7.2/apache2/php.ini"
   sed -i.bak 's/ServerName/#ServerName/g' /etc/apache2/apache2.conf
   echo "ServerName vagrant" >> /etc/apache2/apache2.conf
 }
@@ -343,10 +355,10 @@ mailcatcher_install() {
 
   echo " * Copied /srv/config/init/mailcatcher                      to /etc/init/mailcatcher.conf"
 
-  echo "sendmail_path = /usr/bin/env $(which catchmail) -f test@local.dev" | sudo tee /etc/php5/mods-available/mailcatcher.ini
+  echo "sendmail_path = /usr/bin/env $(which catchmail) -f test@local.dev" | sudo tee /etc/php/7.2/mods-available/mailcatcher.ini
 
     # Enable sendmail config for all php SAPIs (apache2, fpm, cli)
-    sudo php5enmod mailcatcher
+    sudo phpenmod mailcatcher
 
     # Restart Apache if using mod_php
     sudo service apache2 restart
@@ -362,11 +374,10 @@ services_restart() {
   # service nginx restart
 
   # Disable PHP Xdebug module by default
-  php5dismod xdebug
+  #phpdismod xdebug
 
   # Enable PHP mcrypt module by default
-  a2enmod php5
-  php5enmod mcrypt
+  #phpenmod mcrypt
   a2enmod rewrite
   a2enmod ssl
   a2enmod proxy
@@ -378,14 +389,17 @@ services_restart() {
   a2enmod proxy_balancer
   a2enmod proxy_connect
   a2enmod proxy_html
-
+  a2enmod proxy_fcgi
   # Enable PHP mailcatcher sendmail settings by default
-  php5enmod mailcatcher
+  #phpenmod mailcatcher
 
-  service php5 restart
+}
+
+
+restart_webserver() {
+  service php7.2-fpm restart
   service apache2 restart
-  service mailcatcher restart
-
+  service mailcatcher restart    
 }
 
 
@@ -448,7 +462,6 @@ phpmyadmin_setup() {
 clear_vhosts(){
     rm -rf /etc/apache2/sites-enabled/*
     rm -rf /etc/apache2/sites-available/*
-
 }
 
 clear_certs(){
@@ -461,21 +474,22 @@ create_ssl_certs(){
   echo 'creating SSL certs!'
   echo '-------------------------------------------'
   
+  DIR='/etc/apache2';
   # Create an SSL key and certificate for HTTPS support.
-  if [[ ! -e /etc/nginx/server-2.1.0.key ]]; then
-    echo "Generating Nginx server private key..."
-    vvvgenrsa="$(openssl genrsa -out /etc/nginx/server-2.1.0.key 2048 2>&1)"
-    echo "$vvvgenrsa"
+  if [[ ! -e ${DIR}/server.key ]]; then
+    echo "Generating SSL private key..."
+    KEY="$(openssl genrsa -out ${DIR}/server.key 2048 2>&1)"
+    echo "$KEY"
   fi
 
-  if [[ ! -e /etc/nginx/server-2.1.0.crt ]]; then
+  if [[ ! -e ${DIR}/server.crt ]]; then
     echo "Sign the certificate using the above private key..."
-    vvvsigncert="$(openssl req -new -x509 \
-            -key /etc/nginx/server-2.1.0.key \
-            -out /etc/nginx/server-2.1.0.crt \
+    CERT="$(openssl req -new -x509 \
+            -key ${DIR}/server.key \
+            -out ${DIR}/server.crt \
             -days 3650 \
             -subj /CN=*.loc/CN=*.common.loc 2>&1)"
-    echo "$vvvsigncert"
+    echo "$CERT"
   fi
 
 }
@@ -500,55 +514,25 @@ vhosts_init(){
     cd "/etc/apache2/sites-enabled"
 
     # echo "cleaning up all sites vhosts"
-    for OLD_VHOSTS in $(find /etc/apache2/sites-available/ -maxdepth 5 -type f -name "*.conf"); do
-        if [ -f $OLD_VHOSTS ]; then
-            sudo a2dissite $OLD_VHOSTS -q;
-            sudo rm $OLD_VHOSTS;
+    for FILE in $(find /etc/apache2/sites-available/ -maxdepth 5 -type f -name "*.conf"); do
+        if [ -f $FILE ]; then
+            #echo $FILE
+            sudo rm $FILE;
         fi
     done
 
-    # remove all previously generated vhost files
-    echo "Removing old vhost config files from projects."
-    for OLD_VHOST_CONFIG_FILE in $(find /var/www -maxdepth 3 -name "vhosts"); do
-        if [ -d $OLD_VHOST_CONFIG_FILE ]; then
-            rm -rf $OLD_VHOST_CONFIG_FILE;
-        fi
-    done
-
-
-    # remove all previously generated ssl cert, and ssl files
-    for OLD_CERT_FILE in $(find /var/www -maxdepth 5 -name "cert--*"); do
-        if [ -f $OLD_CERT_FILE ]; then
-            rm $OLD_CERT_FILE;
-        fi
-    done
-
-
-    for VHOSTS_INIT_FILE in $(find /var/www -maxdepth 5 -name 'vhosts-init'); do
-        # create the vhosts for the sites
-
+    for FILE in $(find /var/www -maxdepth 3 -name 'vhosts-init'); do
         #set variables
-        DIR="$(dirname "$VHOSTS_INIT_FILE")"
-        DEST=${DIR}"/vhosts/"
-        SCRIPT_FILE="/srv/config/vhosts/vhosts.php"
-
-
-        NEWDIR=$(echo $DIR | awk -F/ '{print $(NF-1)}')
-        if [ "$NEWDIR" = "www" ]; then
-            NEWDIR=$(basename $DIR)
-        else
-            NEWDIR=$NEWDIR
-        fi
-
-        #run commands
-        mkdir -p $DEST;
-        php -d memory_limit=-1 $SCRIPT_FILE $VHOSTS_INIT_FILE $DEST $NEWDIR;
-
+        DIR="$(dirname "$FILE")"
+        echo php -d memory_limit=-1 /srv/config/vhosts/vhosts.php $DIR
+        php -d memory_limit=-1 /srv/config/vhosts/vhosts.php $DIR
+        echo "~~~~~~~~~~~~~~~~~~~"
     done
 
     # move the vhosts to the sites-available directory
-    for VHOST_CONFIG_FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
-        sudo mv $VHOST_CONFIG_FILE /etc/apache2/sites-available/;
+    for FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
+        sudo mv $FILE /etc/apache2/sites-available/;
+        rm -rf $(dirname "$FILE")
     done
 
 
@@ -556,34 +540,8 @@ vhosts_init(){
     sudo a2ensite * -q
 }
 
-# Parse any vvv-hosts file located in www/ or subdirectories of www/
-# for domains to be added to the virtual machine's host file so that it is
-# self aware.
-#
-# Domains should be entered on new lines.
-hosts_init(){
-    touch settinghosts.txt
-    echo "Cleaning the virtual machine's /etc/hosts file..."
-    sed -n '/# vagrant-auto$/!p' /etc/hosts > /tmp/hosts
-    mv /tmp/hosts /etc/hosts
-    find /var/www/ -maxdepth 5 -name 'hosts-init' | \
-    echo "Adding domains to the virtual machine's /etc/hosts file..."
-    while read hostfile; do
-      while IFS='' read -r line || [ -n "$line" ]; do
-        if [[ "#" != ${line:0:1} ]]; then
-          if [[ -z "$(grep -q "^127.0.0.1 $line$" /etc/hosts)" ]]; then
-            echo "127.0.0.1 $line # vagrant-auto" >> "/etc/hosts"
-            echo " * Added $line from $hostfile"
-          fi
-        fi
-      done < "$hostfile"
-    done
-}
-
-
-
 ### SCRIPT
-#set -xv
+set -xv
 
 network_check
 # Profile_setup
@@ -593,7 +551,7 @@ echo '-------------------------------'
 profile_setup
 
 
-# Package and Tools Install
+# # Package and Tools Install
 echo '-------------------------------'
 echo "Main packages check and install."
 echo '-------------------------------'
@@ -607,16 +565,21 @@ tools_install
 apache_setup
 mailcatcher_install
 
-echo '---------------------------------------'
-echo 'Clearing v-hosts and certs'
-echo '---------------------------------------'
+# VVV custom site import
+echo '-------------------------------'
+echo "Installing your custom sites"
+echo '-------------------------------'
 clear_vhosts
 create_ssl_certs
+network_check
+vhosts_init
+project_custom_tasks
 
 echo '---------------------------------------'
 echo 'restarting services and setting up mysl'
 echo '---------------------------------------'
 services_restart
+restart_webserver
 mysql_setup
 
 # WP-CLI and debugging tools
@@ -627,15 +590,6 @@ network_check
 wp_cli
 phpmyadmin_setup
 aws_cli
-
-# VVV custom site import
-echo '-------------------------------'
-echo "Installing your custom sites"
-echo '-------------------------------'
-network_check
-vhosts_init
-hosts_init
-project_custom_tasks
 
 #set +xv
 # And it's done

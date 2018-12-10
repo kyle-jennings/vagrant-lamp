@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
   # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
   # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
   # to your host computer, it is cached for future use under the specified box name.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial64"
 
   config.vm.hostname = "vagrant"
 
@@ -126,10 +126,10 @@ Vagrant.configure("2") do |config|
 
   # # Always start MySQL on boot, even when not running the full provisioner
   # # (run: "always" support added in 1.6.0)
-  if vagrant_version >= "1.6.0"
-    config.vm.provision :shell, inline: "sudo service mysql restart", run: "always"
-    config.vm.provision :shell, inline: "sudo service apache2 restart", run: "always"
-  end
+  # if vagrant_version >= "1.6.0"
+  #   config.vm.provision :shell, inline: "sudo service mysql restart", run: "always"
+  #   config.vm.provision :shell, inline: "sudo service apache2 restart", run: "always"
+  # end
 
   # triggers
   #

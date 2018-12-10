@@ -1,155 +1,54 @@
 <?php
 
 
-
-// copy default http and ssl conf files and rename them
-function create_vhost_files($url)
+/**
+ * A helper function which displays the contents of a thing and exits the script
+ * @param  array|object  $object an array or object to be examined
+ * @param  string        $type   flag to use var_dump instead of print_r
+ * @param  string        $force  forces examining of object even if its empty
+ * @return void          nah
+ */
+function examine($object = [], $type = 'print_r', $force = null)
 {
-
-    global $dest;
-
-    $file = $dest.''.$url.'.conf';
-    $file_contents = '';
-    $content = file_get_contents('/srv/config/vhosts/default.conf');
-    file_put_contents($file, $content);
-}
-
-
-// replace placeholder values in newly created vhost files with appropriate values
-function set_vhost_values($args)
-{
-
-    global $dest;
-    $cert_dest = str_replace('/vhosts/', '', $dest);
-
-    // expecting $url, $aliases, $dirname, $cert, $common_name
-    extract($args);
-
-    // make sure we have some fail safes
-    $aliases = isset($aliases) ? $aliases : null;
-
-    // set the find and replace
-    $find = array('{{URL}}', '{{ALIASES}}', '{{DIRNAME}}', '{{CERTNAME}}');
-    $replace = array($url, $aliases, $dirname, $url);
-
-
-    // if a cert is set, then use that value. otherwise use the url
-    $replace[] = $url;
-
-    // set the file names
-    $file = $dest . '' . $url . '.conf';
-
-    // if the file doesnt exist we need to bail
-    if (!file_exists($file)) {
+    
+    if (empty($object) && !$force) {
         return;
     }
 
-    // grab the contents
-    $file_contents = file_get_contents($file);
-
-    // do the find and replace
-    $file_contents = str_replace($find, $replace, $file_contents);
-
-    // also find and replace certs, why is this separate?
-    // I had an issue with the cert path earlier and im running of 5 hours sleep
-    $file_contents = str_replace('{{DEST}}', $cert_dest, $file_contents);
-
-
-    // if an alias is set, then we uncomment out the ServerAlias line
-    if (isset($aliases)) {
-        $file_contents = str_replace('#ServerAlias', 'ServerAlias', $file_contents);
-    }
-
-    // if we find a www in the alias, we uncomment out the Rewrite rules
-    $www = 'www.' . $url;
-    if (0 === strpos($aliases, $www)) {
-        $file_contents = str_replace('#Rewrite', 'Rewrite', $file_contents);
-    }
-
-    // save teh files
-    file_put_contents($file, $file_contents);
-
-}
-
-
-// we need to clean up the exploded array and make some key/value pairs
-function map_args($args)
-{
-    $new_args = array();
-    $find = [', ', ','];
-    foreach ($args as $string) {
-        $str_args = explode('=', $string);
-        $key = $str_args[0];
-        $val = $str_args[1];
-        $val = str_replace($find, ' ', $val);
-
-        $new_args[$key]=rtrim($val);
-    }
-    return $new_args;
-}
-
-
-// kill the script if no file is provided as argument
-if (!(isset($argv) && isset($argv[1]))) {
-
-    echo 'Error: no input file specified'."\n\n";
+    $type == 'var_dump' ? var_dump($object) : print_r($object);
+    echo "\n";
     die;
 }
 
 
-
-
-
-// unused function - to be deleted
-function get_dirname()
+// replace placeholder values in newly created vhost files with appropriate values
+function set_vhost_values($args, $contents = null)
 {
 
-    $file = strstr(__FILE__, 'www/');
-    $file = ltrim($file, 'www/');
-    $path = explode('/', $file);
-    return $path[0].'/app';
+    // expecting $url, $aliases, $dirname, $cert, $common_name
+    extract($args);
+    // make sure we have some fail safes
+    $aliases = isset($aliases) ? $aliases : null;
+    // set the find and replace
+    $find = array('{{URL}}', '{{ALIASES}}', '{{DIRNAME}}');
+    $replace = array($url, $aliases, $dirname);
+    
+    // do the find and replace
+    $contents = str_replace($find, $replace, $contents);
+
+    // if an alias is set, then we uncomment out the ServerAlias line
+    if ($aliases) {
+        $contents = str_replace('#ServerAlias', 'ServerAlias', $contents);
+    }
+
+    // if we find a www in the alias, we uncomment out the Rewrite rules
+    if (0 === strpos($aliases, 'www.' . $url)) {
+        $contents = str_replace('#Rewrite', 'Rewrite', $contents);
+    }
+
+    return $contents;
 }
 
-
-function search_for_and_add($str = '')
-{
-    $file = '/usr/lib/ssl/openssl.cnf';
-    $file_contents = file_get_contents($file);
-    if(strpos($file_contents, $str) > -1 )
-        return;
-
-    file_put_contents($file, PHP_EOL.$str, FILE_APPEND | LOCK_EX);
-}
-
-
-function create_cert($url)
-{
-
-    $csr = '/etc/apache2/.keys/'.$url.'.csr';
-    $key = '/etc/apache2/.keys/'.$url.'.key';
-    $crt = '/etc/apache2/.keys/'.$url.'.crt';
-    $SAN = 'subjectAltName=DNS:*.'.$url;
-    $conf = '/usr/lib/ssl/openssl.cnf';
-
-    search_for_and_add($SAN);
-
-    #shell_exec('sudo openssl genrsa -out '.$key.' 2048');
-
-    $generate = "openssl req \
-        -newkey rsa:4096\
-        -keyout $key \
-        -x509 \
-        -nodes \
-        -out $crt \
-        -subj /CN=$url \
-        -reqexts SAN \
-        -extensions SAN \
-        -config <(cat /usr/lib/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:*.$url')) \
-        -sha256 \
-        -days 3650";
-
-    shell_exec('bash -c "'.$generate.'"');
-}
 
 function get_vars($file)
 {
@@ -170,49 +69,31 @@ function get_vars($file)
 }
 
 
-function init($file)
+function init($file, $dest)
 {
-    
-    $first_dirname = '';
-    $first_cert = '';
-    $first_url = '';
-    $default_cert = array(
-        'first_dirname' => '',
-        'first_cert' => '',
-        'first_url' => '',
-    );
-
 
     $args = get_vars($file);
-
-    // create the vhost file for the given URL
-    create_vhost_files($args['url']);
-
-    $args['dirname']        = isset($args['dirname']) ? $args['dirname'] : $first_dirname;
-    $args['cert']           = isset($args['cert']) ? $args['cert'] : $first_cert;
-    $args['common_name']    = isset($args['cert']) ? $args['url'] : $first_common_name;
-    
-    // // now set the vhost values (its basically a template)
-    set_vhost_values($args);
-
-    search_for_and_add('[SAN]');
-    // create_cert($args['url']);
+    $file = $dest . $args['url'] . '.conf';
+    $contents = file_get_contents('/srv/config/vhosts/default.conf');
+    $contents = set_vhost_values($args, $contents);
+    if (!is_readable($dest)) {
+        mkdir($dest, true);
+    }
+    file_put_contents($file, $contents);
 }
 
 
+if (!isset($argv[1])) {
+    exit('dir not provided');
+}
 
-// Compose path from argument
-$file       = isset($argv[1]) ? $argv[1] : null;
-$dest       = isset($argv[2]) ? $argv[2] : null;
-$dirname    = isset($argv[3]) ? $argv[3] : null;
+$file = $argv[1] . '/vhosts-init';
+$dest = $argv[1] . '/vhosts/';
+
 
 // first we need to make sure we have a vhost-ini file. if we dont then we bail
-if (!isset($file) || !is_readable($file) || !($fp = fopen($file, 'r'))) {
-
-    // Error
-    echo 'Error: input file does not exist or cannot be opened'."\n";
-    echo $file."\n\n";
-    exit(0);
+if (!isset($file) || !is_readable($file)) {
+    exit('Error: input file does not exist or cannot be opened'."\n");
 }
 
-init($file, $dest, $dirname);
+init($file, $dest);
