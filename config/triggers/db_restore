@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Move into the newly mapped backups directory, where mysqldump(ed) SQL files are stored
+printf "\nStart mySQL Database Imports\n"
+cd /srv/databases
+
+# Parse through each file in the directory and use the file name to
+# import the SQL file into the database of the same name
+sql_count=`ls -1 *.sql 2>/dev/null | wc -l`
+if [ $sql_count != 0 ]
+then
+    for file in $( ls *.sql )
+        do
+        pre_dot=${file%%.sql}
+        mysql_cmd='SHOW TABLES FROM `'$pre_dot'`' # Required to support hypens in database names
+        db_exist=`mysql -u root -proot --skip-column-names -e "$mysql_cmd"`
+        if [ "$?" != "0" ]; then
+            printf "  * $pre_dot  database does not exist, creating it now\n"
+            mysql -uroot -proot -e "create database $pre_dot"
+        fi
+
+        if [ "" == "$db_exist" ]; then
+            printf "Importing $pre_dot \n"
+            mysql -u root -proot $pre_dot < $pre_dot.sql
+            printf "  * Import of $pre_dot successful\n"
+        else
+            printf "  * Skipped import of $pre_dot - tables exist\n"
+        fi
+
+    done
+    printf "Databases imported\n"
+else
+    printf "No custom databases to import\n"
+fi

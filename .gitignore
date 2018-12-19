@@ -1,10 +1,9 @@
 #damn OSX ds_store
 .DS_Store
 
-/custom.rb
-
 #ignore logs
 /logs/*
+*.log
 
 #ignore .vagrant folder
 .vagrant/
@@ -23,7 +22,6 @@
 /www/default/certs/
 /www/default/vhosts/
 /www/default/database-admin/
-
 !/www/default/
 
 # dont need the trucks list

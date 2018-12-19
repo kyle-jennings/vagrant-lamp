@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# By storing the date now, we can calculate the duration of provisioning at the
-# end of this script.
-start_seconds="$(date +%s)"
 
 # PACKAGE INSTALLATION
 #
@@ -18,29 +15,36 @@ apt_package_install_list=()
 # status before adding them to the apt_package_install_list array.
 apt_package_check_list=(
 
-  # PHP7.0
+  software-properties-common
+  # PHP7
   #
   # Our base packages for php7.2. As long as php7.2-fpm and php7.2-cli are
   # installed, there is no need to install the general php7.2 package, which
   # can sometimes install apache as a requirement.
-  php7.2
+  php7.2-fpm
   php7.2-cli
+
+  # Common and dev packages for php
   php7.2-common
   php7.2-dev
-  php7.2-curl
-  php7.2-fpm
-  php7.2-gd
-  php-imagick
-  php7.2-imap
-  php7.2-ldap
-  php7.2-mbstring
-  #php7.2-mcrypt
-  #php7.2-memcache
-  php7.2-mysql
-  php7.2-opcache
 
+  # Extra PHP modules that we find useful
   php-pear
-  php-gettext  
+  php-imagick
+  php-memcache
+  php-memcached
+  php-ssh2
+  php-xdebug
+  php7.2-bcmath
+  php7.2-curl
+  php7.2-gd
+  php7.2-mbstring
+  php7.2-mysql
+  php7.2-imap
+  php7.2-json
+  php7.2-soap
+  php7.2-xml
+  php7.2-zip
 
   #apache2
   apache2
@@ -49,11 +53,14 @@ apt_package_check_list=(
   # mysql is the default database
   mysql-server
 
+  # memcached is made available for object caching
+  memcached
 
   # other packages that come in handy
   imagemagick
   subversion
-  git-core
+  git
+  # git-lfs # cunable to locate
   zip
   unzip
   ngrep
@@ -62,6 +69,7 @@ apt_package_check_list=(
   vim
   colordiff
   postfix
+  python-pip
 
   # ntp service to keep clock current
   ntp
@@ -87,66 +95,8 @@ apt_package_check_list=(
 
 )
 
-### FUNCTIONS
-
-
-phpFPM_config() {
-    cp "/srv/config/phpfpm/*.conf" "/etc/php/7.2/fpm/pool.d/"
-    cp "/srv/config/php-config/*.ini" "/etc/php/7.2/fpm/conf.d/"
-}
-
-apache_config() {
-    cp "/srv/config/apache/*.conf" "/etc/apache2/conf-enabled/"
-    cp "/srv/config/php-config/*.ini" "/etc/php/7.2/fpm/conf.d/"
-}
-
-network_detection() {
-  # Network Detection
-  #
-  # Make an HTTP request to google.com to determine if outside access is available
-  # to us. If 3 attempts with a timeout of 5 seconds are not successful, then we'll
-  # skip a few things further in provisioning rather than create a bunch of errors.
-  if [[ "$(wget --tries=3 --timeout=5 --spider http://google.com 2>&1 | grep 'connected')" ]]; then
-    echo "Network connection detected..."
-    ping_result="Connected"
-  else
-    echo "Network connection not detected. Unable to reach google.com..."
-    ping_result="Not Connected"
-  fi
-}
-
-network_check() {
-  network_detection
-  if [[ ! "$ping_result" == "Connected" ]]; then
-    echo -e "\nNo network connection available, skipping package installation"
-    exit 0
-  fi
-}
-
 noroot() {
   sudo -EH -u "vagrant" "$@";
-}
-
-profile_setup() {
-  # Copy custom dotfiles and bin file for the vagrant user from local
-  cp "/srv/config/bash_profile" "/home/vagrant/.bash_profile"
-  cp "/srv/config/bash_aliases" "/home/vagrant/.bash_aliases"
-  cp "/srv/config/vimrc" "/home/vagrant/.vimrc"
-
-  if [[ ! -d "/home/vagrant/bin" ]]; then
-    mkdir "/home/vagrant/bin"
-  fi
-
-
-  echo " * Copied /srv/config/bash_profile                      to /home/vagrant/.bash_profile"
-  echo " * Copied /srv/config/bash_aliases                      to /home/vagrant/.bash_aliases"
-  echo " * Copied /srv/config/vimrc                             to /home/vagrant/.vimrc"
-
-  # If a bash_prompt file exists in the config/ directory, copy to the VM.
-  if [[ -f "/srv/config/bash_prompt" ]]; then
-    cp "/srv/config/bash_prompt" "/home/vagrant/.bash_prompt"
-    echo " * Copied /srv/config/bash_prompt to /home/vagrant/.bash_prompt"
-  fi
 }
 
 # First we need to 
@@ -158,6 +108,10 @@ add_ppa() {
     sudo apt-get update -y
 }
 
+
+ruby_sass_install() {
+  sudo gem install sass -v 3.4.25
+}
 
 
 
@@ -264,7 +218,6 @@ npm_installs(){
 
 tools_install() {
 
-
   # ack-grep
   #
   # Install ack-rep directory from the version hosted at beyondgrep.com as the
@@ -309,117 +262,24 @@ tools_install() {
 
 
 
-apache_setup() {
-  cp "/srv/config/init/php.ini" "/etc/php/7.2/apache2/php.ini"
-  sed -i.bak 's/ServerName/#ServerName/g' /etc/apache2/apache2.conf
-  echo "ServerName vagrant" >> /etc/apache2/apache2.conf
-}
-
-
-mysql_setup() {
-  # If MySQL is installed, go through the various imports and service tasks.
-  local exists_mysql
-
-  exists_mysql="$(service mysql status)"
-  if [[ "mysql: unrecognized service" != "${exists_mysql}" ]]; then
-
-    # MySQL gives us an error if we restart a non running service, which
-    # happens after a `vagrant halt`. Check to see if it's running before
-    # deciding whether to start or restart.
-    if [[ "mysql stop/waiting" == "${exists_mysql}" ]]; then
-      echo "service mysql start"
-      service mysql start
-      else
-      echo "service mysql restart"
-      service mysql restart
-    fi
-
-  else
-    echo -e "\nMySQL is not installed. No databases imported."
-  fi
-}
-
-
-ruby_sass_install() {
-  sudo gem install sass -v 3.4.25
-}
-
-mailcatcher_install() {
-  gem install mailcatcher
-
-  if [[ ! -d "/etc/init/" ]]; then
-    mkdir "/etc/init/"
-  fi
-
-  cp "/srv/config/init/mailcatcher.conf" "/etc/init/mailcatcher.conf"
-
-  echo " * Copied /srv/config/init/mailcatcher                      to /etc/init/mailcatcher.conf"
-
-  echo "sendmail_path = /usr/bin/env $(which catchmail) -f test@local.dev" | sudo tee /etc/php/7.2/mods-available/mailcatcher.ini
-
-    # Enable sendmail config for all php SAPIs (apache2, fpm, cli)
-    sudo phpenmod mailcatcher
-
-    # Restart Apache if using mod_php
-    sudo service apache2 restart
-
-}
-
-
-services_restart() {
-  # RESTART SERVICES
-  #
-  # Make sure the services we expect to be running are running.
-  echo -e "\nRestart services..."
-  # service nginx restart
-
-  # Disable PHP Xdebug module by default
-  #phpdismod xdebug
-
-  # Enable PHP mcrypt module by default
-  #phpenmod mcrypt
-  a2enmod rewrite
-  a2enmod ssl
-  a2enmod proxy
-  a2enmod proxy_http
-  a2enmod proxy_ajp
-  a2enmod rewrite
-  a2enmod deflate
-  a2enmod headers
-  a2enmod proxy_balancer
-  a2enmod proxy_connect
-  a2enmod proxy_html
-  a2enmod proxy_fcgi
-  # Enable PHP mailcatcher sendmail settings by default
-  #phpenmod mailcatcher
-
-}
-
-
-restart_webserver() {
-  service php7.2-fpm restart
-  service apache2 restart
-  service mailcatcher restart    
-}
-
-
+# Installs the AWS cli
 aws_cli() {
     if [[ ! -d /home/vagrant/.local/bin/pip ]]; then
         curl -O https://bootstrap.pypa.io/get-pip.py
         python get-pip.py --user
         export PATH=~/.local/bin:$PATH
-        source ~/.bash_profile
+        source /home/vagrant/.bash_profile
     fi
     if [[ ! -d /home/vagrant/.local/bin/aws ]]; then
         pip install awscli --upgrade --user
         export PATH=~/.local/bin:$PATH
-        source ~/.bash_profile
+        source /home/vagrant/.bash_profile
     fi
 }
 
 
+# WP-CLI Install
 wp_cli() {
-  # WP-CLI Install
   if [[ ! -f "/usr/local/bin/wp" ]]; then
     echo -e "\nDownloading wp-cli, see http://wp-cli.org"
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -429,9 +289,9 @@ wp_cli() {
 }
 
 
+# Webgrind install (for viewing callgrind/cachegrind files produced by
+# xdebug profiler)
 webgrind_install() {
-  # Webgrind install (for viewing callgrind/cachegrind files produced by
-  # xdebug profiler)
   if [[ ! -d "/var/www/default/webgrind" ]]; then
     echo -e "\nDownloading webgrind, see https://github.com/michaelschiller/webgrind.git"
     git clone "https://github.com/michaelschiller/webgrind.git" "/var/www/default/webgrind"
@@ -443,6 +303,7 @@ webgrind_install() {
 }
 
 
+# installs phpmyadmin
 phpmyadmin_setup() {
   # Download phpMyAdmin
   if [[ ! -d /var/www/default/database-admin ]]; then
@@ -459,140 +320,71 @@ phpmyadmin_setup() {
 }
 
 
-clear_vhosts(){
-    rm -rf /etc/apache2/sites-enabled/*
-    rm -rf /etc/apache2/sites-available/*
+go_install() {
+  if [[ ! -e /usr/local/go/bin/go ]]; then
+      echo " * Installing GoLang 1.10.3"
+      curl -so- https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz | tar zxvf -
+      mv go /usr/local
+      export PATH="$PATH:/usr/local/go/bin"
+      export GOPATH=/home/vagrant/gocode
+  fi
 }
 
-clear_certs(){
-    rm -rf /etc/apache2/.keys/*
-}
+mailhog_install() {
 
-create_ssl_certs(){
-
-  echo '-------------------------------------------'
-  echo 'creating SSL certs!'
-  echo '-------------------------------------------'
-  
-  DIR='/etc/apache2';
-  # Create an SSL key and certificate for HTTPS support.
-  if [[ ! -e ${DIR}/server.key ]]; then
-    echo "Generating SSL private key..."
-    KEY="$(openssl genrsa -out ${DIR}/server.key 2048 2>&1)"
-    echo "$KEY"
+  if [ -f "/etc/init/mailcatcher.conf" ]; then
+    echo " * Cleaning up old mailcatcher.conf"
+    rm -f /etc/init/mailcatcher.conf
   fi
 
-  if [[ ! -e ${DIR}/server.crt ]]; then
-    echo "Sign the certificate using the above private key..."
-    CERT="$(openssl req -new -x509 \
-            -key ${DIR}/server.key \
-            -out ${DIR}/server.crt \
-            -days 3650 \
-            -subj /CN=*.loc/CN=*.common.loc 2>&1)"
-    echo "$CERT"
+  if [ ! -e /usr/local/bin/mailhog ]; then
+    export GOPATH=/home/vagrant/gocode
+    
+    echo " * Fetching MailHog and MHSendmail"
+    
+    noroot mkdir -p /home/vagrant/gocode
+    noroot /usr/local/go/bin/go get github.com/mailhog/MailHog
+    noroot /usr/local/go/bin/go get github.com/mailhog/mhsendmail
+
+    cp /home/vagrant/gocode/bin/MailHog /usr/local/bin/mailhog
+    cp /home/vagrant/gocode/bin/mhsendmail /usr/local/bin/mhsendmail
+
+    # Make it start on reboot
+    tee /etc/systemd/system/mailhog.service <<EOL
+[Unit]
+Description=Mailhog
+After=network.target
+[Service]
+User=%user%
+ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
+[Install]
+WantedBy=multi-user.target
+EOL
+
+systemctl daemon-reload
+systemctl enable mailhog
+
   fi
 
+  if [ -e /etc/init/mailcatcher.conf ]; then
+    echo " * Cleaning up old MailCatcher startup file"
+    rm /etc/init/mailcatcher.conf
+  fi
+  echo " * Starting MailHog"
+  service mailhog start
 }
 
 
-project_custom_tasks(){
-    for SITE_CONFIG_FILE in $(find /var/www -maxdepth 5 -name 'init.sh'); do
-    # Look for site setup scripts
-      DIR="$(dirname "$SITE_CONFIG_FILE")"
-      (
-      echo "$DIR"
-      cd "$DIR"
-      source init.sh
-      )
-    done
-}
 
-
-vhosts_init(){
-
-    # deactivate and remove any and all site confs from apache
-    cd "/etc/apache2/sites-enabled"
-
-    # echo "cleaning up all sites vhosts"
-    for FILE in $(find /etc/apache2/sites-available/ -maxdepth 5 -type f -name "*.conf"); do
-        if [ -f $FILE ]; then
-            #echo $FILE
-            sudo rm $FILE;
-        fi
-    done
-
-    for FILE in $(find /var/www -maxdepth 3 -name 'vhosts-init'); do
-        #set variables
-        DIR="$(dirname "$FILE")"
-        echo php -d memory_limit=-1 /srv/config/vhosts/vhosts.php $DIR
-        php -d memory_limit=-1 /srv/config/vhosts/vhosts.php $DIR
-        echo "~~~~~~~~~~~~~~~~~~~"
-    done
-
-    # move the vhosts to the sites-available directory
-    for FILE in $(find /var/www -maxdepth 5 -name "*.conf"); do
-        sudo mv $FILE /etc/apache2/sites-available/;
-        rm -rf $(dirname "$FILE")
-    done
-
-
-    # sudo service apache2 restart
-    sudo a2ensite * -q
-}
-
-### SCRIPT
-set -xv
-
-network_check
-# Profile_setup
-echo '-------------------------------'
-echo "Bash profile setup and directories."
-echo '-------------------------------'
-profile_setup
-
-
-# # Package and Tools Install
-echo '-------------------------------'
-echo "Main packages check and install."
-echo '-------------------------------'
-network_check
+echo '-------------------------'
+echo "Installing all the things"
+echo '-------------------------'
 add_ppa
-
 ruby_sass_install
 package_install
-npm_installs
 tools_install
-apache_setup
-mailcatcher_install
-
-# VVV custom site import
-echo '-------------------------------'
-echo "Installing your custom sites"
-echo '-------------------------------'
-clear_vhosts
-create_ssl_certs
-network_check
-vhosts_init
-project_custom_tasks
-
-echo '---------------------------------------'
-echo 'restarting services and setting up mysl'
-echo '---------------------------------------'
-services_restart
-restart_webserver
-mysql_setup
-
-# WP-CLI and debugging tools
-echo '-------------------------------'
-echo "Installing/updating wp-cli and adding tools"
-echo '-------------------------------'
-network_check
 wp_cli
 phpmyadmin_setup
 aws_cli
-
-#set +xv
-# And it's done
-end_seconds="$(date +%s)"
-echo "===================================================="
-echo "Provisioning complete in "$((${end_seconds} - ${start_seconds}))" seconds"
+go_install
+mailhog_install

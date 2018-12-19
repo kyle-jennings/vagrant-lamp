@@ -7,6 +7,11 @@
 # Look for a custom trigger file. If this exists, we'll assume that
 # all trigger actions should be handled by this custom script. If
 # it does not exist, then we'll handle some basic tasks.
-if [[ -f /home/vagrant/bin/vagrant_init_custom ]]; then
-	vagrant_init_custom
+PATH=/srv/config/triggers
+FILE=vagrant_delete_custom
+if [[ -f ${PATH}/custom/${FILE} ]]; then
+    source ${PATH}/custom/${FILE}
+else
+    source $PATH/db_rm_backups
+    source $PATH/db_backup
 fi

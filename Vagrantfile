@@ -3,18 +3,28 @@
 
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
 
-Vagrant.configure("2") do |config|
+Vagrant.configure('2') do |config|
+
+  vagrant_version = Vagrant::VERSION.sub(/^v/, '')
+  if vagrant_version <= '1.6.0'
+    abort('Vagrant version must be newer than 1.6.0')
+  end
+
+  unless defined? VagrantPlugins::HostsUpdater
+    system('vagrant plugin install vagrant-hostsupdater')
+    puts 'Dependencies installed, please try the command again.'
+    abort
+  end
 
   # Store the current version of Vagrant for use in conditionals when dealing
   # with possible backward compatible issues.
-  vagrant_version = Vagrant::VERSION.sub(/^v/, '')
 
   # Configurations from 1.0.x can be placed in Vagrant 1.1.x specs like the following.
   config.vm.provider :virtualbox do |v|
-    v.customize ["modifyvm", :id, "--memory", 4000]
-    v.customize ["modifyvm", :id, "--cpus", 2]
-    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    v.customize ['modifyvm', :id, '--memory', 4000]
+    v.customize ['modifyvm', :id, '--cpus', 2]
+    v.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+    v.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
 
     # Set the box name in VirtualBox to match the working directory.
     vvv_pwd = Dir.pwd
@@ -32,126 +42,119 @@ Vagrant.configure("2") do |config|
   # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
   # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
   # to your host computer, it is cached for future use under the specified box name.
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = 'ubuntu/xenial64'
 
-  config.vm.hostname = "vagrant"
+  config.vm.hostname = 'vagrant'
 
-  # Local Machine Hosts
-  #
-  # If the Vagrant plugin hostsupdater (https://github.com/cogitatio/vagrant-hostsupdater) is
-  # installed, the following will automatically configure your local machine's hosts file to
-  # be aware of the domains specified below.
-  if defined?(VagrantPlugins::HostsUpdater)
-    # Recursively fetch the paths to all vvv-hosts files under the www/ directory.
-    paths = Dir[File.join(vagrant_dir, 'www', '**', 'hosts-init')]
+  # Recursively fetch the paths to all vvv-hosts files under the www/ directory.
+  paths = Dir[File.join(vagrant_dir, 'www', '**', 'vhosts-init')]
 
-    # Parse the found vvv-hosts files for host names.
-    hosts = paths.map do |path|
-      # Read line from file and remove line breaks
-      lines = File.readlines(path).map(&:chomp)
-      # Filter out comments starting with "#"
-      lines.grep(/\A[^#]/)
-    end.flatten.uniq # Remove duplicate entries
-
-    # Pass the found host names to the hostsupdater plugin so it can perform magic.
-    config.hostsupdater.aliases = hosts
-    config.hostsupdater.remove_on_suspend = true
+  hostnames = [];
+  hosts = paths.map do |path|
+      lines = File.readlines(path).map do |line|
+        name, value = line.split('=');
+        if name == 'url' || name == 'aliases'
+          hostnames.concat(value.split(' '))
+        end
+      end
   end
+  hostnames.flatten.uniq
+
+  # Pass the found host names to the hostsupdater plugin so it can perform magic.
+  config.hostsupdater.aliases = hostnames
+  config.hostsupdater.remove_on_suspend = true
+
 
   # Private Network (default)
   #
   # A private network is created by default. This is the IP address through which your
   # host machine will communicate to the guest.
-  config.vm.network :private_network, id: "vagrant_prime", ip: "192.168.10.175"
-  #
-
+  config.vm.network :private_network, id: 'vagrant_prime', ip: '192.168.10.175'
 
   config.vm.provider :hyperv do |v, override|
-    override.vm.network :private_network, id: "vagrant_prime", ip: nil
+    override.vm.network :private_network, id: 'vagrant_prime', ip: nil
   end
-
-
 
   # /srv/database/
   if File.exists?(File.join(vagrant_dir,'database/data/mysql_upgrade_info')) then
-    if vagrant_version >= "1.3.0"
-      config.vm.synced_folder "database/data/", "/var/lib/mysql", :mount_options => [ "dmode=777", "fmode=777" ]
-    else
-      config.vm.synced_folder "database/data/", "/var/lib/mysql", :extra => 'dmode=777,fmode=777'
-    end
+    config.vm.synced_folder 'database/data/', '/var/lib/mysql', :mount_options => [ 'dmode=777', 'fmode=777' ]
   end
 
-  # /srv/config/
-  config.vm.synced_folder "config/", "/srv/config"
-
-  # sync trigger scripts
-  if vagrant_version >= "1.3.0"
-      config.vm.synced_folder "triggers/", "/home/vagrant/bin", :mount_options => [ "dmode=777", "fmode=777" ]
+  # Config files
+  if File.exists?(File.join(vagrant_dir,'config')) then
+    config.vm.synced_folder 'config/', '/srv/config'
   else
-      config.vm.synced_folder "triggers/", "/home/vagrant/bin", :extra => 'dmode=777,fmode=777'
+    puts('Hey now, your configs are missing, we are creating the directory for you. The provisioning script expects specific configs tho..')
+    system('mkdir config')
+    abort('Created the directory!  Try your command again')
   end
 
-  # /srv/log/
-  config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "www-data"
-
-  # /Projects
-  if vagrant_version >= "1.3.0"
-    config.vm.synced_folder "www/", "/var/www/", :owner => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
+  # Apache Logs
+  if File.exists?(File.join(vagrant_dir,'logs')) then
+    config.vm.synced_folder 'logs/', '/var/log/apache2', :owner => 'www-data'
   else
-    config.vm.synced_folder "www/", "/var/www/", :owner => "www-data", :extra => 'dmode=775,fmode=774'
+    puts('Hey now, your "logs" directory is missing, we are creating the directory for you.')
+    system('mkdir logs')
+    abort('Created the directory!  Try your command again')
   end
 
+  # Projects
+  if File.exists?(File.join(vagrant_dir,'www')) then
+    config.vm.synced_folder 'www/', '/var/www/', :owner => 'www-data', :mount_options => [ 'dmode=775', 'fmode=774' ]
+  else
+    puts('Hey now, your "www" directory is missing, we are creating the directory for you.')
+    system('mkdir www')
+    abort('Created the directory!  Try your command again')
+  end
   # database backups
-  if vagrant_version >= "1.3.0"
-    config.vm.synced_folder "database/backups", "/srv/database/backups/", :owner => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
+  if File.exists?(File.join(vagrant_dir,'databases')) then
+    config.vm.synced_folder 'databases', '/srv/databases', :owner => 'www-data', :mount_options => [ 'dmode=775', 'fmode=774' ]
   else
-    config.vm.synced_folder "database/backups", "/srv/database/backups/", :owner => "www-data", :extra => 'dmode=775,fmode=774'
+    puts('Hey now, your "databases" directory is missing, we are creating the directory for you.')
+    system('mkdir databases')
+    abort('Created the directory!  Try your command again')
   end
 
+  # custom triggers
+  if File.exists?(File.join(vagrant_dir,'triggers')) then
+    config.vm.synced_folder 'triggers/', '/srv/config/triggers/custom/', :owner => 'www-data', :mount_options => [ 'dmode=775', 'fmode=774' ]
+  end
 
-  config.vm.provision "fix-no-tty", type: "shell" do |s|
+  config.vm.provision 'fix-no-tty', type: 'shell' do |s|
     s.privileged = false
-    s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
-  end
-
-  if File.exists?('custom.rb')
-    eval File.open('custom.rb').read
+    s.inline = 'sudo sed -i "/tty/!s/mesg n/tty -s \\&\\& mesg n/" /root/.profile'
   end
 
   # load File.expand_path('vagrant/Vagrantfile.custom') if File.exists?('vagrant/Vagrantfile.custom')
 
 
   # Provisioning
-  config.vm.provision :shell, :path => File.join( "provision", "provision.sh" )
+  config.vm.synced_folder 'provision/', '/home/vagrant/provision'
+  config.vm.provision :shell, :path => File.join( 'provision', '01-network-check.sh' )
+  config.vm.provision :shell, :path => File.join( 'provision', '02-env-config.sh' )
+  config.vm.provision :shell, :path => File.join( 'provision', '03-package-installs.sh' )
+  config.vm.provision :shell, :path => File.join( 'provision', '04-custom-sites.sh' )
+  config.vm.provision :shell, :path => File.join( 'provision', '05-service-configs.sh' )
 
-  # # Always start MySQL on boot, even when not running the full provisioner
-  # # (run: "always" support added in 1.6.0)
-  # if vagrant_version >= "1.6.0"
-  #   config.vm.provision :shell, inline: "sudo service mysql restart", run: "always"
-  #   config.vm.provision :shell, inline: "sudo service apache2 restart", run: "always"
-  # end
+  # Always start MySQL on boot, even when not running the full provisioner
+  config.vm.provision :shell, inline: 'sudo service mysql restart', run: 'always'
+  config.vm.provision :shell, inline: 'sudo service apache2 restart', run: 'always'
+  config.vm.provision :shell, inline: 'sudo service php7.2-fpm restart', run: 'always'
+  # config.vm.provision :shell, inline: 'sudo service mailhog restart', run: 'always'
+  config.vm.provision :shell, inline: 'sudo service memcached restart', run: 'always'
 
-  # triggers
-  #
+  # Triggers
   # These are run when vagrant is brought up, down, and destroyed
-  if defined? VagrantPlugins::Triggers
-    config.trigger.after [:up] do
-        run "vagrant ssh -c 'vagrant_init'"
-    end
+  config.trigger.after [:up] do |trigger|
+    trigger.name = '~~~ Vagrant provisioning ~~~'
+    trigger.run_remote = { inline: 'bash /srv/config/triggers/db_restore' }
+    trigger.on_error = :continue
+  end
 
-    config.trigger.before :halt, :stdout => true do
-      run "vagrant ssh -c 'vagrant_halt'"
-    end
-
-    config.trigger.before :suspend, :stdout => true do
-      run "vagrant ssh -c 'vagrant_suspend'"
-    end
-
-    # if File.exists?()
-    config.trigger.before :destroy, :stdout => true do
-      run "vagrant ssh -c 'vagrant_destroy'"
-    end
-
+  config.trigger.before :destroy do |trigger|
+    trigger.name = '~~~ Vagrant halt ~~~'
+    trigger.run_remote = { inline: 'bash /srv/config/triggers/db_backups' }
+    trigger.on_error = :continue
   end
 
 
