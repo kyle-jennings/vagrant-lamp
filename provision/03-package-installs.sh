@@ -338,16 +338,18 @@ mailhog_install() {
   fi
 
   if [ ! -e /usr/local/bin/mailhog ]; then
-    export GOPATH=/home/vagrant/gocode
     
     echo " * Fetching MailHog and MHSendmail"
     
     noroot mkdir -p /home/vagrant/gocode
-    noroot /usr/local/go/bin/go get github.com/mailhog/MailHog
-    noroot /usr/local/go/bin/go get github.com/mailhog/mhsendmail
+    wget https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64
+    cp MailHog_linux_amd64 /usr/local/bin/mailhog
+    chmod +x /usr/local/bin/mailhog
 
-    cp /home/vagrant/gocode/bin/MailHog /usr/local/bin/mailhog
-    cp /home/vagrant/gocode/bin/mhsendmail /usr/local/bin/mhsendmail
+    # noroot /usr/local/go/bin/go get github.com/mailhog/mhsendmail
+    wget https://github.com/mailhog/mhsendmail.git
+    cp mhsendmail /usr/local/bin/mhsendmail
+    chmod +x /usr/local/bin/mhsendmail
 
     # Make it start on reboot
     tee /etc/systemd/system/mailhog.service <<EOL
@@ -386,5 +388,4 @@ tools_install
 wp_cli
 phpmyadmin_setup
 aws_cli
-go_install
 mailhog_install

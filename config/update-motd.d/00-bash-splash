@@ -22,10 +22,12 @@ on_white='\033[48;5;7m'
 
 reset='\033[0m'
 
-echo "${on_red}███████╗██████╗ ██╗${reset}"
-echo "${on_red}██╔════╝██╔══██╗██║${reset}"
-echo "${on_red}█████╗  ██████╔╝██║${reset}"
-echo "${on_red}██╔══╝  ██╔═══╝ ██║${reset}"
-echo "${on_red}███████╗██║     ██║${reset}"
-echo "${on_red}╚══════╝╚═╝     ╚═╝${reset}"
-echo "${reset}"
+echo "\n"
+echo "\n"
+echo -e "${on_red}███████╗██████╗ ██╗${reset}"
+echo -e "${on_red}██╔════╝██╔══██╗██║${reset}"
+echo -e "${on_red}█████╗  ██████╔╝██║${reset}"
+echo -e "${on_red}██╔══╝  ██╔═══╝ ██║${reset}"
+echo -e "${on_red}███████╗██║     ██║${reset}"
+echo -e "${on_red}╚══════╝╚═╝     ╚═╝${reset}"
+echo -e "${reset}"
