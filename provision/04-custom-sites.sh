@@ -14,15 +14,16 @@ create_vhosts(){
     for FILE in $(find /var/www -maxdepth 3 -name 'vhosts-init'); do
         #set variables
         VHOSTSDIR="/etc/apache2/sites-enabled"
-        TEMPLATE="/srv/config/vhosts/default.conf"
+        TEMPLATE="/srv/config/apache/vhost-default.conf"
 
-        if [ -z $url ]; then
+        if [ ! -z $url ]; then
             unset $url
         fi
-        if [ -z $aliases ]; then
+        if [ ! -z $aliases ]; then
             unset $aliases
         fi
-        if [ -z $dirname ]; then
+
+        if [ ! -z $dirname ]; then
             unset $dirname
         fi
 
@@ -39,6 +40,10 @@ create_vhosts(){
             sed -i "s/#ServerAlias/ServerAlias/g" $VHOSTSDIR/$VHOST
         else
             sed -i "/#ServerAlias/d" $VHOSTSDIR/$VHOST
+        fi
+
+        if [ ! -z $aliases ] && [ $aliases == *"www.${url}"* ]
+            sed -i "s/#Rewrite/Rewrite/g" $VHOSTSDIR/$VHOST
         fi
     done
 }

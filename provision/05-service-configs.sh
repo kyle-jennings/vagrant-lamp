@@ -2,27 +2,33 @@
 
 
 phpfpm_config() {
-  cp /srv/config/phpfpm/*.conf /etc/php/7.2/fpm/pool.d/
-  cp /srv/config/phpfpm/*.ini /etc/php/7.2/fpm/conf.d/
-  cp /srv/config/mailhog/mailhog.ini /etc/php/7.2/mods-available/mailhog.ini
+  cp /srv/config/phpfpm/php-fpm.conf               /etc/php/7.2/fpm/php-fpm.conf
+  cp /srv/config/phpfpm/pool.d/www.conf            /etc/php/7.2/fpm/pool.d/www.conf
+  cp /srv/config/phpfpm/conf.d/opcache.ini         /etc/php/7.2/fpm/conf.d/opcache.ini
+  cp /srv/config/phpfpm/conf.d/php7.2-custom.ini   /etc/php/7.2/fpm/conf.d/php7.2-custom.ini
+  cp /srv/config/phpfpm/mods-available/mailhog.ini /etc/php/7.2/fpm/mods-available/mailhog.ini
+  cp /srv/config/phpfpm/mods-available/xdebug.ini  /etc/php/7.2/fpm/mods-available/xdebug.ini
 
   if [[ -f "/etc/php/7.2/mods-available/mailcatcher.ini" ]]; then
     echo " * Cleaning up mailcatcher.ini from a previous install"
     rm -f /etc/php/7.2/mods-available/mailcatcher.ini
   fi
 
-  # Copy memcached configuration from local
-  cp /srv/config/memcached/memcached.conf /etc/memcached.conf
-  cp /srv/config/memcached/memcached.conf /etc/memcached_default.conf
 
 }
 
+memcached_config() {
+  # Copy memcached configuration from local
+  cp /srv/config/memcached/memcached.conf /etc/memcached.conf
+  cp /srv/config/memcached/memcached.conf /etc/memcached_default.conf
+}
 
 apache_config() {
-  cp /srv/config/apache/*.conf /etc/apache2/conf-enabled/
-  # cp /srv/config/apache/*.ini /etc/php/7.2/apache2/php.ini
+  cp /srv/config/apache/mpm.conf /etc/apache2/conf-enabled/
+  cp /srv/config/apache/php7.2-fpm.conf /etc/apache2/conf-enabled/
+
   sed -i.bak '/ServerName/#ServerName/d' /etc/apache2/apache2.conf
-  echo "ServerName vagrant" >> /etc/apache2/apache2.conf
+  echo "ServerName vagrant.loc" >> /etc/apache2/apache2.conf
 
   a2enmod rewrite
   a2enmod ssl
@@ -84,5 +90,6 @@ echo '-----------------------'
 echo "Restarting web services"
 echo '-----------------------'
 phpfpm_config
+memcached_config
 apache_config
 restart_webserver
