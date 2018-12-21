@@ -36,6 +36,7 @@ create_vhosts(){
         sed -i "s~{{DIRNAME}}~${dirname}~g" $VHOSTSDIR/$VHOST
 
         if [ ! -z $aliases ]; then
+            echo $url ' has the alias of ' $aliases
             sed -i "s/{{ALIASES}}/${aliases}/g" $VHOSTSDIR/$VHOST
             sed -i "s/#ServerAlias/ServerAlias/g" $VHOSTSDIR/$VHOST
         else
@@ -46,6 +47,11 @@ create_vhosts(){
             sed -i "s/#Rewrite/Rewrite/g" $VHOSTSDIR/$VHOST
         fi
     done
+}
+
+copy_default_vhosts() {
+    cp /srv/config/apache/vhost-dashboard.conf  /etc/apache2/sites-enabled/
+    cp /srv/config/apache/vhost-phpmyadmin.conf /etc/apache2/sites-enabled/
 }
 
 # clears out any certs before...
@@ -100,6 +106,7 @@ echo "Installing your custom sites"
 echo '-------------------------------'
 clear_vhosts
 create_vhosts
+copy_default_vhosts
 clear_certs
 create_ssl_certs
 project_custom_tasks

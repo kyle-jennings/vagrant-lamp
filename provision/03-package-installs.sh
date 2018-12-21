@@ -340,40 +340,39 @@ mailhog_install() {
   if [ ! -e /usr/local/bin/mailhog ]; then
     
     echo " * Fetching MailHog and MHSendmail"
-    
+    DIR='/usr/local/bin'
+
     noroot mkdir -p /home/vagrant/gocode
     wget https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64
-    cp MailHog_linux_amd64 /usr/local/bin/mailhog
-    chmod +x /usr/local/bin/mailhog
+    cp MailHog_linux_amd64 $DIR/mailhog
+    chmod +x $DIR/mailhog
 
     # noroot /usr/local/go/bin/go get github.com/mailhog/mhsendmail
     wget https://github.com/mailhog/mhsendmail.git
-    cp mhsendmail /usr/local/bin/mhsendmail
-    chmod +x /usr/local/bin/mhsendmail
+    cp mhsendmail $DIR/mhsendmail
+    chmod +x $DIR/mhsendmail
 
     # Make it start on reboot
     tee /etc/systemd/system/mailhog.service <<EOL
 [Unit]
 Description=Mailhog
 After=network.target
+
 [Service]
 User=%user%
-ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
+ExecStart=${DIR}/mailhog > /dev/null 2>&1 &
+
 [Install]
 WantedBy=multi-user.target
 EOL
 
-systemctl daemon-reload
-systemctl enable mailhog
+    echo " * Starting MailHog"
+    systemctl start mailhog
+    systemctl enable mailhog
+    systemctl daemon-reload
 
   fi
 
-  if [ -e /etc/init/mailcatcher.conf ]; then
-    echo " * Cleaning up old MailCatcher startup file"
-    rm /etc/init/mailcatcher.conf
-  fi
-  echo " * Starting MailHog"
-  service mailhog start
 }
 
 
@@ -388,4 +387,5 @@ tools_install
 wp_cli
 phpmyadmin_setup
 aws_cli
+go_install
 mailhog_install
