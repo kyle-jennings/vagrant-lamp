@@ -270,6 +270,7 @@ aws_cli() {
         export PATH=~/.local/bin:$PATH
         source /home/vagrant/.bash_profile
     fi
+
     if [[ ! -d /home/vagrant/.local/bin/aws ]]; then
         pip install awscli --upgrade --user
         export PATH=~/.local/bin:$PATH
@@ -348,20 +349,7 @@ mailhog_install() {
 
     cp /home/vagrant/gocode/bin/MailHog /usr/local/bin/mailhog
     cp /home/vagrant/gocode/bin/mhsendmail /usr/local/bin/mhsendmail
-
-    # Make it start on reboot
-    tee /etc/systemd/system/mailhog.service <<EOL
-[Unit]
-Description=Mailhog
-After=network.target
-
-[Service]
-User=%user%
-ExecStart=${DIR}/mailhog > /dev/null 2>&1 &
-
-[Install]
-WantedBy=multi-user.target
-EOL
+    cp /srv/services/mailhog.service /etc/systemd/system/mailhog.service
 
     systemctl start mailhog
     systemctl enable mailhog
@@ -382,4 +370,4 @@ wp_cli
 phpmyadmin_setup
 aws_cli
 go_install
-mailhog_install
+#mailhog_install
