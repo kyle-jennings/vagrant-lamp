@@ -332,25 +332,22 @@ go_install() {
 
 mailhog_install() {
 
-  if [ -f "/etc/init/mailcatcher.conf" ]; then
+  if [[ -f "/etc/init/mailcatcher.conf" ]]; then
     echo " * Cleaning up old mailcatcher.conf"
     rm -f /etc/init/mailcatcher.conf
   fi
 
-  if [ ! -e /usr/local/bin/mailhog ]; then
+  if [[ ! -e /usr/local/bin/mailhog ]]; then
+    export GOPATH=/home/vagrant/gocode
     
     echo " * Fetching MailHog and MHSendmail"
-    DIR='/usr/local/bin'
-
+    
     noroot mkdir -p /home/vagrant/gocode
-    wget https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64
-    cp MailHog_linux_amd64 $DIR/mailhog
-    chmod +x $DIR/mailhog
+    noroot /usr/local/go/bin/go get github.com/mailhog/MailHog
+    noroot /usr/local/go/bin/go get github.com/mailhog/mhsendmail
 
-    # noroot /usr/local/go/bin/go get github.com/mailhog/mhsendmail
-    wget https://github.com/mailhog/mhsendmail.git
-    cp mhsendmail $DIR/mhsendmail
-    chmod +x $DIR/mhsendmail
+    cp /home/vagrant/gocode/bin/MailHog /usr/local/bin/mailhog
+    cp /home/vagrant/gocode/bin/mhsendmail /usr/local/bin/mhsendmail
 
     # Make it start on reboot
     tee /etc/systemd/system/mailhog.service <<EOL
@@ -360,18 +357,15 @@ After=network.target
 
 [Service]
 User=%user%
-ExecStart=${DIR}/mailhog > /dev/null 2>&1 &
+ExecStart={DIR}/mailhog > /dev/null 2>&1 &
 
 [Install]
 WantedBy=multi-user.target
 EOL
 
-    echo " * Starting MailHog"
     systemctl start mailhog
     systemctl enable mailhog
     systemctl daemon-reload
-
-  fi
 
 }
 
