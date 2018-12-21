@@ -357,7 +357,7 @@ After=network.target
 
 [Service]
 User=%user%
-ExecStart={DIR}/mailhog > /dev/null 2>&1 &
+ExecStart=${DIR}/mailhog > /dev/null 2>&1 &
 
 [Install]
 WantedBy=multi-user.target
@@ -366,7 +366,7 @@ EOL
     systemctl start mailhog
     systemctl enable mailhog
     systemctl daemon-reload
-
+  fi
 }
 
 
