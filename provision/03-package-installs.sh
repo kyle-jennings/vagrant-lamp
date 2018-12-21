@@ -370,4 +370,4 @@ wp_cli
 phpmyadmin_setup
 aws_cli
 go_install
-#mailhog_install
+mailhog_install

@@ -43,7 +43,7 @@ create_vhosts(){
             sed -i "/#ServerAlias/d" $VHOSTSDIR/$VHOST
         fi
 
-        if [ ! -z $aliases ] && [ $aliases == *"www.${url}"* ]
+        if [ ! -z $aliases ] && [ $aliases == *"www.${url}"* ]; then
             sed -i "s/#Rewrite/Rewrite/g" $VHOSTSDIR/$VHOST
         fi
     done
