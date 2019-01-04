@@ -1,0 +1,97 @@
+---
+
+# IMPORTANT !!!!!!!!!
+# Copy this file to sites--custom.yml so your changes don't get overwritten when you update
+
+
+# This file is a YAML formatted file. YAML indenting is done in spaces not
+# tabs, and whitespace is significant. If you don't stick to this, it will
+# fail on provision
+
+#
+# IMPORTANT, if you change this file, you have to reprovision,  no exceptions
+# vagrant reload --provision
+#
+
+# These are your websites, and their names map on to the folders they're
+# located in. See the docs for how to define these, and what all the keys
+# and options are
+# 
+# You sites-custom.yml file can and should use the following settings:
+# 
+# sites:
+#   {project-name}: #just a label for you site settings
+#     hosts: # define the URLs used to access your site.
+#       - {first URL}
+#       - {second URL}
+#       ...
+#     site_root: {path from project root} # define the directory to be served, relative to your project directory in www
+#     env: # define any environment variables you need to use
+#       {VARIABLE_NAME}: {VARIABLE_VALUE}
+#       
+# 
+# 
+# Each "site" needs at the very least, the following:
+# * hosts
+# * directory
+# * site_root
+# 
+# and optionally a section for environment variables called "env"
+# 
+# hosts:
+# the hosts are an array/list of URL used to access your site.  The first is the primary address and the other defined hosts
+# will be used as aliases.  NOTE - if one of your alliases is the your primary site but prefixed with www (www.example.loc) then
+# Apache will rewrite the primary URL to the www url.  So example.loc => www.example.loc
+# 
+# directory
+# This is the name of the directory containing your project in the www folder.
+# 
+# site_root:
+# This is where Apache will serve your site from, relative to your project directory root.  Some people (like myself) 
+# prefer to keep their project root very clean, only keeping things like composer files or other configs in the root.
+# 
+# For example, if my project directory is named example.loc (and this is is located at www/example.loc/ )
+# and I want to serve my site from a directory named 'httpdocs' located in the project root, then I would 
+# set site_root to 'httpdocs', making the served path 'www/example.loc/httpdocs'
+# 
+# NOTE - if you want your site served from the project root, set site_root to a dot:
+# site_root: .
+# 
+# env:
+# this is a hash (dictionary, key pair array, whatever) of environment variables to set for the site.
+# The 'key' will be the variable name, and the value is the variable value.  
+# 
+# For example:
+# DB_NAME: wordpressdb
+# DB_USER: root
+# DB_PASSWORD: root
+# DB_HOST: localhost
+# TABLE_PREFIX: wp_
+# 
+# 
+# Below are a couple examples
+sites:
+  
+  example:
+    hosts:
+      - example.loc
+      - www.example.loc
+    directory: default
+    site_root: app
+    description: Add a short description for your site
+    image: logo.jpg
+
+  wordpress-loc:
+    hosts:
+      - example2.loc
+      - www.example2.loc
+    directory: example2
+
+  wordpress-core-dev:
+    hosts:
+      - example3.loc
+      - www.example3.loc
+    directory: example3
+    site_root: app/httpdocs
+    description: Add a short description for your site
+    

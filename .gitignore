@@ -1,0 +1,31 @@
+# damn OSX ds_store
+.DS_Store
+
+# ignore logs
+/logs/*
+*.log
+
+# ignore .vagrant folder
+.vagrant/
+/.vagrant/
+
+# ignore database backups
+/databases/*.sql
+*/**/*.sql
+
+# ignore custom things
+/sites-custom.yml
+
+# we want to keep the default site's skeleton however
+/www/*
+!/www/default
+/www/default/*
+!/www/default/dashboard
+!/www/default/dashboard/*
+/www/default/dashboard/dist/css
+!/www/default/index.php
+!/www/default/dashboard/
+!/www/default/phpinfo/
+
+
+node_modules

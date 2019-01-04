@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# This script is run whenever `vagrant halt` is used to power off
+# the virtual machine. To customize this behavior, include a file
+# in your local VVV/config/homebin directory: vagrant_halt_custom
+#
+# Look for a custom trigger file. If this exists, we'll assume that
+# all trigger actions should be handled by this custom script. If
+# it does not exist, then we'll handle some basic tasks.
+PATH=/srv/config/triggers
+FILE=vagrant_halt_custom
+if [[ -f ${PATH}/custom/${FILE} ]]; then
+    source ${PATH}/custom/${FILE}
+else
+    pwd
+    sudo whoami
+    /bin/sh $PATH/db_rm_backups
+    sudo /bin/sh $PATH/db_rm_backups
+	# /bin/sh $PATH/db_backup
+fi
