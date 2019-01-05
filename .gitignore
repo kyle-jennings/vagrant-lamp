@@ -23,6 +23,8 @@
 !/www/default/dashboard
 !/www/default/dashboard/*
 /www/default/dashboard/dist/css
+/www/default/dashboard/dist/fonts
+/www/default/dashboard/dist/fonts/*
 !/www/default/index.php
 !/www/default/dashboard/
 !/www/default/phpinfo/

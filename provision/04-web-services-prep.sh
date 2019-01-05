@@ -107,13 +107,15 @@ xdebug_log_conf() {
 }
 
 build_dashboard_css() {
-  local dir='/srv/www/default/dashboard'
-  local src=$dir'/src/bootstrap.scss'
-  local dst=$dir'/dist/site.css'
-  local cmd='/usr/local/bin/sass --style compressed '${src}' '${dst}' -E UTF-8 &>/dev/null'
+  cd /srv/www/default/dashboard/src
+  if [ ! -d node_modules ]; then 
+    npm install --silent 
+  fi
   
-  sudo -u vagrant $cmd
+  gulp build
 }
+
+
 
 echo '-------------------------------'
 echo "Installing your custom sites"
@@ -126,4 +128,4 @@ phpfpm_config
 memcached_config
 apache_config
 xdebug_log_conf
-# build_dashboard_css
+build_dashboard_css

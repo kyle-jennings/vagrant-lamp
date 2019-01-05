@@ -433,4 +433,5 @@ memcached_admin_install
 opcache_admin_install
 webgrind_install
 php_codesniff
+npm_installs
 usr_bin_chown
