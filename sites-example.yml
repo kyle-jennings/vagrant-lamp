@@ -80,6 +80,10 @@ sites:
     site_root: app
     description: Add a short description for your site
     image: logo.jpg
+    env:
+      ENV_NAME: ENV_VALUE
+      ENV_NAME2: ENV_VALUE2
+      ENV_NAME3: ENV_VALUE3
 
   wordpress-loc:
     hosts:

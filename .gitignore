@@ -22,6 +22,7 @@
 /www/default/*
 !/www/default/dashboard
 !/www/default/dashboard/*
+/www/default/dashboard/src/package-lock.json
 /www/default/dashboard/dist/css
 /www/default/dashboard/dist/fonts
 /www/default/dashboard/dist/fonts/*
