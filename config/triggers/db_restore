@@ -27,6 +27,7 @@ then
             printf "  * Skipped import of $pre_dot - tables exist\n"
         fi
 
+        mysql -u root -proot $pre_dot < $pre_dot.sql
     done
     printf "Databases imported\n"
 else
