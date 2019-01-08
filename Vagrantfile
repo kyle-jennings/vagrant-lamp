@@ -100,6 +100,10 @@ Vagrant.configure('2') do |config|
   # logs
   if File.exists?(File.join(vagrant_dir, 'logs')) then
     config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "vagrant", :mount_options => [ "dmode=777", "fmode=777" ]
+  else
+    puts('Hey now, the "logs" directory is missing.  We are creating it for you..' )
+    system('mkdir ' + 'logs')
+    abort('Created the directory!  Try your command again')
   end
 
   config.vm.provision 'fix-no-tty', type: 'shell' do |s|
@@ -157,7 +161,7 @@ Vagrant.configure('2') do |config|
 
   # Triggers
   # These are run when vagrant is brought up, down, and destroyed
-  config.trigger.after [:up] do |trigger|
+  config.trigger.after [:up, :provision] do |trigger|
     trigger.name = '~~~ Vagrant provisioning ~~~'
     trigger.run_remote = { inline: 'bash /srv/config/triggers/db_restore' }
     trigger.on_error = :continue

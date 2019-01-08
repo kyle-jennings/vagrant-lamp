@@ -84,13 +84,12 @@ get_root() {
 # checks each project directory for an init script and runs it if found
 project_custom_tasks(){
     for SITE_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name 'init.sh'); do
-    # Look for site setup scripts
+      # Look for site setup scripts
       DIR="$(dirname "$SITE_CONFIG_FILE")"
-      (
-      echo "$DIR"
+      
+      echo "cd $DIR"
       cd "$DIR"
-      source init.sh
-      )
+      ./init.sh
     done
 }
 
