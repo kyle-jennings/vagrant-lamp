@@ -65,11 +65,11 @@ Vagrant.configure('2') do |config|
 
   # read in the YAML files
   if File.file?(File.join(vagrant_dir, 'sites-custom.yml')) == false then
-    FileUtils.cp( File.join(vagrant_dir, 'sites-default.yml'), File.join(vagrant_dir, 'sites-custom.yml') )
+    FileUtils.cp( File.join(vagrant_dir, 'sites-example.yml'), File.join(vagrant_dir, 'sites-custom.yml') )
   end
   
   if File.file?(File.join(vagrant_dir, 'sites-custom.yml')) == false then
-    abort('Not found: sites-custom.yml or sites-default.yml')
+    abort('Not found: sites-custom.yml or sites-example.yml')
   end
 
   vagrant_version = Vagrant::VERSION.sub(/^v/, '')
