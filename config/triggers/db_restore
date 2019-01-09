@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # Move into the newly mapped backups directory, where mysqldump(ed) SQL files are stored
-printf "\nStart mySQL Database Imports\n"
+echo "----------------------------"
+echo "Start mySQL Database Imports"
+echo "----------------------------"
+
 cd /srv/databases
 
 # Parse through each file in the directory and use the file name to
@@ -18,16 +21,18 @@ then
             printf "  * $pre_dot  database does not exist, creating it now\n"
             mysql -uroot -proot -e "create database $pre_dot"
         fi
-
-        if [ "" == "$db_exist" ]; then
-            printf "Importing $pre_dot \n"
-            mysql -u root -proot $pre_dot < $pre_dot.sql
-            printf "  * Import of $pre_dot successful\n"
-        else
-            printf "  * Skipped import of $pre_dot - tables exist\n"
-        fi
-
+        printf "Importing $pre_dot \n"
         mysql -u root -proot $pre_dot < $pre_dot.sql
+        printf "  * Import of $pre_dot successful\n"
+
+        # if [ "" == "$db_exist" ]; then
+        #     printf "Importing $pre_dot \n"
+        #     mysql -u root -proot $pre_dot < $pre_dot.sql
+        #     printf "  * Import of $pre_dot successful\n"
+        # else
+        #     printf "  * Skipped import of $pre_dot - tables exist\n"
+        # fi
+
     done
     printf "Databases imported\n"
 else

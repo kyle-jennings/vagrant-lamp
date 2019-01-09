@@ -161,11 +161,12 @@ Vagrant.configure('2') do |config|
 
   # Triggers
   # These are run when vagrant is brought up, down, and destroyed
-  config.trigger.after [:up, :provision] do |trigger|
+  config.trigger.after :up, :reload do |trigger|
     trigger.name = '~~~ Vagrant provisioning ~~~'
     trigger.run_remote = { inline: 'bash /srv/config/triggers/db_restore' }
     trigger.on_error = :continue
   end
+
 
   config.trigger.before :destroy do |trigger|
     trigger.name = '~~~ Vagrant halt ~~~'
