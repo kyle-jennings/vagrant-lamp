@@ -1,0 +1,4 @@
+#!/bin/bash
+sudo phpdismod xdebug
+
+find /etc/init.d/ -name "php*-fpm" -exec bash -c 'sudo service "$(basename "$0")" restart' {} \;

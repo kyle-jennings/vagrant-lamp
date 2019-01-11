@@ -49,6 +49,10 @@ profile_setup() {
 }
 
 
+usr_bin_scripts() {
+    cp "/srv/scripts/*" "/usr/bin/"
+}
+
 allow_ssh_passwd() {
   sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
   service ssh reload

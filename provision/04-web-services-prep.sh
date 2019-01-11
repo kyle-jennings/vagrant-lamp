@@ -90,9 +90,6 @@ apache_config() {
   a2enmod proxy_html
   a2enmod proxy_fcgi
   phpenmod mailhog
-  phpenmod xdebug
-
-  # a2enconf php7.2-fpm
 
   usermod -a -G www-data vagrant
   usermod -a -G vagrant www-data 

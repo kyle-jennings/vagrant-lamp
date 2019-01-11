@@ -221,6 +221,9 @@ ack_grep_install() {
 }
 
 composer_install() {
+  
+  sh /vagrant/config/homebin/xdebug_off
+  
   # COMPOSER
   #
   # Install Composer if it is not yet available.
