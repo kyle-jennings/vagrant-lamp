@@ -23,13 +23,17 @@ on_white='\033[48;5;7m'
 reset='\033[0m'
 
 line=${on_red}${white}
+#echo -e "${line}${reset}"
 
 echo ""
 echo ""
-echo -e "${line}███████╗██████╗ ██╗${reset}"
-echo -e "${line}██╔════╝██╔══██╗██║${reset}"
-echo -e "${line}█████╗  ██████╔╝██║${reset}"
-echo -e "${line}██╔══╝  ██╔═══╝ ██║${reset}"
-echo -e "${line}███████╗██║     ██║${reset}"
-echo -e "${line}╚══════╝╚═╝     ╚═╝${reset}"
+echo -e "${line}${reset}"
+echo -e "${line}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄· ${reset}"
+echo -e "${line} ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█ ${reset}"
+echo -e "${line} ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█ ${reset}"
+echo -e "${line}  ███  ███  ███ ▐█ ▪▐▌${reset}"
+echo -e "${line} . ▀  . ▀  . ▀   ▀  ▀ ${reset}"
+echo -e "${line}       Ubuntu         ${reset}"
 echo -e "${reset}"
+echo ""
+echo ""

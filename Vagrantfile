@@ -7,6 +7,49 @@ vagrant_dir = File.expand_path(File.dirname(__FILE__))
 
 Vagrant.configure('2') do |config|
 
+  # whitelist when we show the logo, else it'll show on global Vagrant commands
+  if [ 'up', 'halt', 'resume', 'suspend', 'status', 'provision', 'reload' ].include? ARGV[0] then
+    show_logo = true
+  end
+
+  if show_logo then
+    # Regular Colors
+    black="\033[38;5;0m"
+    red="\033[38;5;1m"
+    green="\033[38;5;2m"
+    yellow="\033[38;5;3m"
+    blue="\033[38;5;4m"
+    magenta="\033[38;5;5m"
+    cyan="\033[38;5;6m"
+    white="\033[38;5;7m"#
+
+    # Background
+    on_black="\033[48;5;0m"
+    on_red="\033[48;5;1m"
+    on_green="\033[48;5;2m"
+    on_yellow="\033[48;5;3m"
+    on_blue="\033[48;5;4m"
+    on_magenta="\033[48;5;5m"
+    on_cyan="\033[48;5;6m"
+    on_white="\033[48;5;7m"
+    line="#{on_red}#{white}"
+    reset="\033[0m"
+
+
+    splash = <<-HEREDOC
+#{red}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄· #{reset}
+#{red} ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█ #{reset}
+#{red} ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█ #{reset}
+#{red}  ███  ███  ███ ▐█ ▪▐▌#{reset}
+#{red} . ▀  . ▀  . ▀   ▀  ▀ #{reset}
+#{red}       Ubuntu         #{reset}
+    HEREDOC
+
+
+    puts splash
+  end
+
+  config.disksize.size = '30GB'
 
   # Private Network (default)
   #
@@ -28,7 +71,6 @@ Vagrant.configure('2') do |config|
     v.customize ['modifyvm', :id, '--cpus', 2]
     v.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     v.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
-
     # Set the box name in VirtualBox to match the working directory.
     vvv_pwd = Dir.pwd
     v.name = File.basename(vvv_pwd)
@@ -51,17 +93,6 @@ Vagrant.configure('2') do |config|
 
 
   show_logo = false
-  branch_c = "\033[38;5;6m"#111m"
-  red="\033[38;5;9m"#124m"
-  green="\033[1;38;5;2m"#22m"
-  blue="\033[38;5;4m"#33m"
-  purple="\033[38;5;5m"#129m"
-  docs="\033[0m"
-  yellow="\033[38;5;3m"#136m"
-  yellow_underlined="\033[4;38;5;3m"#136m"
-  url=yellow_underlined
-  creset="\033[0m"
-
 
   # read in the YAML files
   if File.file?(File.join(vagrant_dir, 'sites-custom.yml')) == false then
@@ -161,17 +192,17 @@ Vagrant.configure('2') do |config|
 
   # Triggers
   # These are run when vagrant is brought up, down, and destroyed
-  config.trigger.after :up do |trigger|
-    trigger.name = '~~~ Vagrant provisioning ~~~'
-    trigger.run_remote = { inline: 'bash /srv/config/triggers/db_restore' }
-    trigger.on_error = :continue
-  end
+  # config.trigger.after :up do |trigger|
+  #   trigger.name = '~~~ Vagrant provisioning ~~~'
+  #   trigger.run_remote = { inline: 'bash /srv/config/triggers/db_restore' }
+  #   trigger.on_error = :continue
+  # end
 
-  config.trigger.after :provision do |trigger|
-    trigger.name = '~~~ Vagrant provisioning ~~~'
-    trigger.run_remote = { inline: 'bash /srv/config/triggers/db_update' }
-    trigger.on_error = :continue
-  end
+  # config.trigger.after :provision do |trigger|
+  #   trigger.name = '~~~ Vagrant provisioning ~~~'
+  #   trigger.run_remote = { inline: 'bash /srv/config/triggers/db_update' }
+  #   trigger.on_error = :continue
+  # end
 
   config.trigger.before :destroy do |trigger|
     trigger.name = '~~~ Vagrant halt ~~~'

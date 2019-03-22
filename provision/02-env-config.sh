@@ -6,29 +6,42 @@ cleanup_terminal_splash() {
   if [[ -f /etc/update-motd.d/00-header ]]; then
     rm /etc/update-motd.d/00-header
   fi
+  
   if [[ -f /etc/update-motd.d/10-help-text ]]; then
     rm /etc/update-motd.d/10-help-text
   fi
+  
   if [[ -f /etc/update-motd.d/51-cloudguest ]]; then
     rm /etc/update-motd.d/51-cloudguest
   fi
+  
   if [[ -f /etc/update-motd.d/50-landscape-sysinfo ]]; then
     rm /etc/update-motd.d/50-landscape-sysinfo
   fi
+  
   if [[ -f /etc/update-motd.d/90-updates-available ]]; then
     rm /etc/update-motd.d/90-updates-available
   fi
+  
   if [[ -f /etc/update-motd.d/91-release-upgrade ]]; then
     rm /etc/update-motd.d/91-release-upgrade
   fi
+  
   if [[ -f /etc/update-motd.d/95-hwe-eol ]]; then
     rm /etc/update-motd.d/95-hwe-eol
   fi
+  
   if [[ -f /etc/update-motd.d/98-cloudguest ]]; then
     rm /etc/update-motd.d/98-cloudguest
   fi
-  cp "/srv/config/update-motd.d/00-bash-splash" "/etc/update-motd.d/00-bash-splash"
-  chmod +x /etc/update-motd.d/00-bash-splash
+  
+  if [[ -f /vagrant/splash-custom ]]; then
+    cp "/vagrant/splash-custom" "/etc/update-motd.d/00-bash-splash"
+    chmod +x /etc/update-motd.d/00-bash-splash
+  else
+    cp "/srv/config/update-motd.d/00-bash-splash" "/etc/update-motd.d/00-bash-splash"
+    chmod +x /etc/update-motd.d/00-bash-splash
+  fi
 }
 
 
