@@ -21,11 +21,10 @@ apt_package_check_list=(
   # Our base packages for php7.2. As long as php7.2-fpm and php7.2-cli are
   # installed, there is no need to install the general php7.2 package, which
   # can sometimes install apache as a requirement.
+  php7.2
+  php7.2-common
   php7.2-fpm
   php7.2-cli
-
-  # Common and dev packages for php
-  php7.2-common
   php7.2-dev
 
   # Extra PHP modules that we find useful
@@ -48,8 +47,7 @@ apt_package_check_list=(
 
   #apache2
   apache2
-  libapache2-mod-php
-
+  libapache2-mod-php7.2
   # mysql is the default database
   mysql-server
 

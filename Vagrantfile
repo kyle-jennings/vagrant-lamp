@@ -37,20 +37,24 @@ Vagrant.configure('2') do |config|
 
 
     splash = <<-HEREDOC
-#{red}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄· #{reset}
-#{red} ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█ #{reset}
-#{red} ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█ #{reset}
-#{red}  ███  ███  ███ ▐█ ▪▐▌#{reset}
-#{red} . ▀  . ▀  . ▀   ▀  ▀ #{reset}
-#{red}       Ubuntu         #{reset}
+#{red}                       #{reset}
+#{red}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄·  #{reset}
+#{red} ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█  #{reset}
+#{red} ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█  #{reset}
+#{red}  ███  ███  ███ ▐█ ▪▐▌ #{reset}
+#{red} . ▀  . ▀  . ▀   ▀  ▀  #{reset}
+#{red}       Ubuntu          #{reset}
+#{red}                       #{reset}
     HEREDOC
 
 
     puts splash
   end
 
-  config.disksize.size = '30GB'
-
+  if defined? VagrantPlugins::disksize
+    config.disksize.size = '30GB'
+  end
+  
   # Private Network (default)
   #
   # A private network is created by default. This is the IP address through which your
@@ -204,11 +208,11 @@ Vagrant.configure('2') do |config|
   #   trigger.on_error = :continue
   # end
 
-  config.trigger.before :destroy do |trigger|
-    trigger.name = '~~~ Vagrant halt ~~~'
-    trigger.run_remote = { inline: 'bash /srv/config/triggers/db_backups' }
-    trigger.on_error = :continue
-  end
+  # config.trigger.before :destroy do |trigger|
+  #   trigger.name = '~~~ Vagrant halt ~~~'
+  #   trigger.run_remote = { inline: 'bash /srv/config/triggers/db_backups' }
+  #   trigger.on_error = :continue
+  # end
 
 
 end
