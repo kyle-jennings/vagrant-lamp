@@ -167,7 +167,9 @@ function site_button($url)
  */
 function wp_admin_button($args)
 {
-    $root = '/srv/www' . DIRECTORY_SEPARATOR . $args['directory'] . DIRECTORY_SEPARATOR . $args['site_root'];
+    $site_root = isset($args['site_root']) ? $args['site_root'] : null;
+    $directory = isset($args['directory']) ? $args['directory'] :null;
+    $root = '/srv/www' . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR . $site_root;
     if (is_readable($root  . DIRECTORY_SEPARATOR . 'wp-config.php')) {
         $url = reset($args['hosts']) . '/wp-admin';
         return get_button_html($url, 'Login', 'info', 'sign-in-alt');
@@ -237,11 +239,11 @@ function site_card($args = [])
  * @param  string $type Display site list as cards or media objects.
  * @return void
  */
-function the_custom_sites($type = 'null')
+function the_custom_sites($type = null)
 {
     $sites = get_custom_sites();
 
-    echo $type == 'media' ? '<ul class="list-unstyled">'
+    echo $type === 'media' ? '<ul class="list-unstyled">'
         : '<div class="card-deck">';
     foreach ($sites as $name => $settings) {
         // if the host url is not set move along
@@ -251,11 +253,11 @@ function the_custom_sites($type = 'null')
 
         $args = [
             'name' => $name,
-            'site_btn' => site_button($settings['url']),
+            'site_btn' => isset($settings['url']) ? site_button($settings['url']) : null,
             'wp_admin_btn' => wp_admin_button($settings),
             'img_url' => get_site_image($settings),
             'url' => reset($settings['hosts']),
-            'description' => $settings['description'] ? $settings['description'] : null,
+            'description' => isset($settings['description']) ? $settings['description'] : null,
         ];
 
         if ($type == 'media') {

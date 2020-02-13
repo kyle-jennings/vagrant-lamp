@@ -220,7 +220,7 @@ ack_grep_install() {
 
 composer_install() {
   
-  sh /vagrant/config/homebin/xdebug_off
+  sh /vagrant/config/scripts/xdebug_off
   
   # COMPOSER
   #

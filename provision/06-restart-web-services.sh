@@ -29,6 +29,7 @@ service_restart() {
 restart_web_services() {
   phpdismod xdebug
   service php7.2-fpm restart
+  service apache2 reload
   service apache2 restart
   service memcached restart
   service mailhog restart

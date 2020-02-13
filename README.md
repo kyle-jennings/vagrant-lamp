@@ -168,7 +168,6 @@ $ vagrant halt
 $ vagrant destroy
 ```
 
-
 ### Whats installed?
 * PHP 7.2
 * PHP FPM
@@ -183,6 +182,7 @@ $ vagrant destroy
 * mySQL
 * aws cli
 * wp cli
+* xdebug
 
 Soon:
 * nodeJS
@@ -190,3 +190,25 @@ Soon:
 * gulp
 * Vue tools
 * React tools
+
+### Debuging
+
+xdebug is installed and configured to broadcast its logging to be digesting by things like VScode.
+
+##### enabling and disabling xdebug
+SSH into the VM and enable and issue the following commands to turn xdebug on or off:
+```
+$ sudo xdebug_on
+$ sudo xdebug_off
+```
+
+##### Integrate with VSCode
+install the "php_debug" package, and reload VSCode.  A debug launch file has 
+been added to this repo so things so work out of the box.
+
+##### Stress testing
+you can use Apache Benchmark to simulate traffic, and thus induce errors and warnings:
+
+```
+$ ab -c 10 -t 10 -k https://www.epi.org
+```

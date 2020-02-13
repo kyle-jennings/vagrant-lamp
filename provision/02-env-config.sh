@@ -63,7 +63,7 @@ profile_setup() {
 
 
 usr_bin_scripts() {
-    cp "/srv/scripts/*" "/usr/bin/"
+  cp "/srv/config/scripts/*" "/usr/bin/"
 }
 
 allow_ssh_passwd() {
@@ -77,3 +77,4 @@ echo '------------------------------------------------'
 cleanup_terminal_splash
 profile_setup
 allow_ssh_passwd
+usr_bin_scripts

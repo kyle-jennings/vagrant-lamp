@@ -61,6 +61,9 @@ Vagrant.configure('2') do |config|
   # host machine will communicate to the guest.
   config.vm.network :private_network, id: 'vagrant_prime', ip: '192.168.10.175'
 
+  ## forward the mysql port to the localhost
+  config.vm.network "forwarded_port", guest: 3306, host: 3306
+  
   config.vm.provider :hyperv do |v, override|
     override.vm.network :private_network, id: 'vagrant_prime', ip: nil
   end
