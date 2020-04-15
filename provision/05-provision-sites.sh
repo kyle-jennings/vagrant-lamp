@@ -32,6 +32,8 @@ get_projects() {
         sed "s#{{URL}}#$url#g" $template > $vhost
         sed -i "s#{{DIRNAME}}#${directory}/${root}#g" $vhost
 
+        sed -i "s/{{SITENAME}}/${safename}/g" $vhost
+
         if [ ! -z "$aliases" ]; then
             sed -i "s/{{ALIASES}}/${aliases}/g" $vhost
             sed -i "s/#ServerAlias/ServerAlias/g" $vhost
@@ -44,6 +46,7 @@ get_projects() {
         fi
 
         if [ ! -z "$env" ]; then
+            echo "we have some envs $sitename"
             sed -i "s/#{{ENV}}/{{ENV}}/g" $vhost
             sed -i "s/{{ENV}}/${env}/g" $vhost
         else
@@ -53,7 +56,7 @@ get_projects() {
 }
 
 get_env() {
-    echo $(cat ${config} | shyaml --quiet key-values-0 sites.${1}.env |
+    echo $(cat ${config} | shyaml key-values-0 sites.${1}.env |
         while readLine name val; do
             echo "SetEnv $name $val \n\t";
         done
@@ -83,13 +86,14 @@ get_root() {
 
 # checks each project directory for an init script and runs it if found
 project_custom_tasks(){
-    for SITE_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name 'init.sh'); do
+    for SITE_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name 'vagrant-init.sh'); do
       # Look for site setup scripts
       DIR="$(dirname "$SITE_CONFIG_FILE")"
       
-      echo "cd $DIR"
+      echo "cd $DIR and running script as $(whoami)"
+      echo 
       cd "$DIR"
-      ./init.sh
+      ./vagrant-init.sh
     done
 }
 

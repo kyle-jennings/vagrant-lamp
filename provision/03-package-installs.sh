@@ -34,6 +34,7 @@ apt_package_check_list=(
   php-memcached
   php-ssh2
   php-xdebug
+  php-redis
   php7.2-bcmath
   php7.2-curl
   php7.2-gd
@@ -51,8 +52,10 @@ apt_package_check_list=(
   # mysql is the default database
   mysql-server
 
-  # memcached is made available for object caching
+  # caching things
   memcached
+  redis-server
+  varnish
 
   # other packages that come in handy
   imagemagick
@@ -179,8 +182,6 @@ package_install() {
 }
 
 npm_installs(){
-
-  ln -s /usr/bin/nodejs /usr/bin/node
   if [ ! -d ~/.npm ]; then
     mkdir ~/.npm
   fi
@@ -190,18 +191,22 @@ npm_installs(){
     mkdir /usr/local/lib/node_modules
   fi
 
-  cd /usr/local/lib/node_modules curl -L https://www.npmjs.com/install.sh | sh
+  # cd /usr/local/lib/node_modules curl -L https://www.npmjs.com/install.sh | sh
   sudo chown -R $(whoami) /usr/local/lib/node_modules
 
   npm config set strict-ssl false
   # Make sure we have the latest npm version and the update checker module
+  echo "installing npm"
   npm install -g npm
   npm install -g npm-check-updates
 
   # Make sure we have the latest npm version and the update checker module
+  echo "installing gulp-cli"
   npm install -g gulp-cli
-  npm install -g grunt-cli
-  npm install -g bower
+  echo "installing grunt"
+  npm install -g grunt
+  echo "installing webpack"
+  npm install -g webpack
 }
 
 
@@ -225,11 +230,15 @@ composer_install() {
   # COMPOSER
   #
   # Install Composer if it is not yet available.
-  if [[ ! -n "$(composer --version --no-ansi | grep 'Composer version')" ]]; then
+  composer -v > /dev/null 2>&1
+  COMPOSER=$?
+  if [[ $COMPOSER -ne 0 ]]; then
     echo "Installing Composer..."
     curl -sS "https://getcomposer.org/installer" | php
     chmod +x "composer.phar"
     mv "composer.phar" "/usr/local/bin/composer"
+  else
+    echo "Compoer is installed"
   fi
 
   if [[ -f /vagrant/provision/github.token ]]; then
@@ -258,28 +267,27 @@ sass_install() {
   sudo gem install sass -v 3.4.25
 }
 
-
 shyaml_install() {
 
   echo "Installing Shyaml for bash provisioning.."
-  sudo pip -q install shyaml
-
+  if [[ ! -f /usr/local/bin/shyaml ]]; then
+    sudo pip -q install shyaml
+  else
+    echo "shyaml is already installed"
+  fi
 }
 
 
 # Installs the AWS cli
 aws_cli() {
-  if [[ ! -d /home/vagrant/.local/bin/pip ]]; then
-    curl -O https://bootstrap.pypa.io/get-pip.py
-    python get-pip.py --user
-    export PATH=~/.local/bin:$PATH
-    source /home/vagrant/.bash_profile
-  fi
 
-  if [[ ! -d /home/vagrant/.local/bin/aws ]]; then
-    pip install awscli --upgrade --user
+  if [[ ! -f /usr/local/bin/aws ]]; then
+    echo "Installing AWS CLI..."
+    sudo pip install -q awscli --upgrade
     export PATH=~/.local/bin:$PATH
     source /home/vagrant/.bash_profile
+  else
+    echo "AWS CLI is already installed"
   fi
 }
 
@@ -306,9 +314,14 @@ php_codesniff() {
   chmod 777 /usr/local/bin/phpcs
 
   # Install WP standards
-  git clone -b master https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git /home/vagrant/.codestandards/wpcs
-  phpcs --config-set installed_paths /home/vagrant/.codestandards/wpcs
-  phpcs -i
+  if [[ ! -d "/home/vagrant/.codestandards/wpcs" ]]; then
+    echo "installing WP code standards"
+    git clone -b master https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git /home/vagrant/.codestandards/wpcs
+    phpcs --config-set installed_paths /home/vagrant/.codestandards/wpcs
+    phpcs -i
+  else
+    echo "WP code standards are already installed"
+  fi
 }
 
 # Webgrind install (for viewing callgrind/cachegrind files produced by
@@ -324,13 +337,28 @@ webgrind_install() {
   fi
 }
 
+redis_config() {
+
+  if [[ ! -d "/srv/www/default/redis" ]]; then
+    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/erikdubbelboer/phpRedisAdmin"
+    cd /srv/www/default
+    wget -q -O php-redis-admin.zip "https://github.com/erikdubbelboer/phpRedisAdmin/archive/master.zip"
+    unzip php-redis-admin.zip
+    mv php-redis-admin* redis-admin
+    rm php-redis-admin.zip
+  else 
+    echo "phpRedisAdmin is already installed."
+  fi
+  systemctl enable redis-server.service
+}
+
 # Download and extract phpMemcachedAdmin to provide a dashboard view and
 # admin interface to the goings on of memcached when running
 memcached_admin_install() {
   if [[ ! -d "/srv/www/default/memcached" ]]; then
     echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/phpmemcacheadmin"
     cd /srv/www/default
-    wget -q -O phpmemcachedadmin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
+    wget -q -O php-memcached-admin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
     tar -xf phpmemcachedadmin.tar.gz
     mv phpmemcacheadmin* memcached
     rm phpmemcachedadmin.tar.gz
@@ -410,11 +438,22 @@ mailhog_install() {
   systemctl start mailhog
 }
 
-
 usr_bin_chown() {
   chown -R vagrant:www-data /usr/local/bin
 }
 
+varnish_config() {
+  if [[ -d "/etc/default" ]]; then
+    cp -f "/srv/config/varnish/varnish" "/etc/default/" 2>/dev/null
+  fi
+  if [[ -d "/etc/varnish" ]]; then
+    cp -f  "/srv/config/varnish/default.vcl" "/etc/varnish" 2>/dev/null
+  fi
+  
+  cp -f "/srv/config/varnish/varnish.service" "/lib/systemd/system/" 2>/dev/null
+  systemctl daemon-reload
+  systemctl restart varnish
+}
 
 echo '-------------------------'
 echo "Installing all the things"
@@ -432,6 +471,7 @@ mailhog_install
 phpmyadmin_setup
 memcached_admin_install
 opcache_admin_install
+varnish_config
 webgrind_install
 php_codesniff
 npm_installs

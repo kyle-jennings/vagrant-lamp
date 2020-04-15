@@ -34,6 +34,7 @@ restart_web_services() {
   service memcached restart
   service mailhog restart
   service mysql restart
+  service varnish start
 }
 
 restart_web_services

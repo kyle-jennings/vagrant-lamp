@@ -47,9 +47,9 @@ cleanup_terminal_splash() {
 
 profile_setup() {
   # Copy custom dotfiles and bin file for the vagrant user from local
-  cp "/srv/config/shell-profiles/bash_profile" "/home/vagrant/.bash_profile"
-  cp "/srv/config/shell-profiles/bash_aliases" "/home/vagrant/.bash_aliases"
-  cp "/srv/config/shell-profiles/vimrc" "/home/vagrant/.vimrc"
+  cp "/srv/config/shell-profiles/vagrant/bash_profile" "/home/vagrant/.bash_profile"
+  cp "/srv/config/shell-profiles/vagrant/bash_aliases" "/home/vagrant/.bash_aliases"
+  cp "/srv/config/shell-profiles/vagrant/vimrc" "/home/vagrant/.vimrc"
 
   if [[ ! -d "/home/vagrant/bin" ]]; then
     mkdir "/home/vagrant/bin"
@@ -63,11 +63,13 @@ profile_setup() {
 
 
 usr_bin_scripts() {
-  cp "/srv/config/scripts/*" "/usr/bin/"
+  echo "Copying xdebug quick scripts to system"
+  cp -f /srv/config/scripts/* /usr/bin/ 2>/dev/null
 }
 
 allow_ssh_passwd() {
-  sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+  echo "changing SSH password auth settings"
+  # sed -i "s/PasswordAuthentication\ no/PasswordAuthentication\ yes/g" /etc/ssh/sshd_config
   service ssh reload
 }
 
