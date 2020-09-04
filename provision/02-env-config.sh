@@ -63,7 +63,7 @@ profile_setup() {
 
 
 usr_bin_scripts() {
-  cp "/srv/config/scripts/*" "/usr/bin/"
+  cp /srv/config/scripts/* /usr/bin/
 }
 
 allow_ssh_passwd() {
