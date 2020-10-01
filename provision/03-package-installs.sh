@@ -18,14 +18,14 @@ apt_package_check_list=(
   software-properties-common
   # PHP7
   #
-  # Our base packages for php7.2. As long as php7.2-fpm and php7.2-cli are
-  # installed, there is no need to install the general php7.2 package, which
+  # Our base packages for php7.3. As long as php7.3-fpm and php7.3-cli are
+  # installed, there is no need to install the general php7.3 package, which
   # can sometimes install apache as a requirement.
-  php7.2
-  php7.2-common
-  php7.2-fpm
-  php7.2-cli
-  php7.2-dev
+  php7.3
+  php7.3-common
+  php7.3-fpm
+  php7.3-cli
+  php7.3-dev
 
   # Extra PHP modules that we find useful
   php-pear
@@ -35,20 +35,20 @@ apt_package_check_list=(
   php-ssh2
   php-xdebug
   php-redis
-  php7.2-bcmath
-  php7.2-curl
-  php7.2-gd
-  php7.2-mbstring
-  php7.2-mysql
-  php7.2-imap
-  php7.2-json
-  php7.2-soap
-  php7.2-xml
-  php7.2-zip
+  php7.3-bcmath
+  php7.3-curl
+  php7.3-gd
+  php7.3-mbstring
+  php7.3-mysql
+  php7.3-imap
+  php7.3-json
+  php7.3-soap
+  php7.3-xml
+  php7.3-zip
 
   #apache2
   apache2
-  libapache2-mod-php7.2
+  libapache2-mod-php7.3
   # mysql is the default database
   mysql-server
 
@@ -262,6 +262,16 @@ sass_install() {
 }
 
 shyaml_install() {
+  if [[ ! -f /usr/local/bin/shyaml ]]; then
+    sudo pip -q install shyaml
+  else
+    echo "shyaml is already installed"
+  fi
+}
+
+
+# Installs the AWS cli
+aws_cli() {
   if [[ ! -f /usr/local/bin/aws ]]; then
     echo "Installing AWS CLI..."
     sudo pip install -q awscli --upgrade
@@ -269,23 +279,6 @@ shyaml_install() {
     source /home/vagrant/.bash_profile
   else
     echo "AWS CLI is already installed"
-  fi
-}
-
-
-# Installs the AWS cli
-aws_cli() {
-  if [[ ! -d /home/vagrant/.local/bin/pip ]]; then
-    curl -O https://bootstrap.pypa.io/get-pip.py
-    python get-pip.py --user
-    export PATH=~/.local/bin:$PATH
-    source /home/vagrant/.bash_profile
-  fi
-
-  if [[ ! -d /home/vagrant/.local/bin/aws ]]; then
-    pip install awscli --upgrade --user
-    export PATH=~/.local/bin:$PATH
-    source /home/vagrant/.bash_profile
   fi
 }
 
