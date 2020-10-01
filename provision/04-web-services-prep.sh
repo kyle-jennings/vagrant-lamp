@@ -110,7 +110,11 @@ build_dashboard_css() {
   gulp build
 }
 
-
+mysql_config() {
+  sed -i.bak 's/bind-address/#bind-address/' /etc/mysql/mysql.conf.d/mysqld.cnf
+  mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;"
+  mysql -u root -proot -e "FLUSH PRIVILEGES;"
+}
 
 echo '-------------------------------'
 echo "Installing your custom sites"
@@ -121,8 +125,9 @@ clear_certs
 create_ssl_certs
 
 echo '-------------------------------'
-echo "Restarting some services"
+echo 'configuring services'
 echo '-------------------------------'
+mysql_config
 phpfpm_config
 memcached_config
 apache_config
