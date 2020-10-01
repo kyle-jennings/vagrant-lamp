@@ -49,7 +49,6 @@ create_ssl_certs(){
 phpfpm_config() {
   cp /srv/config/phpfpm/php-fpm.conf               /etc/php/7.2/apache2/php-fpm.conf
   cp /srv/config/phpfpm/mailhog.ini                /etc/php/7.2/mods-available/mailhog.ini
-  cp /srv/config/phpfpm/pool.d/www.conf            /etc/php/7.2/apache2/pool.d/www.conf
   cp /srv/config/phpfpm/conf.d/opcache.ini         /etc/php/7.2/apache2/conf.d/opcache.ini
   cp /srv/config/phpfpm/conf.d/php-custom.ini      /etc/php/7.2/apache2/conf.d/php-custom.ini
   cp /srv/config/phpfpm/mods-available/xdebug.ini  /etc/php/7.2/mods-available/xdebug.ini
@@ -67,6 +66,7 @@ memcached_config() {
 }
 
 apache_config() {
+  #cp /srv/config/apache/ports/conf /etc/apache2/
   cp /srv/config/apache/mpm.conf /etc/apache2/conf-enabled/
   cp /srv/config/apache/php7.2-fpm.conf /etc/apache2/conf-enabled/
 
