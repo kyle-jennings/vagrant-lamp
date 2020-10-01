@@ -64,12 +64,12 @@ profile_setup() {
 
 usr_bin_scripts() {
   echo "Copying xdebug quick scripts to system"
-  cp -f /srv/config/scripts/* /usr/bin/ 2>/dev/null
+  cp /srv/config/scripts/* /usr/bin/ 2>/dev/null
 }
 
 allow_ssh_passwd() {
   echo "changing SSH password auth settings"
-  # sed -i "s/PasswordAuthentication\ no/PasswordAuthentication\ yes/g" /etc/ssh/sshd_config
+  #sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
   service ssh reload
 }
 

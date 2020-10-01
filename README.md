@@ -169,7 +169,7 @@ $ vagrant destroy
 ```
 
 ### Whats installed?
-* PHP 7.2
+* PHP 7.3
 * PHP FPM
 * Apache 2.4
 * Ruby

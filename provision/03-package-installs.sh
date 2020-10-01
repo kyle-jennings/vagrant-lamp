@@ -18,14 +18,14 @@ apt_package_check_list=(
   software-properties-common
   # PHP7
   #
-  # Our base packages for php7.2. As long as php7.2-fpm and php7.2-cli are
-  # installed, there is no need to install the general php7.2 package, which
+  # Our base packages for php7.3. As long as php7.3-fpm and php7.3-cli are
+  # installed, there is no need to install the general php7.3 package, which
   # can sometimes install apache as a requirement.
-  php7.2
-  php7.2-common
-  php7.2-fpm
-  php7.2-cli
-  php7.2-dev
+  php7.3
+  php7.3-common
+  php7.3-fpm
+  php7.3-cli
+  php7.3-dev
 
   # Extra PHP modules that we find useful
   php-pear
@@ -35,20 +35,20 @@ apt_package_check_list=(
   php-ssh2
   php-xdebug
   php-redis
-  php7.2-bcmath
-  php7.2-curl
-  php7.2-gd
-  php7.2-mbstring
-  php7.2-mysql
-  php7.2-imap
-  php7.2-json
-  php7.2-soap
-  php7.2-xml
-  php7.2-zip
+  php7.3-bcmath
+  php7.3-curl
+  php7.3-gd
+  php7.3-mbstring
+  php7.3-mysql
+  php7.3-imap
+  php7.3-json
+  php7.3-soap
+  php7.3-xml
+  php7.3-zip
 
   #apache2
   apache2
-  libapache2-mod-php7.2
+  libapache2-mod-php7.3
   # mysql is the default database
   mysql-server
 
@@ -182,6 +182,7 @@ package_install() {
 }
 
 npm_installs(){
+  #ln -s /usr/bin/nodejs /usr/bin/node
   if [ ! -d ~/.npm ]; then
     mkdir ~/.npm
   fi
@@ -191,7 +192,7 @@ npm_installs(){
     mkdir /usr/local/lib/node_modules
   fi
 
-  # cd /usr/local/lib/node_modules curl -L https://www.npmjs.com/install.sh | sh
+  #cd /usr/local/lib/node_modules curl -L https://www.npmjs.com/install.sh | sh
   sudo chown -R $(whoami) /usr/local/lib/node_modules
 
   npm config set strict-ssl false
@@ -200,11 +201,8 @@ npm_installs(){
   npm install -g npm
   npm install -g npm-check-updates
 
-  # Make sure we have the latest npm version and the update checker module
   echo "installing gulp-cli"
   npm install -g gulp-cli
-  echo "installing grunt"
-  npm install -g grunt
   echo "installing webpack"
   npm install -g webpack
 }
@@ -226,10 +224,7 @@ ack_grep_install() {
 composer_install() {
   
   sh /vagrant/config/scripts/xdebug_off
-  
-  # COMPOSER
-  #
-  # Install Composer if it is not yet available.
+  # Install Composer if it is not already installed.
   composer -v > /dev/null 2>&1
   COMPOSER=$?
   if [[ $COMPOSER -ne 0 ]]; then
@@ -238,7 +233,7 @@ composer_install() {
     chmod +x "composer.phar"
     mv "composer.phar" "/usr/local/bin/composer"
   else
-    echo "Compoer is installed"
+    echo "Composer is installed"
   fi
 
   if [[ -f /vagrant/provision/github.token ]]; then
@@ -262,14 +257,11 @@ composer_install() {
 
 }
 
-
 sass_install() {
   sudo gem install sass -v 3.4.25
 }
 
 shyaml_install() {
-
-  echo "Installing Shyaml for bash provisioning.."
   if [[ ! -f /usr/local/bin/shyaml ]]; then
     sudo pip -q install shyaml
   else
@@ -280,7 +272,6 @@ shyaml_install() {
 
 # Installs the AWS cli
 aws_cli() {
-
   if [[ ! -f /usr/local/bin/aws ]]; then
     echo "Installing AWS CLI..."
     sudo pip install -q awscli --upgrade
@@ -365,6 +356,19 @@ memcached_admin_install() {
   else
     echo "phpMemcachedAdmin already installed."
   fi
+}
+
+varnish_config() {
+  if [[ -d "/etc/default" ]]; then
+    cp -f "/srv/config/varnish/varnish" "/etc/default/" 2>/dev/null
+  fi
+  if [[ -d "/etc/varnish" ]]; then
+    cp -f  "/srv/config/varnish/default.vcl" "/etc/varnish" 2>/dev/null
+  fi
+
+  cp -f "/srv/config/varnish/varnish.service" "/lib/systemd/system/" 2>/dev/null
+  systemctl daemon-reload
+  systemctl restart varnish
 }
 
 # Checkout Opcache Status to provide a dashboard for viewing statistics
@@ -469,9 +473,9 @@ aws_cli
 go_install
 mailhog_install
 phpmyadmin_setup
-memcached_admin_install
+#memcached_admin_install
 opcache_admin_install
-varnish_config
+#varnish_config
 webgrind_install
 php_codesniff
 npm_installs

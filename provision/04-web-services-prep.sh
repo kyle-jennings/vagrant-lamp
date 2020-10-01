@@ -47,16 +47,15 @@ create_ssl_certs(){
 
 
 phpfpm_config() {
-  cp /srv/config/phpfpm/php-fpm.conf               /etc/php/7.2/apache2/php-fpm.conf
-  cp /srv/config/phpfpm/mailhog.ini                /etc/php/7.2/mods-available/mailhog.ini
-  cp /srv/config/phpfpm/conf.d/www.conf            /etc/php/7.2/apache2/conf.d/www.conf
-  cp /srv/config/phpfpm/conf.d/opcache.ini         /etc/php/7.2/apache2/conf.d/opcache.ini
-  cp /srv/config/phpfpm/conf.d/php-custom.ini      /etc/php/7.2/apache2/conf.d/php-custom.ini
-  cp /srv/config/phpfpm/mods-available/xdebug.ini  /etc/php/7.2/mods-available/xdebug.ini
+  cp /srv/config/phpfpm/php-fpm.conf               /etc/php/7.3/apache2/php-fpm.conf
+  cp /srv/config/phpfpm/mailhog.ini                /etc/php/7.3/mods-available/mailhog.ini
+  cp /srv/config/phpfpm/conf.d/opcache.ini         /etc/php/7.3/apache2/conf.d/opcache.ini
+  cp /srv/config/phpfpm/conf.d/php-custom.ini      /etc/php/7.3/apache2/conf.d/php-custom.ini
+  cp /srv/config/phpfpm/mods-available/xdebug.ini  /etc/php/7.3/mods-available/xdebug.ini
 
-  if [[ -f "/etc/php/7.2/mods-available/mailcatcher.ini" ]]; then
+  if [[ -f "/etc/php/7.3/mods-available/mailcatcher.ini" ]]; then
     echo " * Cleaning up mailcatcher.ini from a previous install"
-    rm -f /etc/php/7.2/mods-available/mailcatcher.ini
+    rm -f /etc/php/7.3/mods-available/mailcatcher.ini
   fi
 }
 
@@ -67,9 +66,9 @@ memcached_config() {
 }
 
 apache_config() {
-  cp /srv/config/apache/ports.conf /etc/apache2/
+  #cp /srv/config/apache/ports/conf /etc/apache2/
   cp /srv/config/apache/mpm.conf /etc/apache2/conf-enabled/
-  cp /srv/config/apache/php7.2-fpm.conf /etc/apache2/conf-enabled/
+  cp /srv/config/apache/php7.3-fpm.conf /etc/apache2/conf-enabled/
 
   sed -i.bak '/ServerName/d' /etc/apache2/apache2.conf
   sed -i.bak '/#ServerName/d' /etc/apache2/apache2.conf

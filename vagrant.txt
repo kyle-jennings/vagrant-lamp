@@ -1,0 +1,2662 @@
+ INFO global: Vagrant version: 2.2.2
+ INFO global: Ruby version: 2.4.4
+ INFO global: RubyGems version: 2.6.14.1
+ INFO global: VAGRANT_INSTALLER_ENV="1"
+ INFO global: VAGRANT_EXECUTABLE="/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/bin/vagrant"
+ INFO global: VAGRANT_INSTALLER_VERSION="2"
+ INFO global: VAGRANT_INSTALLER_EMBEDDED_DIR="/opt/vagrant/embedded"
+ INFO global: VAGRANT_LOG="debug"
+ WARN global: resolv replacement has not been enabled!
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/synced_folders/nfs/plugin.rb
+ INFO manager: Registered plugin: NFS synced folders
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/synced_folders/rsync/plugin.rb
+ INFO manager: Registered plugin: RSync synced folders
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/synced_folders/smb/plugin.rb
+ INFO manager: Registered plugin: SMB synced folders
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/kernel_v2/plugin.rb
+ INFO manager: Registered plugin: kernel
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/pushes/ftp/plugin.rb
+ INFO manager: Registered plugin: ftp
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/pushes/noop/plugin.rb
+ INFO manager: Registered plugin: noop
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/pushes/heroku/plugin.rb
+ INFO manager: Registered plugin: heroku
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/pushes/local-exec/plugin.rb
+ INFO manager: Registered plugin: local-exec
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/pushes/atlas/plugin.rb
+ INFO manager: Registered plugin: atlas
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/docker/plugin.rb
+ INFO manager: Registered plugin: docker-provider
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/hyperv/plugin.rb
+ INFO manager: Registered plugin: Hyper-V provider
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/plugin.rb
+ INFO manager: Registered plugin: VirtualBox provider
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/kernel_v1/plugin.rb
+ INFO manager: Registered plugin: kernel
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/provisioners/docker/plugin.rb
+ INFO manager: Registered plugin: docker
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/provisioners/file/plugin.rb
+ INFO manager: Registered plugin: file
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/provisioners/shell/plugin.rb
+ INFO manager: Registered plugin: shell
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/provisioners/chef/plugin.rb
+ INFO manager: Registered plugin: chef
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/provisioners/ansible/plugin.rb
+ INFO manager: Registered plugin: ansible
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/provisioners/salt/plugin.rb
+ INFO manager: Registered plugin: salt
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/provisioners/cfengine/plugin.rb
+ INFO manager: Registered plugin: CFEngine Provisioner
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/provisioners/puppet/plugin.rb
+ INFO manager: Registered plugin: puppet
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/provision/plugin.rb
+ INFO manager: Registered plugin: provision command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/destroy/plugin.rb
+ INFO manager: Registered plugin: destroy command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/init/plugin.rb
+ INFO manager: Registered plugin: init command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/snapshot/plugin.rb
+ INFO manager: Registered plugin: snapshot command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/validate/plugin.rb
+ INFO manager: Registered plugin: validate command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/box/plugin.rb
+ INFO manager: Registered plugin: box command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/winrm/plugin.rb
+ INFO manager: Registered plugin: winrm command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/resume/plugin.rb
+ INFO manager: Registered plugin: resume command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/suspend/plugin.rb
+ INFO manager: Registered plugin: suspend command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/plugin/plugin.rb
+ INFO manager: Registered plugin: plugin command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/halt/plugin.rb
+ INFO manager: Registered plugin: halt command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/provider/plugin.rb
+ INFO manager: Registered plugin: provider command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/rdp/plugin.rb
+ INFO manager: Registered plugin: rdp command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/status/plugin.rb
+ INFO manager: Registered plugin: status command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/ssh_config/plugin.rb
+ INFO manager: Registered plugin: ssh-config command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/winrm_config/plugin.rb
+ INFO manager: Registered plugin: winrm-config command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/reload/plugin.rb
+ INFO manager: Registered plugin: reload command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/powershell/plugin.rb
+ INFO manager: Registered plugin: powershell command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/cap/plugin.rb
+ INFO manager: Registered plugin: cap command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/push/plugin.rb
+ INFO manager: Registered plugin: push command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/list-commands/plugin.rb
+ INFO manager: Registered plugin: list-commands command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/ssh/plugin.rb
+ INFO manager: Registered plugin: ssh command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/version/plugin.rb
+ INFO manager: Registered plugin: version command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/up/plugin.rb
+ INFO manager: Registered plugin: up command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/cloud/plugin.rb
+ INFO manager: Registered plugin: vagrant-cloud
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/global-status/plugin.rb
+ INFO manager: Registered plugin: global-status command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/port/plugin.rb
+ INFO manager: Registered plugin: port command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/login/plugin.rb
+ INFO manager: Registered plugin: vagrant-login
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/package/plugin.rb
+ INFO manager: Registered plugin: package command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/help/plugin.rb
+ INFO manager: Registered plugin: help command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/upload/plugin.rb
+ INFO manager: Registered plugin: upload command
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/slackware/plugin.rb
+ INFO manager: Registered plugin: Slackware host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/bsd/plugin.rb
+ INFO manager: Registered plugin: BSD host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/freebsd/plugin.rb
+ INFO manager: Registered plugin: FreeBSD host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/null/plugin.rb
+ INFO manager: Registered plugin: null host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/linux/plugin.rb
+ INFO manager: Registered plugin: Linux host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/arch/plugin.rb
+ INFO manager: Registered plugin: Arch host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/darwin/plugin.rb
+ INFO manager: Registered plugin: Mac OS X host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/windows/plugin.rb
+ INFO manager: Registered plugin: Windows host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/redhat/plugin.rb
+ INFO manager: Registered plugin: Red Hat Enterprise Linux host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/gentoo/plugin.rb
+ INFO manager: Registered plugin: Gentoo host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/suse/plugin.rb
+ INFO manager: Registered plugin: SUSE host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/hosts/alt/plugin.rb
+ INFO manager: Registered plugin: ALT Platform host
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/winrm/plugin.rb
+ INFO manager: Registered plugin: winrm communicator
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/winssh/plugin.rb
+ INFO manager: Registered plugin: windows ssh communicator
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/ssh/plugin.rb
+ INFO manager: Registered plugin: ssh communicator
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/solaris11/plugin.rb
+ INFO manager: Registered plugin: Solaris 11 guest.
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/dragonflybsd/plugin.rb
+ INFO manager: Registered plugin: DragonFly BSD guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/pld/plugin.rb
+ INFO manager: Registered plugin: PLD Linux guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/amazon/plugin.rb
+ INFO manager: Registered plugin: Amazon Linux guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/mint/plugin.rb
+ INFO manager: Registered plugin: Mint guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/debian/plugin.rb
+ INFO manager: Registered plugin: Debian guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/slackware/plugin.rb
+ INFO manager: Registered plugin: Slackware guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/esxi/plugin.rb
+ INFO manager: Registered plugin: ESXi guest.
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/netbsd/plugin.rb
+ INFO manager: Registered plugin: NetBSD guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/omnios/plugin.rb
+ INFO manager: Registered plugin: OmniOS guest.
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/bsd/plugin.rb
+ INFO manager: Registered plugin: BSD-based guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/haiku/plugin.rb
+ INFO manager: Registered plugin: Haiku guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/fedora/plugin.rb
+ INFO manager: Registered plugin: Fedora guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/tinycore/plugin.rb
+ INFO manager: Registered plugin: TinyCore Linux guest.
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/atomic/plugin.rb
+ INFO manager: Registered plugin: Atomic Host guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/freebsd/plugin.rb
+ INFO manager: Registered plugin: FreeBSD guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/trisquel/plugin.rb
+ INFO manager: Registered plugin: Trisquel guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/smartos/plugin.rb
+ INFO manager: Registered plugin: SmartOS guest.
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/kali/plugin.rb
+ INFO manager: Registered plugin: Kali guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/linux/plugin.rb
+ INFO manager: Registered plugin: Linux guest.
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/arch/plugin.rb
+ INFO manager: Registered plugin: Arch guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/openbsd/plugin.rb
+ INFO manager: Registered plugin: OpenBSD guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/nixos/plugin.rb
+ INFO manager: Registered plugin: NixOS guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/photon/plugin.rb
+ INFO manager: Registered plugin: VMware Photon guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/darwin/plugin.rb
+ INFO manager: Registered plugin: Darwin guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/funtoo/plugin.rb
+ INFO manager: Registered plugin: Funtoo guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/windows/plugin.rb
+ INFO manager: Registered plugin: Windows guest.
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/redhat/plugin.rb
+ INFO manager: Registered plugin: Red Hat Enterprise Linux guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/solaris/plugin.rb
+ INFO manager: Registered plugin: Solaris guest.
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/elementary/plugin.rb
+ INFO manager: Registered plugin: Elementary guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/gentoo/plugin.rb
+ INFO manager: Registered plugin: Gentoo guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/suse/plugin.rb
+ INFO manager: Registered plugin: SUSE guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/coreos/plugin.rb
+ INFO manager: Registered plugin: CoreOS guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/ubuntu/plugin.rb
+ INFO manager: Registered plugin: Ubuntu guest
+DEBUG global: Loading core plugin: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/alt/plugin.rb
+ INFO manager: Registered plugin: ALT Platform guest
+ INFO vagrant: `vagrant` invoked: ["reload", "--debug"]
+DEBUG vagrant: Creating Vagrant environment
+ INFO environment: Environment initialized (#<Vagrant::Environment:0x0000000102140b60>)
+ INFO environment:   - cwd: /Users/kylejennings/sites/vagrant
+ INFO environment: Home path: /Users/kylejennings/.vagrant.d
+DEBUG environment: Effective local data path: /Users/kylejennings/sites/vagrant/.vagrant
+ INFO environment: Local data path: /Users/kylejennings/sites/vagrant/.vagrant
+DEBUG environment: Creating: /Users/kylejennings/sites/vagrant/.vagrant
+DEBUG manager: Enabling localized plugins
+ INFO manager: Plugins:
+DEBUG bundler: Current generated plugin dependency list: []
+DEBUG bundler: Generating new builtin set instance.
+DEBUG bundler: Generating new plugin set instance. Skip gems - []
+DEBUG bundler: Activating solution set: []
+ INFO manager: Loading plugins...
+DEBUG manager: Enabling globalized plugins
+ INFO manager: Plugins:
+ INFO manager:   - hostupdater = [installed: 1.0.0 constraint: > 0]
+ INFO manager:   - vagrant-hostsupdater = [installed: 1.1.1.160 constraint: > 0]
+DEBUG bundler: Current generated plugin dependency list: [<Gem::Dependency type=:runtime name="hostupdater" requirements="= 1.0.0">, <Gem::Dependency type=:runtime name="vagrant-hostsupdater" requirements="= 1.1.1.160">]
+DEBUG bundler: Generating new builtin set instance.
+DEBUG bundler: Generating new plugin set instance. Skip gems - []
+DEBUG bundler: Activating solution set: ["hostupdater-1.0.0", "vagrant-hostsupdater-1.1.1.160"]
+DEBUG bundler: Activating gem hostupdater-1.0.0
+DEBUG bundler: Activating gem vagrant-hostsupdater-1.1.1.160
+ INFO manager: Loading plugins...
+ INFO manager: Loading plugin `hostupdater` with default require: `hostupdater`
+DEBUG manager: Successfully loaded plugin `hostupdater`.
+ INFO manager: Loading plugin `vagrant-hostsupdater` with default require: `vagrant-hostsupdater`
+ INFO manager: Registered plugin: HostsUpdater
+DEBUG manager: Successfully loaded plugin `vagrant-hostsupdater`.
+ INFO loader: Set :root = ["#<Pathname:/Users/kylejennings/sites/vagrant/Vagrantfile>"]
+DEBUG loader: Populating proc cache for #<Pathname:/Users/kylejennings/sites/vagrant/Vagrantfile>
+DEBUG loader: Load procs for pathname: /Users/kylejennings/sites/vagrant/Vagrantfile
+ INFO loader: Loading configuration in order: [:home, :root]
+DEBUG loader: Loading from: root (evaluating)
+[38;5;1m  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄· [0m
+[38;5;1m ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█ [0m
+[38;5;1m ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█ [0m
+[38;5;1m  ███  ███  ███ ▐█ ▪▐▌[0m
+[38;5;1m . ▀  . ▀  . ▀   ▀  ▀ [0m
+[38;5;1m       Ubuntu         [0m
+DEBUG provisioner: Provisioner defined: fix-no-tty
+DEBUG provisioner: Provisioner defined: 
+DEBUG provisioner: Provisioner defined: 
+DEBUG provisioner: Provisioner defined: 
+DEBUG provisioner: Provisioner defined: 
+DEBUG provisioner: Provisioner defined: 
+DEBUG provisioner: Provisioner defined: 
+DEBUG config: Trigger defined for command: destroy
+DEBUG loader: Configuration loaded successfully, finalizing and returning
+DEBUG push: finalizing
+ INFO environment: Running hook: environment_plugins_loaded
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 1 hooks defined.
+ INFO runner: Running action: environment_plugins_loaded #<Vagrant::Action::Builder:0x0000000100e72538>
+ INFO environment: Running hook: environment_load
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 1 hooks defined.
+ INFO runner: Running action: environment_load #<Vagrant::Action::Builder:0x0000000102683438>
+DEBUG checkpoint_client: starting plugin check
+ INFO cli: CLI: [] "reload" []
+DEBUG cli: Invoking command class: VagrantPlugins::CommandReload::Command []
+DEBUG checkpoint_client: plugin check complete
+DEBUG checkpoint_client: waiting for checkpoint to complete...
+DEBUG checkpoint_client: no information received from checkpoint
+DEBUG command: 'reload' each target VM...
+DEBUG command: Getting target VMs for command. Arguments:
+DEBUG command:  -- names: []
+DEBUG command:  -- options: nil
+DEBUG command: Loading all machines...
+ INFO command: Active machine found with name default. Using provider: virtualbox
+ INFO environment: Getting machine: default (virtualbox)
+ INFO environment: Uncached load of machine.
+ INFO base: VBoxManage path: VBoxManage
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "--version"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: 6.0.0r127566
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+DEBUG meta: Finding driver for VirtualBox version: 6.0.0
+ INFO meta: Using VirtualBox driver: VagrantPlugins::ProviderVirtualBox::Driver::Version_6_0
+ INFO base: VBoxManage path: VBoxManage
+ INFO loader: Set "2152213560_machine_default" = []
+ INFO loader: Loading configuration in order: [:home, :root, "2152213560_machine_default"]
+DEBUG loader: Loading from: root (cache)
+DEBUG loader: Configuration loaded successfully, finalizing and returning
+DEBUG push: finalizing
+ INFO box_collection: Box found: ubuntu/xenial64 (virtualbox)
+ INFO environment: Running hook: authenticate_box_url
+ INFO host: Autodetecting host type for [#<Vagrant::Environment: /Users/kylejennings/sites/vagrant>]
+DEBUG host: Trying: slackware
+DEBUG host: Trying: freebsd
+DEBUG host: Trying: arch
+DEBUG host: Trying: darwin
+ INFO host: Detected: darwin!
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: authenticate_box_url #<Vagrant::Action::Builder:0x0000000100dab758>
+ INFO warden: Calling IN action: #<VagrantPlugins::LoginCommand::AddAuthentication:0x0000000100c61848>
+DEBUG client: No authentication token in environment or /Users/kylejennings/.vagrant.d/data/vagrant_login_token
+ INFO warden: Calling OUT action: #<VagrantPlugins::LoginCommand::AddAuthentication:0x0000000100c61848>
+ INFO loader: Set :"2154716520_ubuntu/xenial64_virtualbox" = ["#<Pathname:/Users/kylejennings/.vagrant.d/boxes/ubuntu-VAGRANTSLASH-xenial64/20181223.0.0/virtualbox/Vagrantfile>"]
+DEBUG loader: Populating proc cache for #<Pathname:/Users/kylejennings/.vagrant.d/boxes/ubuntu-VAGRANTSLASH-xenial64/20181223.0.0/virtualbox/Vagrantfile>
+DEBUG loader: Load procs for pathname: /Users/kylejennings/.vagrant.d/boxes/ubuntu-VAGRANTSLASH-xenial64/20181223.0.0/virtualbox/Vagrantfile
+ INFO loader: Loading configuration in order: [:"2154716520_ubuntu/xenial64_virtualbox", :home, :root, "2152213560_machine_default"]
+DEBUG loader: Loading from: 2154716520_ubuntu/xenial64_virtualbox (evaluating)
+DEBUG loader: Loading from: root (cache)
+DEBUG loader: Configuration loaded successfully, finalizing and returning
+DEBUG push: finalizing
+ INFO machine: Initializing machine: default
+ INFO machine:   - Provider: VagrantPlugins::ProviderVirtualBox::Provider
+ INFO machine:   - Box: #<Vagrant::Box:0x0000000100ba2d58>
+ INFO machine:   - Data dir: /Users/kylejennings/sites/vagrant/.vagrant/machines/default/virtualbox
+DEBUG virtualbox: Instantiating the driver for machine ID: "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+ INFO base: VBoxManage path: VBoxManage
+DEBUG meta: Finding driver for VirtualBox version: 6.0.0
+ INFO meta: Using VirtualBox driver: VagrantPlugins::ProviderVirtualBox::Driver::Version_6_0
+ INFO base: VBoxManage path: VBoxManage
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: Name:                        vagrant
+Groups:                      /
+Guest OS:                    Ubuntu (64-bit)
+UUID:                        a56aae5c-d4b8-4559-b57d-0e9c8f6a0056
+Config file:                 /Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox
+Snapshot folder:             /Users/kylejennings/VirtualBox VMs/vagrant/Snapshots
+Log folder:                  /Users/kylejennings/VirtualBox VMs/vagrant/Logs
+Hardware UUID:               a56aae5c-d4b8-4559-b57d-0e9c8f6a0056
+Memory size                  4000MB
+Page Fusion:                 disabled
+VRAM size:                   16MB
+CPU exec cap:                100%
+HPET:                        disabled
+CPUProfile:                  host
+Chipset:                     piix3
+Firmware:                    BIOS
+Number of CPUs:              2
+PAE:                         enabled
+Long Mode:                   enabled
+Triple Fault Reset:          disabled
+APIC:                        enabled
+X2APIC:                      enabled
+Nested VT-x/AMD-V:           disabled
+CPUID Portability Level:     0
+CPUID overrides:             None
+Boot menu mode:              message and menu
+Boot Device 1:               Floppy
+Boot Device 2:               DVD
+Boot Device 3:               HardDisk
+Boot Device 4:               Not Assigned
+ACPI:                        enabled
+IOAPIC:                      enabled
+BIOS APIC mode:              APIC
+Time offset:                 0ms
+RTC:                         UTC
+Hardw. virt.ext:             enabled
+Nested Paging:               enabled
+Large Pages:                 enabled
+VT-x VPID:                   enabled
+VT-x unr. exec.:             enabled
+Paravirt. Provider:          Default
+Effective Paravirt. Prov.:   KVM
+State:                       running (since 2019-04-09T19:24:27.655000000)
+Monitor count:               1
+3D Acceleration:             disabled
+2D Video Acceleration:       disabled
+Teleporter Enabled:          disabled
+Teleporter Port:             0
+Teleporter Address:          
+Teleporter Password:         
+Tracing Enabled:             disabled
+Allow Tracing to Access VM:  disabled
+Tracing Configuration:       
+Autostart Enabled:           disabled
+Autostart Delay:             0
+Default Frontend:            
+Storage Controller Name (0):            IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Bootable (0):        on
+Storage Controller Name (1):            SCSI
+Storage Controller Type (1):            LsiLogic
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  16
+Storage Controller Port Count (1):      16
+Storage Controller Bootable (1):        on
+SCSI (0, 0): /Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk (UUID: bd80d7c4-c8ee-475c-a741-c823c3750f8d)
+SCSI (1, 0): /Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk (UUID: 0dd8b2ca-407d-4c44-b0e7-e596fed538d3)
+NIC 1:                       MAC: 02F2ADB6198D, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny, Bandwidth group: none
+NIC 1 Settings:  MTU: 0, Socket (send: 64, receive: 64), TCP Window (send:64, receive: 64)
+NIC 1 Rule(0):   name = ssh, protocol = tcp, host ip = 127.0.0.1, host port = 2222, guest ip = , guest port = 22
+NIC 2:                       MAC: 0800274EC6B9, Attachment: Host-only Interface 'vboxnet0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny, Bandwidth group: none
+NIC 3:                       disabled
+NIC 4:                       disabled
+NIC 5:                       disabled
+NIC 6:                       disabled
+NIC 7:                       disabled
+NIC 8:                       disabled
+Pointing Device:             PS/2 Mouse
+Keyboard Device:             PS/2 Keyboard
+UART 1:                      I/O base: 0x03f8, IRQ: 4, attached to raw file '/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log'
+, 16550A
+UART 2:                      disabled
+UART 3:                      disabled
+UART 4:                      disabled
+LPT 1:                       disabled
+LPT 2:                       disabled
+Audio:                       enabled (Driver: CoreAudio, Controller: AC97, Codec: STAC9700)
+Audio playback:              disabled
+Audio capture:               disabled
+Clipboard Mode:              disabled
+Drag and drop Mode:          disabled
+Session name:                headless
+Video mode:                  720x400x0 at 0,0 enabled
+VRDE:                        disabled
+OHCI USB:                    disabled
+EHCI USB:                    disabled
+xHCI USB:                    disabled
+
+USB Device Filters:
+
+<none>
+
+Available remote USB devices:
+
+<none>
+
+Currently Attached USB Devices:
+
+<none>
+
+Bandwidth groups:  <none>
+
+Shared folders:
+
+Name: 'srv_databases', Host path: '/Users/kylejennings/sites/vagrant/databases' (machine mapping), writable
+Name: 'srv_config', Host path: '/Users/kylejennings/sites/vagrant/config' (machine mapping), writable
+Name: 'srv_www', Host path: '/Users/kylejennings/sites/vagrant/www' (machine mapping), writable
+Name: 'var_log_apache2', Host path: '/Users/kylejennings/sites/vagrant/logs' (machine mapping), writable
+Name: 'home_vagrant_provision', Host path: '/Users/kylejennings/sites/vagrant/provision' (machine mapping), writable
+Name: 'vagrant', Host path: '/Users/kylejennings/sites/vagrant' (machine mapping), writable
+
+VRDE Connection:             not active
+Clients so far:              0
+
+Capturing:                   not active
+Capture audio:               not active
+Capture screens:             0
+Capture file:                /Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm
+Capture dimensions:          1024x768
+Capture rate:                512kbps
+Capture FPS:                 25kbps
+Capture options:             
+
+Guest:
+
+Configured memory balloon size: 0MB
+OS type:                     Linux26_64
+Additions run level:         2
+Additions version            5.0.18_Ubuntu r106667
+
+Guest Facilities:
+
+Facility "VirtualBox Base Driver": active/running (last update: 2019/03/30 15:28:00 UTC)
+Facility "VirtualBox System Service": active/running (last update: 2019/03/30 15:28:07 UTC)
+Facility "Seamless Mode": not active (last update: 2019/03/30 15:28:00 UTC)
+Facility "Graphics Mode": not active (last update: 2019/03/30 15:28:00 UTC)
+
+
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 31999
+DEBUG subprocess: Exit status: 0
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+ INFO interface: Machine: metadata ["provider", :virtualbox, {:target=>:default}]
+ INFO command: With machine: default (#<VagrantPlugins::ProviderVirtualBox::Provider:0x0000000100c81418 @logger=#<Log4r::Logger:0x0000000100c813c8 @fullname="vagrant::provider::virtualbox", @outputters=[], @additive=true, @name="virtualbox", @path="vagrant::provider", @parent=#<VagrantLogger:0x000000010093ec60 @fullname="vagrant", @outputters=[#<Log4r::StderrOutputter:0x0000000100906f40 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x0000000100906ec8>, @name="stderr", @level=0, @formatter=#<Vagrant::Util::LoggingFormatter:0x0000000100d40700 @formatter=#<Log4r::BasicFormatter:0x0000000102152158 @depth=7>>, @out=#<IO:<STDERR>>>], @additive=true, @name="vagrant", @path="", @parent=#<Log4r::RootLogger:0x000000010093ead0 @level=0, @outputters=[]>, @level=1, @trace=false>, @level=1, @trace=false>, @machine=#<Vagrant::Machine: default (VagrantPlugins::ProviderVirtualBox::Provider)>, @driver=#<VagrantPlugins::ProviderVirtualBox::Driver::Meta:0x0000000100c31fa8 @logger=#<Log4r::Logger:0x0000000100bf06c0 @fullname="vagrant::provider::virtualbox::meta", @outputters=[], @additive=true, @name="meta", @path="vagrant::provider::virtualbox", @parent=#<Log4r::Logger:0x0000000100c813c8 @fullname="vagrant::provider::virtualbox", @outputters=[], @additive=true, @name="virtualbox", @path="vagrant::provider", @parent=#<VagrantLogger:0x000000010093ec60 @fullname="vagrant", @outputters=[#<Log4r::StderrOutputter:0x0000000100906f40 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x0000000100906ec8>, @name="stderr", @level=0, @formatter=#<Vagrant::Util::LoggingFormatter:0x0000000100d40700 @formatter=#<Log4r::BasicFormatter:0x0000000102152158 @depth=7>>, @out=#<IO:<STDERR>>>], @additive=true, @name="vagrant", @path="", @parent=#<Log4r::RootLogger:0x000000010093ead0 @level=0, @outputters=[]>, @level=1, @trace=false>, @level=1, @trace=false>, @level=1, @trace=false>, @interrupted=false, @vboxmanage_path="VBoxManage", @uuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", @driver=#<VagrantPlugins::ProviderVirtualBox::Driver::Version_6_0:0x0000000100bab2c8 @logger=#<Log4r::Logger:0x0000000100b0a5a8 @fullname="vagrant::provider::virtualbox_6_0", @outputters=[], @additive=true, @name="virtualbox_6_0", @path="vagrant::provider", @parent=#<VagrantLogger:0x000000010093ec60 @fullname="vagrant", @outputters=[#<Log4r::StderrOutputter:0x0000000100906f40 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x0000000100906ec8>, @name="stderr", @level=0, @formatter=#<Vagrant::Util::LoggingFormatter:0x0000000100d40700 @formatter=#<Log4r::BasicFormatter:0x0000000102152158 @depth=7>>, @out=#<IO:<STDERR>>>], @additive=true, @name="vagrant", @path="", @parent=#<Log4r::RootLogger:0x000000010093ead0 @level=0, @outputters=[]>, @level=1, @trace=false>, @level=1, @trace=false>, @interrupted=false, @vboxmanage_path="VBoxManage", @uuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056">, @version="6.0.0">, @cap_logger=#<Log4r::Logger:0x00000001024580f0 @fullname="vagrant::capability_host::vagrantplugins::providervirtualbox::provider", @outputters=[], @additive=true, @name="provider", @path="vagrant::capability_host::vagrantplugins::providervirtualbox", @parent=#<VagrantLogger:0x000000010093ec60 @fullname="vagrant", @outputters=[#<Log4r::StderrOutputter:0x0000000100906f40 @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x0000000100906ec8>, @name="stderr", @level=0, @formatter=#<Vagrant::Util::LoggingFormatter:0x0000000100d40700 @formatter=#<Log4r::BasicFormatter:0x0000000102152158 @depth=7>>, @out=#<IO:<STDERR>>>], @additive=true, @name="vagrant", @path="", @parent=#<Log4r::RootLogger:0x000000010093ead0 @level=0, @outputters=[]>, @level=1, @trace=false>, @level=1, @trace=false>, @cap_host_chain=[[:virtualbox, #<#<Class:0x0000000102458e38>:0x000000010105d2f8>]], @cap_args=[#<Vagrant::Machine: default (VagrantPlugins::ProviderVirtualBox::Provider)>], @cap_caps={:docker=>#<Vagrant::Registry:0x0000000102458a78 @items={:public_address=>#<Proc:0x000000010260bf28@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/docker/plugin.rb:60>, :proxy_machine=>#<Proc:0x000000010260bdc0@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/docker/plugin.rb:65>}, @results_cache={}>, :hyperv=>#<Vagrant::Registry:0x0000000102458758 @items={:public_address=>#<Proc:0x0000000102613368@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/hyperv/plugin.rb:25>, :snapshot_list=>#<Proc:0x0000000102613278@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/hyperv/plugin.rb:30>}, @results_cache={}>, :virtualbox=>#<Vagrant::Registry:0x00000001024585c8 @items={:forwarded_ports=>#<Proc:0x0000000102623df8@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/plugin.rb:27>, :nic_mac_addresses=>#<Proc:0x0000000102623d58@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/plugin.rb:32>, :public_address=>#<Proc:0x0000000102623d30@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/plugin.rb:37>, :snapshot_list=>#<Proc:0x0000000102623d08@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/plugin.rb:42>}, @results_cache={}>}>)
+ INFO machine: Calling action: reload on provider VirtualBox (a56aae5c-d4b8-4559-b57d-0e9c8f6a0056)
+DEBUG environment: Attempting to acquire process-lock: machine-action-cad92df350cf020bf4bb05ce56cfa577
+DEBUG environment: Attempting to acquire process-lock: dotlock
+ INFO environment: Acquired process lock: dotlock
+ INFO environment: Released process lock: dotlock
+ INFO environment: Acquired process lock: machine-action-cad92df350cf020bf4bb05ce56cfa577
+ INFO interface: Machine: action ["reload", "start", {:target=>:default}]
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: machine_action_reload #<Vagrant::Action::Builder:0x00000001026d8370>
+ INFO warden: Calling IN action: #<VagrantPlugins::HostsUpdater::Action::RemoveHosts:0x00000001026b33b8>
+ INFO interface: info: [vagrant-hostsupdater] Removing hosts
+ INFO interface: info: ==> default: [vagrant-hostsupdater] Removing hosts
+==> default: [vagrant-hostsupdater] Removing hosts
+ INFO warden: Calling IN action: #<VagrantPlugins::ProviderVirtualBox::Action::CheckVirtualbox:0x00000001026b3390>
+ INFO base: VBoxManage path: VBoxManage
+DEBUG meta: Finding driver for VirtualBox version: 6.0.0
+ INFO meta: Using VirtualBox driver: VagrantPlugins::ProviderVirtualBox::Driver::Version_6_0
+ INFO base: VBoxManage path: VBoxManage
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "list", "hostonlyifs"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: Name:            vboxnet0
+GUID:            786f6276-656e-4074-8000-0a0027000000
+DHCP:            Disabled
+IPAddress:       192.168.10.1
+NetworkMask:     255.255.255.0
+IPV6Address:     
+IPV6NetworkMaskPrefixLength: 0
+HardwareAddress: 0a:00:27:00:00:00
+MediumType:      Ethernet
+Wireless:        No
+Status:          Up
+VBoxNetworkName: HostInterfaceNetworking-vboxnet0
+
+Name:            vboxnet1
+GUID:            786f6276-656e-4174-8000-0a0027000001
+DHCP:            Disabled
+IPAddress:       192.168.50.1
+NetworkMask:     255.255.255.0
+IPV6Address:     
+IPV6NetworkMaskPrefixLength: 0
+HardwareAddress: 0a:00:27:00:00:01
+MediumType:      Ethernet
+Wireless:        No
+Status:          Down
+VBoxNetworkName: HostInterfaceNetworking-vboxnet1
+
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+ INFO warden: Calling IN action: #<Vagrant::Action::Builtin::Call:0x0000000102662c10>
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: machine_action_reload #<Vagrant::Action::Builder:0x0000000100d63d68>
+ INFO warden: Calling IN action: #<VagrantPlugins::ProviderVirtualBox::Action::Created:0x0000000100d5a240>
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+ INFO warden: Calling OUT action: #<VagrantPlugins::ProviderVirtualBox::Action::Created:0x0000000100d5a240>
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: machine_action_reload #<Vagrant::Action::Warden:0x0000000100c52b40>
+ INFO warden: Calling IN action: #<Proc:0x0000000100b29b60@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:94 (lambda)>
+ INFO warden: Calling IN action: #<Vagrant::Action::Builtin::ConfigValidate:0x0000000100c52aa0>
+ INFO warden: Calling IN action: #<VagrantPlugins::ProviderVirtualBox::Action::CheckVirtualbox:0x0000000100c52a78>
+ INFO base: VBoxManage path: VBoxManage
+DEBUG meta: Finding driver for VirtualBox version: 6.0.0
+ INFO meta: Using VirtualBox driver: VagrantPlugins::ProviderVirtualBox::Driver::Version_6_0
+ INFO base: VBoxManage path: VBoxManage
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "list", "hostonlyifs"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: Name:            vboxnet0
+GUID:            786f6276-656e-4074-8000-0a0027000000
+DHCP:            Disabled
+IPAddress:       192.168.10.1
+NetworkMask:     255.255.255.0
+IPV6Address:     
+IPV6NetworkMaskPrefixLength: 0
+HardwareAddress: 0a:00:27:00:00:00
+MediumType:      Ethernet
+Wireless:        No
+Status:          Up
+VBoxNetworkName: HostInterfaceNetworking-vboxnet0
+
+Name:            vboxnet1
+GUID:            786f6276-656e-4174-8000-0a0027000001
+DHCP:            Disabled
+IPAddress:       192.168.50.1
+NetworkMask:     255.255.255.0
+IPV6Address:     
+IPV6NetworkMaskPrefixLength: 0
+HardwareAddress: 0a:00:27:00:00:01
+MediumType:      Ethernet
+Wireless:        No
+Status:          Down
+VBoxNetworkName: HostInterfaceNetworking-vboxnet1
+
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+ INFO warden: Calling IN action: #<Vagrant::Action::Builtin::Call:0x0000000100c08a18>
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: machine_action_reload #<Vagrant::Action::Builder:0x0000000100e796f8>
+ INFO warden: Calling IN action: #<VagrantPlugins::ProviderVirtualBox::Action::Created:0x000000010272adc8>
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+ INFO warden: Calling OUT action: #<VagrantPlugins::ProviderVirtualBox::Action::Created:0x000000010272adc8>
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: machine_action_reload #<Vagrant::Action::Warden:0x000000010262a900>
+ INFO warden: Calling IN action: #<Proc:0x00000001025cba68@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:94 (lambda)>
+ INFO warden: Calling IN action: #<VagrantPlugins::ProviderVirtualBox::Action::CheckAccessible:0x000000010262a860>
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 31999
+DEBUG subprocess: Exit status: 0
+ INFO warden: Calling IN action: #<VagrantPlugins::ProviderVirtualBox::Action::DiscardState:0x000000010262a838>
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+ INFO warden: Calling IN action: #<Vagrant::Action::Builtin::Call:0x000000010262a810>
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: machine_action_reload #<Vagrant::Action::Builder:0x0000000100de3018>
+ INFO warden: Calling IN action: #<VagrantPlugins::ProviderVirtualBox::Action::IsPaused:0x0000000100ddac10>
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+ INFO warden: Calling OUT action: #<VagrantPlugins::ProviderVirtualBox::Action::IsPaused:0x0000000100ddac10>
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: machine_action_reload #<Vagrant::Action::Warden:0x0000000100d092c8>
+ INFO warden: Calling IN action: #<Proc:0x0000000100c99f18@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:94 (lambda)>
+ INFO warden: Calling IN action: #<Proc:0x0000000100d091b0@/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:94 (lambda)>
+ INFO warden: Calling IN action: #<Vagrant::Action::Builtin::Call:0x000000010262a7c0>
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 2 hooks defined.
+ INFO runner: Running action: machine_action_reload #<Vagrant::Action::Builder:0x0000000100bf8fa0>
+ INFO warden: Calling IN action: #<Vagrant::Action::Builtin::GracefulHalt:0x0000000100bf1610>
+ INFO graceful_halt: Verifying source state of machine: :running
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+ INFO interface: output: Attempting graceful shutdown of VM...
+ INFO interface: output: ==> default: Attempting graceful shutdown of VM...
+==> default: Attempting graceful shutdown of VM...
+DEBUG ssh: Checking whether SSH is ready...
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+DEBUG virtualbox_6_0: Searching for SSH port: 22
+DEBUG virtualbox_6_0: read_forward_ports: uuid=a56aae5c-d4b8-4559-b57d-0e9c8f6a0056 active_only=false
+ INFO subprocess: Starting process: ["/usr/local/bin/VBoxManage", "showvminfo", "a56aae5c-d4b8-4559-b57d-0e9c8f6a0056", "--machinereadable"]
+DEBUG subprocess: Command not in installer, not touching env vars.
+ INFO subprocess: Command not in installer, restoring original environment...
+DEBUG subprocess: Selecting on IO
+DEBUG subprocess: stdout: name="vagrant"
+groups="/"
+ostype="Ubuntu (64-bit)"
+UUID="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+CfgFile="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.vbox"
+SnapFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Snapshots"
+LogFldr="/Users/kylejennings/VirtualBox VMs/vagrant/Logs"
+hardwareuuid="a56aae5c-d4b8-4559-b57d-0e9c8f6a0056"
+memory=4000
+pagefusion="off"
+vram=16
+cpuexecutioncap=100
+hpet="off"
+cpu-profile="host"
+chipset="piix3"
+firmware="BIOS"
+cpus=2
+pae="on"
+longmode="on"
+triplefaultreset="off"
+apic="on"
+x2apic="on"
+nested-hw-virt="off"
+cpuid-portability-level=0
+bootmenu="messageandmenu"
+boot1="floppy"
+boot2="dvd"
+boot3="disk"
+boot4="none"
+acpi="on"
+ioapic="on"
+biosapic="apic"
+biossystemtimeoffset=0
+rtcuseutc="on"
+hwvirtex="on"
+nestedpaging="on"
+largepages="on"
+vtxvpid="on"
+vtxux="on"
+paravirtprovider="default"
+effparavirtprovider="kvm"
+VMState="running"
+VMStateChangeTime="2019-04-09T19:24:27.655000000"
+monitorcount=1
+accelerate3d="off"
+accelerate2dvideo="off"
+teleporterenabled="off"
+teleporterport=0
+teleporteraddress=""
+teleporterpassword=""
+tracing-enabled="off"
+tracing-allow-vm-access="off"
+tracing-config=""
+autostart-enabled="off"
+autostart-delay=0
+defaultfrontend=""
+storagecontrollername0="IDE"
+storagecontrollertype0="PIIX4"
+storagecontrollerinstance0="0"
+storagecontrollermaxportcount0="2"
+storagecontrollerportcount0="2"
+storagecontrollerbootable0="on"
+storagecontrollername1="SCSI"
+storagecontrollertype1="LsiLogic"
+storagecontrollerinstance1="0"
+storagecontrollermaxportcount1="16"
+storagecontrollerportcount1="16"
+storagecontrollerbootable1="on"
+"IDE-0-0"="none"
+"IDE-0-1"="none"
+"IDE-1-0"="none"
+"IDE-1-1"="none"
+"SCSI-0-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg.vmdk"
+"SCSI-ImageUUID-0-0"="bd80d7c4-c8ee-475c-a741-c823c3750f8d"
+"SCSI-1-0"="/Users/kylejennings/VirtualBox VMs/vagrant/ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"
+"SCSI-ImageUUID-1-0"="0dd8b2ca-407d-4c44-b0e7-e596fed538d3"
+"SCSI-2-0"="none"
+"SCSI-3-0"="none"
+"SCSI-4-0"="none"
+"SCSI-5-0"="none"
+"SCSI-6-0"="none"
+"SCSI-7-0"="none"
+"SCSI-8-0"="none"
+"SCSI-9-0"="none"
+"SCSI-10-0"="none"
+"SCSI-11-0"="none"
+"SCSI-12-0"="none"
+"SCSI-13-0"="none"
+"SCSI-14-0"="none"
+"SCSI-15-0"="none"
+natnet1="nat"
+macaddress1="02F2ADB6198D"
+cableconnected1="on"
+nic1="nat"
+nictype1="82540EM"
+nicspeed1="0"
+mtu="0"
+sockSnd="64"
+sockRcv="64"
+tcpWndSnd="64"
+tcpWndRcv="64"
+Forwarding(0)="ssh,tcp,127.0.0.1,2222,,22"
+hostonlyadapter2="vboxnet0"
+macaddress2="0800274EC6B9"
+cableconnected2="on"
+nic2="hostonly"
+nictype2="82540EM"
+nicspeed2="0"
+nic3="none"
+nic4="none"
+nic5="none"
+nic6="none"
+nic7="none"
+nic8="none"
+hidpointing="ps2mouse"
+hidkeyboard="ps2kbd"
+uart1="0x03f8,4"
+uartmode1="file,/Users/kylejennings/sites/vagrant/ubuntu-xenial-16.04-cloudimg-console.log"
+uarttype1="16550A"
+uart2="off"
+uart3="off"
+uart4="off"
+lpt1="off"
+lpt2="off"
+audio="coreaudio"
+audio_in="off"
+audio_out="off"
+clipboard="disabled"
+draganddrop="disabled"
+SessionName="headless"
+VideoMode="720,400,0"@0,0 1
+vrde="off"
+usb="off"
+ehci="off"
+xhci="off"
+SharedFolderNameMachineMapping1="srv_databases"
+SharedFolderPathMachineMapping1="/Users/kylejennings/sites/vagrant/databases"
+SharedFolderNameMachineMapping2="srv_config"
+SharedFolderPathMachineMapping2="/Users/kylejennings/sites/vagrant/config"
+SharedFolderNameMachineMapping3="srv_www"
+SharedFolderPathMachineMapping3="/Users/kylejennings/sites/vagrant/www"
+SharedFolderNameMachineMapping4="var_log_apache2"
+SharedFolderPathMachineMapping4="/Users/kylejennings/sites/vagrant/logs"
+SharedFolderNameMachineMapping5="home_vagrant_provision"
+SharedFolderPathMachineMapping5="/Users/kylejennings/sites/vagrant/provision"
+SharedFolderNameMachineMapping6="vagrant"
+SharedFolderPathMachineMapping6="/Users/kylejennings/sites/vagrant"
+VRDEActiveConnection="off"
+VRDEClients==0
+videocap="off"
+videocapaudio="off"
+capturescreens="0"
+capturefilename="/Users/kylejennings/VirtualBox VMs/vagrant/vagrant.webm"
+captureres="1024x768"
+capturevideorate=512
+capturevideofps=25
+captureopts=""
+GuestMemoryBalloon=0
+GuestOSType="Linux26_64"
+GuestAdditionsRunLevel=2
+GuestAdditionsVersion="5.0.18_Ubuntu r106667"
+GuestAdditionsFacility_VirtualBox Base Driver=50,1553959680044
+GuestAdditionsFacility_VirtualBox System Service=50,1553959687387
+GuestAdditionsFacility_Seamless Mode=0,1553959680044
+GuestAdditionsFacility_Graphics Mode=0,1553959680044
+DEBUG subprocess: Waiting for process to exit. Remaining to timeout: 32000
+DEBUG subprocess: Exit status: 0
+DEBUG virtualbox_6_0:   - [1, "ssh", 2222, 22, "127.0.0.1"]
+DEBUG ssh: Checking key permissions: /Users/kylejennings/.vagrant.d/insecure_private_key
+ INFO ssh: Attempting SSH connection...
+ INFO ssh: Attempting to connect to SSH...
+ INFO ssh:   - Host: 127.0.0.1
+ INFO ssh:   - Port: 2222
+ INFO ssh:   - Username: vagrant
+ INFO ssh:   - Password? false
+ INFO ssh:   - Key Path: ["/Users/kylejennings/.vagrant.d/insecure_private_key"]
+DEBUG ssh:   - connect_opts: {:auth_methods=>["none", "hostbased", "publickey"], :config=>false, :forward_agent=>true, :send_env=>false, :keys_only=>true, :verify_host_key=>:never, :password=>nil, :port=>2222, :timeout=>15, :user_known_hosts_file=>[], :verbose=>:debug, :encryption=>["aes128-cbc", "3des-cbc", "blowfish-cbc", "cast128-cbc", "aes192-cbc", "aes256-cbc", "rijndael-cbc@lysator.liu.se", "idea-cbc", "arcfour128", "arcfour256", "arcfour", "aes128-ctr", "aes192-ctr", "aes256-ctr", "cast128-ctr", "blowfish-ctr", "3des-ctr", "none"], :logger=>#<Logger:0x00000001026d0788 @level=0, @progname=nil, @default_formatter=#<Logger::Formatter:0x00000001026d0620 @datetime_format=nil>, @formatter=nil, @logdev=#<Logger::LogDevice:0x00000001026d0508 @shift_period_suffix=nil, @shift_size=nil, @shift_age=nil, @filename=nil, @dev=#<StringIO:0x00000001026d07d8>, @mon_owner=nil, @mon_count=0, @mon_mutex=#<Thread::Mutex:0x00000001026d0418>>>, :keys=>["/Users/kylejennings/.vagrant.d/insecure_private_key"]}
+DEBUG ssh: == Net-SSH connection debug-level log START ==
+DEBUG ssh: D, [2019-04-09T15:59:44.569079 #70574] DEBUG -- net.ssh.transport.session[81364878]: establishing connection to 127.0.0.1:2222
+D, [2019-04-09T15:59:44.570076 #70574] DEBUG -- net.ssh.transport.session[81364878]: connection established
+I, [2019-04-09T15:59:44.570319 #70574]  INFO -- net.ssh.transport.server_version[813653f4]: negotiating protocol version
+D, [2019-04-09T15:59:44.570377 #70574] DEBUG -- net.ssh.transport.server_version[813653f4]: local is `SSH-2.0-Ruby/Net::SSH_5.0.2 x86_64-darwin13'
+D, [2019-04-09T15:59:44.575794 #70574] DEBUG -- net.ssh.transport.server_version[813653f4]: remote is `SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.8'
+I, [2019-04-09T15:59:44.576426 #70574]  INFO -- net.ssh.transport.algorithms[8136104c]: sending KEXINIT
+D, [2019-04-09T15:59:44.576890 #70574] DEBUG -- socket[81364454]: queueing packet nr 0 type 20 len 1164
+D, [2019-04-09T15:59:44.577015 #70574] DEBUG -- socket[81364454]: sent 1168 bytes
+D, [2019-04-09T15:59:44.577264 #70574] DEBUG -- socket[81364454]: read 976 bytes
+D, [2019-04-09T15:59:44.577431 #70574] DEBUG -- socket[81364454]: received packet nr 0 type 20 len 972
+I, [2019-04-09T15:59:44.577501 #70574]  INFO -- net.ssh.transport.algorithms[8136104c]: got KEXINIT from server
+I, [2019-04-09T15:59:44.577739 #70574]  INFO -- net.ssh.transport.algorithms[8136104c]: negotiating algorithms
+D, [2019-04-09T15:59:44.577909 #70574] DEBUG -- net.ssh.transport.algorithms[8136104c]: negotiated:
+* kex: diffie-hellman-group14-sha1
+* host_key: ssh-rsa
+* encryption_server: aes128-ctr
+* encryption_client: aes128-ctr
+* hmac_client: hmac-sha1
+* hmac_server: hmac-sha1
+* compression_client: none
+* compression_server: none
+* language_client: 
+* language_server: 
+D, [2019-04-09T15:59:44.577943 #70574] DEBUG -- net.ssh.transport.algorithms[8136104c]: exchanging keys
+D, [2019-04-09T15:59:44.586456 #70574] DEBUG -- socket[81364454]: queueing packet nr 1 type 30 len 268
+D, [2019-04-09T15:59:44.586565 #70574] DEBUG -- socket[81364454]: sent 272 bytes
+D, [2019-04-09T15:59:44.588611 #70574] DEBUG -- socket[81364454]: read 848 bytes
+D, [2019-04-09T15:59:44.588777 #70574] DEBUG -- socket[81364454]: received packet nr 1 type 31 len 828
+D, [2019-04-09T15:59:44.589659 #70574] DEBUG -- socket[81364454]: queueing packet nr 2 type 21 len 20
+D, [2019-04-09T15:59:44.589737 #70574] DEBUG -- socket[81364454]: sent 24 bytes
+D, [2019-04-09T15:59:44.589966 #70574] DEBUG -- socket[81364454]: received packet nr 2 type 21 len 12
+D, [2019-04-09T15:59:44.590427 #70574] DEBUG -- net.ssh.authentication.session[812fc9a8]: beginning authentication of `vagrant'
+D, [2019-04-09T15:59:44.590593 #70574] DEBUG -- socket[81364454]: queueing packet nr 3 type 5 len 28
+D, [2019-04-09T15:59:44.590664 #70574] DEBUG -- socket[81364454]: sent 52 bytes
+D, [2019-04-09T15:59:44.591114 #70574] DEBUG -- socket[81364454]: read 52 bytes
+D, [2019-04-09T15:59:44.591357 #70574] DEBUG -- socket[81364454]: received packet nr 3 type 6 len 28
+D, [2019-04-09T15:59:44.591492 #70574] DEBUG -- net.ssh.authentication.session[812fc9a8]: trying none
+D, [2019-04-09T15:59:44.591667 #70574] DEBUG -- socket[81364454]: queueing packet nr 4 type 50 len 44
+D, [2019-04-09T15:59:44.591731 #70574] DEBUG -- socket[81364454]: sent 68 bytes
+D, [2019-04-09T15:59:44.592578 #70574] DEBUG -- socket[81364454]: read 68 bytes
+D, [2019-04-09T15:59:44.592744 #70574] DEBUG -- socket[81364454]: received packet nr 4 type 51 len 44
+D, [2019-04-09T15:59:44.592853 #70574] DEBUG -- net.ssh.authentication.session[812fc9a8]: allowed methods: publickey,password
+D, [2019-04-09T15:59:44.592974 #70574] DEBUG -- net.ssh.authentication.methods.none[812f97e4]: none failed
+D, [2019-04-09T15:59:44.593050 #70574] DEBUG -- net.ssh.authentication.session[812fc9a8]: trying publickey
+D, [2019-04-09T15:59:44.593506 #70574] DEBUG -- net.ssh.authentication.agent[812f561c]: connecting to ssh-agent
+D, [2019-04-09T15:59:44.593686 #70574] DEBUG -- net.ssh.authentication.agent[812f561c]: sending agent request 1 len 47
+D, [2019-04-09T15:59:44.593823 #70574] DEBUG -- net.ssh.authentication.agent[812f561c]: received agent packet 5 len 1
+D, [2019-04-09T15:59:44.593890 #70574] DEBUG -- net.ssh.authentication.agent[812f561c]: sending agent request 11 len 0
+D, [2019-04-09T15:59:44.593987 #70574] DEBUG -- net.ssh.authentication.agent[812f561c]: received agent packet 12 len 5
+D, [2019-04-09T15:59:44.594260 #70574] DEBUG -- net.ssh.authentication.methods.publickey[812f59c8]: trying publickey (dd:3b:b8:2e:85:04:06:e9:ab:ff:a8:0a:c0:04:6e:d6)
+D, [2019-04-09T15:59:44.594559 #70574] DEBUG -- socket[81364454]: queueing packet nr 5 type 50 len 348
+D, [2019-04-09T15:59:44.594648 #70574] DEBUG -- socket[81364454]: sent 372 bytes
+D, [2019-04-09T15:59:44.595654 #70574] DEBUG -- socket[81364454]: read 324 bytes
+D, [2019-04-09T15:59:44.595809 #70574] DEBUG -- socket[81364454]: received packet nr 5 type 60 len 300
+D, [2019-04-09T15:59:44.597635 #70574] DEBUG -- socket[81364454]: queueing packet nr 6 type 50 len 620
+D, [2019-04-09T15:59:44.597724 #70574] DEBUG -- socket[81364454]: sent 644 bytes
+D, [2019-04-09T15:59:44.598994 #70574] DEBUG -- socket[81364454]: read 36 bytes
+D, [2019-04-09T15:59:44.599163 #70574] DEBUG -- socket[81364454]: received packet nr 6 type 52 len 12
+D, [2019-04-09T15:59:44.599262 #70574] DEBUG -- net.ssh.authentication.methods.publickey[812f59c8]: publickey succeeded (dd:3b:b8:2e:85:04:06:e9:ab:ff:a8:0a:c0:04:6e:d6)
+
+DEBUG ssh: == Net-SSH connection debug-level log END ==
+ INFO ssh: SSH is ready!
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute:  (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 0
+ INFO guest: Autodetecting host type for [#<Vagrant::Machine: default (VagrantPlugins::ProviderVirtualBox::Provider)>]
+DEBUG guest: Trying: mint
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: if test -r /etc/os-release; then
+source /etc/os-release && test 'xLinux Mint' = "x$ID" && exit
+fi
+if test -x /usr/bin/lsb_release; then
+/usr/bin/lsb_release -i 2>/dev/null | grep -qi 'Linux Mint' && exit
+fi
+if test -r /etc/issue; then
+cat /etc/issue | grep -qi 'Linux Mint' && exit
+fi
+exit 1
+ (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 1
+DEBUG guest: Trying: atomic
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: grep 'ostree=' /proc/cmdline (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 1
+DEBUG guest: Trying: trisquel
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: [ -x /usr/bin/lsb_release ] && /usr/bin/lsb_release -i 2>/dev/null | grep Trisquel (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 1
+DEBUG guest: Trying: elementary
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: if test -r /etc/os-release; then
+source /etc/os-release && test 'xelementary' = "x$ID" && exit
+fi
+if test -x /usr/bin/lsb_release; then
+/usr/bin/lsb_release -i 2>/dev/null | grep -qi 'elementary' && exit
+fi
+if test -r /etc/issue; then
+cat /etc/issue | grep -qi 'elementary' && exit
+fi
+exit 1
+ (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 1
+DEBUG guest: Trying: dragonflybsd
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: uname -s | grep -i 'DragonFly' (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 1
+DEBUG guest: Trying: pld
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: cat /etc/pld-release (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: stderr: cat: /etc/pld-release: No such file or directory
+
+DEBUG ssh: Exit status: 1
+DEBUG guest: Trying: amazon
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: grep 'Amazon Linux' /etc/os-release (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 1
+DEBUG guest: Trying: fedora
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: grep 'Fedora release' /etc/redhat-release (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: stderr: grep: /etc/redhat-release
+DEBUG ssh: stderr: : No such file or directory
+
+DEBUG ssh: Exit status: 2
+DEBUG guest: Trying: kali
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: if test -r /etc/os-release; then
+source /etc/os-release && test 'xkali' = "x$ID" && exit
+fi
+if test -x /usr/bin/lsb_release; then
+/usr/bin/lsb_release -i 2>/dev/null | grep -qi 'kali' && exit
+fi
+if test -r /etc/issue; then
+cat /etc/issue | grep -qi 'kali' && exit
+fi
+exit 1
+ (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 1
+DEBUG guest: Trying: funtoo
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: grep Funtoo /etc/gentoo-release (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: stderr: grep: /etc/gentoo-release
+DEBUG ssh: stderr: : No such file or directory
+
+DEBUG ssh: Exit status: 2
+DEBUG guest: Trying: ubuntu
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: if test -r /etc/os-release; then
+source /etc/os-release && test 'xubuntu' = "x$ID" && exit
+fi
+if test -x /usr/bin/lsb_release; then
+/usr/bin/lsb_release -i 2>/dev/null | grep -qi 'ubuntu' && exit
+fi
+if test -r /etc/issue; then
+cat /etc/issue | grep -qi 'ubuntu' && exit
+fi
+exit 1
+ (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: Exit status: 0
+ INFO guest: Detected: ubuntu!
+DEBUG guest: Searching for cap: halt
+DEBUG guest: Checking in: ubuntu
+DEBUG guest: Checking in: debian
+DEBUG guest: Checking in: linux
+DEBUG guest: Found cap: halt in linux
+ INFO guest: Execute capability: halt [#<Vagrant::Machine: default (VagrantPlugins::ProviderVirtualBox::Provider)>] (ubuntu)
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: shutdown -h now (sudo=true)
+DEBUG ssh: Re-using SSH connection.
+ INFO ssh: Execute: echo; printf $SSH_AUTH_SOCK (sudo=false)
+DEBUG ssh: stderr: 41e57d38-b4f7-4e46-9c38-13873d338b86-vagrant-ssh
+DEBUG ssh: stderr: printf: usage: printf [-v var] format [arguments]
+
+DEBUG ssh: Exit status: 2
+ERROR warden: Error occurred: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ERROR warden: Error occurred: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ INFO warden: Beginning recovery process...
+ INFO warden: Calling recover: #<Vagrant::Action::Builtin::Call:0x000000010262a7c0>
+ INFO warden: Calling recover: #<Vagrant::Action::Builtin::Call:0x000000010262a810>
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO warden: Recovery complete.
+ERROR warden: Error occurred: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ERROR warden: Error occurred: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ERROR warden: Error occurred: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ERROR warden: Error occurred: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ INFO warden: Beginning recovery process...
+ INFO warden: Calling recover: #<Vagrant::Action::Builtin::Call:0x0000000100c08a18>
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO warden: Recovery complete.
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ERROR warden: Error occurred: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ERROR warden: Error occurred: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ INFO warden: Beginning recovery process...
+ INFO warden: Calling recover: #<Vagrant::Action::Builtin::Call:0x0000000102662c10>
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO warden: Recovery complete.
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO warden: Beginning recovery process...
+ INFO warden: Recovery complete.
+ INFO environment: Released process lock: machine-action-cad92df350cf020bf4bb05ce56cfa577
+ INFO environment: Running hook: environment_unload
+ INFO runner: Preparing hooks for middleware sequence...
+ INFO runner: 1 hooks defined.
+ INFO runner: Running action: environment_unload #<Vagrant::Action::Builder:0x00000001026dbed0>
+ERROR vagrant: Vagrant experienced an error! Details:
+ERROR vagrant: #<Vagrant::Errors::VagrantError: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+>
+ERROR vagrant: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+ERROR vagrant: /opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/ssh/communicator.rb:264:in `execute'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/ssh/communicator.rb:597:in `block (2 levels) in shell_execute'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/channel.rb:627:in `do_success'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/session.rb:687:in `channel_success'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/session.rb:549:in `dispatch_incoming_packets'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/session.rb:249:in `ev_preprocess'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/event_loop.rb:101:in `each'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/event_loop.rb:101:in `ev_preprocess'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/event_loop.rb:29:in `process'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/session.rb:228:in `process'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/session.rb:181:in `block in loop'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/session.rb:181:in `loop'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/session.rb:181:in `loop'
+/opt/vagrant/embedded/gems/2.2.2/gems/net-ssh-5.0.2/lib/net/ssh/connection/channel.rb:272:in `wait'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/ssh/communicator.rb:661:in `shell_execute'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/ssh/communicator.rb:243:in `block in execute'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/ssh/communicator.rb:349:in `connect'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/ssh/communicator.rb:237:in `execute'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/communicators/ssh/communicator.rb:274:in `sudo'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/guests/linux/cap/halt.rb:7:in `halt'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/capability_host.rb:111:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/capability_host.rb:111:in `capability'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/guest.rb:43:in `capability'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builtin/graceful_halt.rb:50:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builder.rb:116:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `block in run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/util/busy.rb:19:in `busy'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builtin/call.rb:43:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builder.rb:116:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `block in run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/util/busy.rb:19:in `busy'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builtin/call.rb:53:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/action/discard_state.rb:15:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/action/check_accessible.rb:18:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builder.rb:116:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `block in run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/util/busy.rb:19:in `busy'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builtin/call.rb:53:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/action/check_virtualbox.rb:26:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builtin/config_validate.rb:25:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builder.rb:116:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `block in run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/util/busy.rb:19:in `busy'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builtin/call.rb:53:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/providers/virtualbox/action/check_virtualbox.rb:26:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/Users/kylejennings/.vagrant.d/gems/2.4.4/gems/vagrant-hostsupdater-1.1.1.160/lib/vagrant-hostsupdater/Action/RemoveHosts.rb:25:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/warden.rb:34:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/builder.rb:116:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `block in run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/util/busy.rb:19:in `busy'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/action/runner.rb:66:in `run'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/machine.rb:239:in `action_raw'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/machine.rb:208:in `block in action'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/environment.rb:614:in `lock'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/machine.rb:194:in `call'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/machine.rb:194:in `action'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/reload/command.rb:42:in `block in execute'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/plugin/v2/command.rb:238:in `block in with_target_vms'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/plugin/v2/command.rb:232:in `each'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/plugin/v2/command.rb:232:in `with_target_vms'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/plugins/commands/reload/command.rb:40:in `execute'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/cli.rb:58:in `execute'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/lib/vagrant/environment.rb:291:in `cli'
+/opt/vagrant/embedded/gems/2.2.2/gems/vagrant-2.2.2/bin/vagrant:164:in `<main>'
+ INFO interface: error: The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+
+The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+echo; printf $SSH_AUTH_SOCK
+
+Stdout from the command:
+
+
+
+
+Stderr from the command:
+
+printf: usage: printf [-v var] format [arguments]
+ INFO interface: Machine: error-exit ["Vagrant::Errors::VagrantError", "The following SSH command responded with a non-zero exit status.\nVagrant assumes that this means the command failed!\n\necho; printf $SSH_AUTH_SOCK\n\nStdout from the command:\n\n\n\n\nStderr from the command:\n\nprintf: usage: printf [-v var] format [arguments]\n"]

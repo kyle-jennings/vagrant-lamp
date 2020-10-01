@@ -31,9 +31,9 @@ get_projects() {
 
         sed "s#{{URL}}#$url#g" $template > $vhost
         sed -i "s#{{DIRNAME}}#${directory}/${root}#g" $vhost
-
+        
         sed -i "s/{{SITENAME}}/${safename}/g" $vhost
-
+        
         if [ ! -z "$aliases" ]; then
             sed -i "s/{{ALIASES}}/${aliases}/g" $vhost
             sed -i "s/#ServerAlias/ServerAlias/g" $vhost
@@ -91,7 +91,6 @@ project_custom_tasks(){
       DIR="$(dirname "$SITE_CONFIG_FILE")"
       
       echo "cd $DIR and running script as $(whoami)"
-      echo 
       cd "$DIR"
       ./vagrant-init.sh
     done
