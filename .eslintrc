@@ -1,0 +1,6 @@
+{
+  "extends": [],
+  "env": {
+        "es6": true
+    }
+}

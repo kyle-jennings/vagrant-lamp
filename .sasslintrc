@@ -1,0 +1,81 @@
+{
+  "files": {
+    "include": "sass/**/*.s+(a|c)ss",
+    "ignore": [
+      "sass/vendor/**/*.*"
+    ]
+  },
+  "rules": {
+    "bem-depth": [
+        2,
+        {
+            "max-depth": 1
+        }
+    ],
+    "border-zero": [
+        2,
+        {
+            "convention": "0"
+        }
+    ],
+    "class-name-format": [
+        2,
+        {
+            "allow-leading-underscore": false,
+            "convention": "hyphenatedbem",
+            "convention-explanation": true,
+            "ignore": []
+        }
+    ],
+    "declarations-before-nesting": 1,
+    "extends-before-mixins": 1,
+    "id-name-format": [
+        1,
+        {
+            "allow-leading-underscore": false,
+            "convention": "hyphenatedlowercase",
+            "convention-explanation": true,
+            "ignore": []
+        }
+    ],
+    "indentation": [
+        2,
+        {
+            "size": 2
+        }
+    ],
+    "leading-zero": [
+        2,
+        {
+            "include": false
+        }
+    ],
+    "property-sort-order": [
+        2,
+        {
+            "order": "alphabetical"
+        }
+    ],
+    "no-qualifying-elements": [
+        2,
+        {
+            "allow-element-with-attribute": false,
+            "allow-element-with-class": false,
+            "allow-element-with-id": false
+        }
+    ],
+    "single-line-per-selector": 2,
+    "space-after-colon": [
+        1,
+        {
+            "include": true
+        }
+    ],
+    "quotes": [
+        2,
+        {
+            "style": "single"
+        }
+    ]
+   }
+}

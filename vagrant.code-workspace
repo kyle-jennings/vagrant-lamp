@@ -10,9 +10,9 @@
 			"!www/default": true,
 		},
 		"intelephense.stubs": [
-			"wordpress"
+			"standard"
 		],
-    "intelephense.completionProvider.backslashPrefix": false,
+		"intelephense.diagnostics.undefinedSymbols": false,
 		"php.suggest.basic": false,
 	}
 }

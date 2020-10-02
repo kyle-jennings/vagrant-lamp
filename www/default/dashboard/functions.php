@@ -42,7 +42,7 @@ function get_installed_utils_dirs()
     $dirs = scandir($root);
     $dirs = array_diff($dirs, ['.', '..', 'index.php', 'dashboard', '.DS_Store']);
     $keyed = [];
-    
+
     foreach ($dirs as $dir) {
         $keyed[$dir] = '/' . $dir;
     }
@@ -88,30 +88,6 @@ function the_list_of_installed_utils()
 
 
 /**
- * @return array of site configs
- */
-function get_custom_sites()
-{
-    $data = [];
-    $file = '/vagrant/sites-custom.yml';
-    if (!is_readable($file)) {
-        return [];
-    }
-    
-    $yaml = new Alchemy\Component\Yaml\Yaml();
-
-    $data = $yaml->load($file);
-    
-    if (empty($data['sites']) || !isset($data['sites'])) {
-        return [];
-    }
-
-    $data = $data['sites'];
-
-    return $data;
-}
-
-/**
  * @param  array $args a list of arguments for a site from the YAML file
  * @return string misc
  */
@@ -129,7 +105,7 @@ function get_site_image($args)
     if (is_readable($args['image'])) {
         return 'https://' . reset($args['hosts']) . '/' . $args['img_url'];
     }
-    
+
     return '/dashboard/dist/img/website-default.png';
 }
 
@@ -236,6 +212,30 @@ function site_card($args = [])
 
 
 /**
+ * @return array of site configs
+ */
+function get_custom_sites()
+{
+    $data = [];
+    $file = '/vagrant/sites-custom.yml';
+    if (!is_readable($file)) {
+        return [];
+    }
+
+    $yaml = new Alchemy\Component\Yaml\Yaml();
+
+    $data = $yaml->load($file);
+
+    if (empty($data['sites']) || !isset($data['sites'])) {
+        return [];
+    }
+
+    $data = $data['sites'];
+
+    return $data;
+}
+
+/**
  * @param  string $type Display site list as cards or media objects.
  * @return void
  */
@@ -252,19 +252,19 @@ function the_custom_sites($type = null)
         }
 
         $args = [
-            'name' => $name,
-            'site_btn' => isset($settings['url']) ? site_button($settings['url']) : null,
+            'name'         => $name,
+            'site_btn'     => isset($settings['url']) ? site_button($settings['url']) : null,
             'wp_admin_btn' => wp_admin_button($settings),
-            'img_url' => get_site_image($settings),
-            'url' => reset($settings['hosts']),
-            'description' => isset($settings['description']) ? $settings['description'] : null,
+            'img_url'      => get_site_image($settings),
+            'url'          => reset($settings['hosts']),
+            'description'  => isset($settings['description']) ? $settings['description'] : null,
         ];
 
         if ($type == 'media') {
-            $args['style'] = 'height: 50px; width: 50px;';
+            $args['style'] = 'height: 75px; width: 75px;';
             site_media_object($args);
         } else {
-            $args['style'] = 'height: 180px; width: auto; background-image:url(' . $img_url . '); 
+            $args['style'] = 'height: 180px; width: auto; background-image:url(' . $img_url . ');
             background-repeat:no-repeat; background-size: cover;';
             site_card($args);
         }

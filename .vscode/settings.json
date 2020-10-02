@@ -1,0 +1,52 @@
+{
+    "[php]": {
+        "editor.formatOnSave": false,
+        "editor.quickSuggestions": { "comments": true },
+        "editor.defaultFormatter": "junstyle.php-cs-fixer",
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false
+    },
+    "[sass]": {
+        "editor.tabSize": 2
+    },
+    "[html]": {
+        "editor.tabSize": 4
+    },
+    "[javascript]": {
+        "editor.tabSize": 2
+    },
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.renderWhitespace": "none",
+    "editor.quickSuggestions": { "comments": true },
+    "files.exclude": {
+        "httpdocs/wordpress": true,
+        "httpdocs/files": true,
+        "vendor": true,
+        "node_modules": true,
+        "**/wp-content/upgrade": true,
+        "**/wp-content/wflogs": true,
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "phpcs.enable": true,
+    "phpcs.standard": "WordPress",
+    "phpcs.autoConfigSearch": true,
+    "phpcs.ignorePatterns": [
+        "*/ignored-file.php",
+        "*/ignored-dir/*"
+    ],
+    "phpcbf.enable": true,
+    "phpcbf.executablePath": "/usr/local/bin/phpcbf",
+    "phpcbf.onsave": false,
+    "phpcbf.standard": "WordPress",
+    "phpcbf.documentFormattingProvider": true,
+    "intelephense.completionProvider.backslashPrefix": false,
+    "intelephense.files.exclude": [
+        "**/vendor/**",
+        "**/build/**",
+        "**/packages/**",
+        "**/node_modules/**",
+        "**/wp-includes/**",
+        "**/wp-admin/**"
+    ]
+}
