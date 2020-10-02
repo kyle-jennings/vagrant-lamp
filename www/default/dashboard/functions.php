@@ -34,6 +34,28 @@ function get_server_name()
 }
 
 /**
+ * retrieves the correct page view as specified by query
+ *
+ * @return  [type]  [return description]
+ */
+function view_tool()
+{
+    $target = $_SERVER['QUERY_STRING'];
+    return (isset($target) && !empty($target) && $target !== 'home');
+}
+
+function get_iframe() {
+    $target = dirname(dirname(__FILE__)) . '/' . $_SERVER['QUERY_STRING'] . '/index.php';
+    if (!is_readable($target)) {
+        error_log($target . 'not found');
+        return false;
+    }
+    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+    $url = $protocol . '://' . $_SERVER['HTTP_HOST'] . '/' . $_SERVER['QUERY_STRING'];
+    return '<iframe src="' . $url  . '" width="100%" height="100%" />';
+}
+
+/**
  * @return array a list of the installed tools
  */
 function get_installed_utils_dirs()
