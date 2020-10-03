@@ -20,7 +20,7 @@
     </div>
 
     <?php
-
+    include 'home.php';
     // if (view_tool()) {
     //     echo get_iframe();
     // } else {
