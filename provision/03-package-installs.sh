@@ -18,16 +18,27 @@ apt_package_check_list=(
   software-properties-common
   # PHP7
   #
-  # Our base packages for php7.3. As long as php7.3-fpm and php7.3-cli are
-  # installed, there is no need to install the general php7.3 package, which
+  # Our base packages for php7.4. As long as php7.4-fpm and php7.4-cli are
+  # installed, there is no need to install the general php7.4 package, which
   # can sometimes install apache as a requirement.
-  php7.3
-  php7.3-common
-  php7.3-fpm
-  php7.3-cli
-  php7.3-dev
+  php7.4
+  php7.4-common
+  php7.4-fpm
+  php7.4-cli
+  php7.4-dev
 
   # Extra PHP modules that we find useful
+  php7.4-bcmath
+  php7.4-curl
+  php7.4-gd
+  php7.4-mbstring
+  php7.4-mysql
+  php7.4-imap
+  php7.4-json
+  php7.4-soap
+  php7.4-xml
+  php7.4-zip
+
   php-pear
   php-imagick
   php-memcache
@@ -35,20 +46,9 @@ apt_package_check_list=(
   php-ssh2
   php-xdebug
   php-redis
-  php7.3-bcmath
-  php7.3-curl
-  php7.3-gd
-  php7.3-mbstring
-  php7.3-mysql
-  php7.3-imap
-  php7.3-json
-  php7.3-soap
-  php7.3-xml
-  php7.3-zip
-
   #apache2
   apache2
-  libapache2-mod-php7.3
+  libapache2-mod-php7.4
   # mysql is the default database
   mysql-server
 
@@ -99,7 +99,7 @@ noroot() {
   sudo -EH -u "vagrant" "$@";
 }
 
-# First we need to 
+# First we need to
 add_ppa() {
   sudo add-apt-repository ppa:ondrej/php -y
   sudo apt-add-repository -y ppa:brightbox/ruby-ng
@@ -222,7 +222,7 @@ ack_grep_install() {
 }
 
 composer_install() {
-  
+
   sh /vagrant/config/scripts/xdebug_off
   # Install Composer if it is not already installed.
   composer -v > /dev/null 2>&1
@@ -337,7 +337,7 @@ redis_config() {
     unzip php-redis-admin.zip
     mv php-redis-admin* redis-admin
     rm php-redis-admin.zip
-  else 
+  else
     echo "phpRedisAdmin is already installed."
   fi
   systemctl enable redis-server.service
@@ -393,7 +393,7 @@ phpmyadmin_setup() {
   if [[ ! -d "/srv/www/default/database" ]]; then
     echo "Downloading phpMyAdmin..."
     cd /srv/www/default
-    wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/4.4.10/phpMyAdmin-4.4.10-all-languages.tar.gz"
+    wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/5.0.2/phpMyAdmin-5.0.2-all-languages.zip"
     tar -xf phpmyadmin.tar.gz
     mv phpMyAdmin-4.4.10-all-languages database
     rm phpmyadmin.tar.gz
@@ -424,9 +424,9 @@ mailhog_install() {
 
   if [[ ! -e /usr/local/bin/mailhog ]]; then
     export GOPATH=/home/vagrant/gocode
-    
+
     echo " * Fetching MailHog and MHSendmail"
-    
+
     noroot mkdir -p /home/vagrant/gocode
     noroot /usr/local/go/bin/go get github.com/mailhog/MailHog
     noroot /usr/local/go/bin/go get github.com/mailhog/mhsendmail
@@ -453,11 +453,12 @@ varnish_config() {
   if [[ -d "/etc/varnish" ]]; then
     cp -f  "/srv/config/varnish/default.vcl" "/etc/varnish" 2>/dev/null
   fi
-  
+
   cp -f "/srv/config/varnish/varnish.service" "/lib/systemd/system/" 2>/dev/null
   systemctl daemon-reload
   systemctl restart varnish
 }
+
 
 echo '-------------------------'
 echo "Installing all the things"

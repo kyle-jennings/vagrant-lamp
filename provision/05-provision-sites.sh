@@ -23,7 +23,7 @@ get_projects() {
     while readLine sitename values; do
         local safename=`echo "$sitename" | sed 's/\./\\\\./g'`
         local url=$(get_primary_host $safename)
-        local aliases=$(get_hosts $safename)
+        local aliases=$(get_aliases $safename)
         local directory=$(get_directory $safename)
         local root=$(get_root $safename)
         local env=$(get_env $safename)
@@ -31,9 +31,9 @@ get_projects() {
 
         sed "s#{{URL}}#$url#g" $template > $vhost
         sed -i "s#{{DIRNAME}}#${directory}/${root}#g" $vhost
-        
+
         sed -i "s/{{SITENAME}}/${safename}/g" $vhost
-        
+
         if [ ! -z "$aliases" ]; then
             sed -i "s/{{ALIASES}}/${aliases}/g" $vhost
             sed -i "s/#ServerAlias/ServerAlias/g" $vhost
@@ -52,15 +52,7 @@ get_projects() {
         else
             sed -i "/#{{ENV}}/d" $vhost
         fi
-    done    
-}
-
-get_env() {
-    echo $(cat ${config} | shyaml key-values-0 sites.${1}.env |
-        while readLine name val; do
-            echo "SetEnv $name $val \n\t";
-        done
-    )
+    done
 }
 
 get_primary_host() {
@@ -68,7 +60,7 @@ get_primary_host() {
     echo ${value:-$1}
 }
 
-get_hosts() {
+get_aliases() {
     local value=`cat ${config} | shyaml --quiet get-values sites.${1}.hosts 2> /dev/null`
     echo ${value:-$@} | cut -d " " -f2-
 }
@@ -83,13 +75,20 @@ get_root() {
     echo ${value:-$1}
 }
 
+get_env() {
+    echo $(cat ${config} | shyaml key-values-0 sites.${1}.env |
+        while readLine name val; do
+            echo "SetEnv $name $val \n\t";
+        done
+    )
+}
 
 # checks each project directory for an init script and runs it if found
 project_custom_tasks(){
     for SITE_CONFIG_FILE in $(find /srv/www -maxdepth 5 -name 'vagrant-init.sh'); do
       # Look for site setup scripts
       DIR="$(dirname "$SITE_CONFIG_FILE")"
-      
+
       echo "cd $DIR and running script as $(whoami)"
       cd "$DIR"
       ./vagrant-init.sh
