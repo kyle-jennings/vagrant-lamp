@@ -393,10 +393,10 @@ phpmyadmin_setup() {
   if [[ ! -d "/srv/www/default/database" ]]; then
     echo "Downloading phpMyAdmin..."
     cd /srv/www/default
-    wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/5.0.2/phpMyAdmin-5.0.2-all-languages.zip"
+    wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.tar.gz"
     tar -xf phpmyadmin.tar.gz
-    mv phpMyAdmin-4.4.10-all-languages database
     rm phpmyadmin.tar.gz
+    mv phpMy* database
   else
     echo "PHPMyAdmin already installed."
   fi
