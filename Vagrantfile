@@ -61,17 +61,10 @@ Vagrant.configure('2') do |config|
   # to your host computer, it is cached for future use under the specified box name.
   config.vm.box = 'ubuntu/xenial64'
   config.vm.hostname = 'vagrant'
-  #config.vm.disk :disk, size: "50GB", primary: true
+  #config.vm.disk :disk, size: "100GB", primary: true
 
   unless Vagrant.has_plugin?("vagrant-disksize")
     raise  Vagrant::Errors::VagrantError.new, "vagrant-disksize plugin is missing. Please install it using 'vagrant plugin install vagrant-disksize' and rerun 'vagrant up'"
-  else
-    config.disksize.size = "50GB"
-    config.vm.provision "shell", inline: <<-SHELL
-      parted /dev/sda resizepart 1 100%
-      pvresize /dev/sda1
-      lvresize -rl +100%FREE /dev/mapper/vagrant--vg-root
-    SHELL
   end
 
 
@@ -84,10 +77,6 @@ Vagrant.configure('2') do |config|
   ## forward the mysql port to the localhost
   config.vm.network "forwarded_port", guest: 3306, host: 3306
 
-  config.vm.provider :hyperv do |v, override|
-    override.vm.network :private_network, id: 'vagrant_prime', ip: nil
-  end
-
 
   # Store the current version of Vagrant for use in conditionals when dealing
   # with possible backward compatible issues.
@@ -98,10 +87,20 @@ Vagrant.configure('2') do |config|
     v.customize ['modifyvm', :id, '--cpus', 2]
     v.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     v.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+    config.disksize.size = "100GB"
     # Set the box name in VirtualBox to match the working directory.
     vvv_pwd = Dir.pwd
     v.name = File.basename(vvv_pwd)
   end
+
+
+  config.disksize.size = '50GB'
+  # https://github.com/sprotheroe/vagrant-disksize/issues/37#issuecomment-573349769
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   parted /dev/sda resizepart 1 100%
+  #   pvresize /dev/sda1
+  #   lvresize -rl +100%FREE /dev/mapper/vagrant--vg-root
+  # SHELL
 
   # SSH Agent Forwarding
   #
