@@ -27,7 +27,7 @@ line=${on_red}${white}
 
 echo ""
 echo ""
-echo -e "${line}${reset}"
+echo -e "${line}                      ${reset}"
 echo -e "${line}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄· ${reset}"
 echo -e "${line} ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█ ${reset}"
 echo -e "${line} ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█ ${reset}"

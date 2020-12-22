@@ -46,7 +46,7 @@ apt_package_check_list=(
   php-ssh2
   php-xdebug
   php-redis
-  #apache2
+
   apache2
   libapache2-mod-php7.4
   # mysql is the default database
@@ -328,7 +328,7 @@ webgrind_install() {
   fi
 }
 
-redis_config() {
+redis_admin_install() {
 
   if [[ ! -d "/srv/www/default/redis" ]]; then
     echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/erikdubbelboer/phpRedisAdmin"
@@ -474,6 +474,7 @@ aws_cli
 go_install
 mailhog_install
 phpmyadmin_setup
+#redis_admin_install
 #memcached_admin_install
 opcache_admin_install
 #varnish_config

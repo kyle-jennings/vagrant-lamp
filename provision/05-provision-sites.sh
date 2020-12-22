@@ -77,8 +77,8 @@ get_root() {
 
 get_env() {
     echo $(cat ${config} | shyaml key-values-0 sites.${1}.env |
-        while readLine name val; do
-            echo "SetEnv $name $val \n\t";
+        while readLine key val; do
+            echo "SetEnv $key $val \n\t";
         done
     )
 }

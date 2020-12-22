@@ -4,6 +4,7 @@ require 'yaml'
 require 'fileutils'
 
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
+VAGRANT_EXPERIMENTAL="disks"
 
 Vagrant.configure('2') do |config|
 
@@ -38,6 +39,7 @@ Vagrant.configure('2') do |config|
 
     splash = <<-HEREDOC
 #{red}                       #{reset}
+#{red}                       #{reset}
 #{red}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄·  #{reset}
 #{red} ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█  #{reset}
 #{red} ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█  #{reset}
@@ -51,10 +53,28 @@ Vagrant.configure('2') do |config|
     puts splash
   end
 
-  if defined? VagrantPlugins::disksize
-    config.disksize.size = '30GB'
+
+  # Default Ubuntu Box
+  #
+  # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
+  # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
+  # to your host computer, it is cached for future use under the specified box name.
+  config.vm.box = 'ubuntu/xenial64'
+  config.vm.hostname = 'vagrant'
+  #config.vm.disk :disk, size: "50GB", primary: true
+
+  unless Vagrant.has_plugin?("vagrant-disksize")
+    raise  Vagrant::Errors::VagrantError.new, "vagrant-disksize plugin is missing. Please install it using 'vagrant plugin install vagrant-disksize' and rerun 'vagrant up'"
+  else
+    config.disksize.size = "50GB"
+    config.vm.provision "shell", inline: <<-SHELL
+      parted /dev/sda resizepart 1 100%
+      pvresize /dev/sda1
+      lvresize -rl +100%FREE /dev/mapper/vagrant--vg-root
+    SHELL
   end
-  
+
+
   # Private Network (default)
   #
   # A private network is created by default. This is the IP address through which your
@@ -63,7 +83,7 @@ Vagrant.configure('2') do |config|
 
   ## forward the mysql port to the localhost
   config.vm.network "forwarded_port", guest: 3306, host: 3306
-  
+
   config.vm.provider :hyperv do |v, override|
     override.vm.network :private_network, id: 'vagrant_prime', ip: nil
   end
@@ -90,14 +110,6 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
   config.ssh.insert_key = false
 
-  # Default Ubuntu Box
-  #
-  # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
-  # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
-  # to your host computer, it is cached for future use under the specified box name.
-  config.vm.box = 'ubuntu/xenial64'
-  config.vm.hostname = 'vagrant'
-
 
   show_logo = false
 
@@ -105,7 +117,7 @@ Vagrant.configure('2') do |config|
   if File.file?(File.join(vagrant_dir, 'sites-custom.yml')) == false then
     FileUtils.cp( File.join(vagrant_dir, 'sites-example.yml'), File.join(vagrant_dir, 'sites-custom.yml') )
   end
-  
+
   if File.file?(File.join(vagrant_dir, 'sites-custom.yml')) == false then
     abort('Not found: sites-custom.yml or sites-example.yml')
   end
@@ -164,7 +176,7 @@ Vagrant.configure('2') do |config|
 
   # Provisioning
   config.vm.synced_folder 'provision/', '/home/vagrant/provision'
-  
+
   config.vm.provision :shell, :path => File.join( 'provision', '01-network-check.sh' )
   config.vm.provision :shell, :path => File.join( 'provision', '02-env-config.sh' )
   config.vm.provision :shell, :path => File.join( 'provision', '03-package-installs.sh' )
@@ -172,11 +184,11 @@ Vagrant.configure('2') do |config|
   config.vm.provision :shell, inline: '/bin/bash ' + File.join( 'provision', '05-provision-sites.sh' )
 
 
-  # Set host machine's host files 
+  # Set host machine's host files
   hostnames = ['vagrant.loc', 'www.vagrant.loc', 'database.loc', 'www.database.loc', 'mailhog.loc', 'www.mailhog.loc']
   yaml_file = File.join(vagrant_dir, 'sites-custom.yml')
   yaml = YAML.load_file(yaml_file)
-      
+
   if ! yaml['sites'].kind_of? Hash then
     yaml['sites'] = Hash.new
   end
@@ -184,7 +196,7 @@ Vagrant.configure('2') do |config|
   yaml['sites'].each do |site, args|
     if ! args['hosts'].kind_of? Array then
       args['hosts'] = Array.new
-    end 
+    end
     hostnames.concat(args['hosts'])
   end
 

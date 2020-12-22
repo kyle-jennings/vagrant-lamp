@@ -1,41 +1,53 @@
 #!/bin/sh
 
 config="/vagrant/sites-custom.yml"
-vhostDir="/etc/apache2/sites-enabled"
-template="/srv/config/apache/vhost-template.conf"
 
-# echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-# echo $config
-# echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 if [ ! -e $config ]; then
     exit 0
 fi
 
 readLine() {
-    while [ "$1" ]; do
-        IFS=$'\0' read -r -d '' "$1" || return 1
-        shift
-    done
+  while [ "$1" ]; do
+    IFS=$'\0' read -r -d '' "$1" || return 1
+    shift
+  done
 }
 
-get_projects() {
-    cat ${config} | shyaml --quiet key-values-0 aws |
-    while readLine profile values; do
-      local profiles=$(get_profiles $profile)
-      echo $profiles
-    done
+reset_aws_files () {
+  if [ ! -d /home/vagrant/.aws ]; then
+    mkdir -p /home/vagrant/.aws
+  fi
+
+  echo '' > /home/vagrant/.aws/credentials
+  echo '' > /home/vagrant/.aws/config
+}
+
+get_aws_profiles() {
+
+  cat ${config} | shyaml --quiet key-values-0 aws |
+  while readLine profile values; do
+  echo [$profile] >> /home/vagrant/.aws/credentials
+  local creds=$(get_profile_credentials $profile)
+  echo $creds
+
+  done
 }
 
 
-get_profiles() {
-    # local value=`cat ${config} | shyaml --quiet get-values aws.${1} 2> /dev/null`
-    # echo ${value:-$@} | cut -d " " -f2-
+get_profile_credentials() {
+  echo $(cat ${config} | shyaml key-values-0 aws.${1}.credentials  |
+    while readLine key val; do
+      echo "$key = $val \n\t";
+    done)
 
-    cat ${config} | shyaml --quiet get-values aws.${1} |
-    while readLine args values; do
-      echo $args
-    done
-    # echo ${value:-$@} | cut -d " " -f2-
 }
 
-get_projects
+get_profile_config() {
+  echo $(cat ${config} | shyaml key-values-0 aws.${1}.config  |
+    while readLine key val; do
+      echo "$key = $val";
+    done)
+}
+
+reset_aws_files
+get_aws_profiles
