@@ -1,12 +1,11 @@
-#
-#
-#  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄·
-# ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█
-# ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█
-#  ███  ███  ███ ▐█ ▪▐▌
-# . ▀  . ▀  . ▀   ▀  ▀
-#       Ubuntu
-#
+
+
+  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄·
+ ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█
+ ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█
+  ███  ███  ███ ▐█ ▪▐▌
+ . ▀  . ▀  . ▀   ▀  ▀
+       Ubuntu
 
 This vagrant box is based on VVV, but utilizes Apache2 for those of us
 whom are forced to use Apache such as using AWS Elastic Beanstalk running AMI1.
