@@ -49,8 +49,12 @@ apt_package_check_list=(
 
   apache2
   libapache2-mod-php7.4
+
   # mysql is the default database
   mysql-server
+
+  # mongoDB for other fun things
+  mongodb-org
 
   # caching things
   memcached
@@ -104,6 +108,9 @@ add_ppa() {
   sudo add-apt-repository ppa:ondrej/php -y
   sudo apt-add-repository -y ppa:brightbox/ruby-ng
   curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+
+  wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
   sudo apt-get update -y
 }

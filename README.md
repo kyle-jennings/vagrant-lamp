@@ -1,11 +1,19 @@
-# WP Vagrant Apache
+#
+#
+#  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄·
+# ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█
+# ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█
+#  ███  ███  ███ ▐█ ▪▐▌
+# . ▀  . ▀  . ▀   ▀  ▀
+#       Ubuntu
+#
 
 This vagrant box is based on VVV, but utilizes Apache2 for those of us
-whom are forced to use Apache.
+whom are forced to use Apache such as using AWS Elastic Beanstalk running AMI1.
 
 Still very much a WIP but this should get devs up and running provided they set
 up their projects following a required recipes.
-Some
+
 
 ## installation
 Before you get started, you'll need Virtual Box and vagrant
@@ -17,26 +25,30 @@ Before you get started, you'll need Virtual Box and vagrant
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 1. Install [Vagrant](https://www.vagrantup.com/downloads.html)
 
-### get Vagrant Addons
 
+### Required Vagrant Addons
 
-1. Install the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin 
-with `vagrant plugin install vagrant-hostsupdater`
-    * Note: This step is not a requirement, though it does make the process of starting up a virtual 
-    machine nicer by automating the entries needed in your local machine's `hosts` file to access the 
-    provisioned VVV domains in your browser.
+1. vagrant-hostsupdater - This plugin changes your host machine's /etc/hosts file to
+map the various websites on the VM to your computer.  This allows you to reach
+the websites in your browser with URLs vs IP addresses.
+
+Install the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin
+with `$ vagrant plugin install vagrant-hostsupdater`
+
+2. vagrant-disksize - this plugin changes the VMs disksize from the 10GB default to 100.
+
+Install the [vagrant-disksize](https://github.com/sprotheroe/vagrant-disksize) plugin
+with `$ vagrant plugin install vagrant-disksize`
 
 ## Getting Started
 
-
 ### Configure your sites!
-
 
 Each directory in the root of www is treated as a project, and will be synched
 into Vagrant to be served as a website.
 
-In order to server your websites, you'll need to create a file called "sites-custom.yml" in the root 
-of the vagrant directory.  This file defines your sites, the urls to access them, and other configurations 
+In order to server your websites, you'll need to create a file called "sites-custom.yml" in the root
+of the vagrant directory.  This file defines your sites, the urls to access them, and other configurations
 needed for Apache to properly serve them.
 
 
@@ -69,18 +81,18 @@ Apache will rewrite the primary URL to the www url.  So `example.loc => www.exam
 This is the name of the directory containing your project in the www folder.
 
 **site_root**:
-This is where Apache will serve your site from, relative to your project directory root.  Some people (like myself) 
+This is where Apache will serve your site from, relative to your project directory root.  Some people (like myself)
 prefer to keep their project root very clean, only keeping things like composer files or other configs in the root.
 
 For example, if my project directory is named example.loc (and this is is located at `www/example.loc/` )
-and I want to serve my site from a directory named 'httpdocs' located in the project root, then I would 
+and I want to serve my site from a directory named 'httpdocs' located in the project root, then I would
 set site_root to 'httpdocs', making the served path `www/example.loc/httpdocs`
 
 NOTE - if you want your site served from the project root, set site_root to a dot or just dont include the setting
 
 **env**:
 this is a hash (dictionary, key pair array, whatever) of environment variables to set for the site.
-The 'key' will be the variable name, and the value is the variable value.  
+The 'key' will be the variable name, and the value is the variable value.
 
 For example:
 ```
@@ -93,7 +105,7 @@ TABLE_PREFIX: wp_
 
 Below are a couple examples
 sites:
-  
+
 ```yaml
   server.loc:
     hosts:
@@ -127,21 +139,21 @@ sites:
       DB_PASSWORD: root
       DB_HOST: localhost
       TABLE_PREFIX: wp_
-      
+
 ```
 
 
 ### Vagrant Up
 
-After you have configure your sites, open a terminal window and navigate to the Vagrant directory.  
+After you have configure your sites, open a terminal window and navigate to the Vagrant directory.
 Then just issue the following command:
 `$ vagrant up`
 
-Vagrant will then start installing and configuring all the things for you.  Assuming 
-you have the 'host-updater' plugin installed, when Vagrant is finished provisioning you should be able 
+Vagrant will then start installing and configuring all the things for you.  Assuming
+you have the 'host-updater' plugin installed, when Vagrant is finished provisioning you should be able
 to access your sites at one of hte URLs you defined in the 'sites-custom.yml' file.
 
-NOTE - don't forget to create the project folders you referenced in the 'sites-custom.yml' file, 
+NOTE - don't forget to create the project folders you referenced in the 'sites-custom.yml' file,
 otherwise Apache will throw an error.
 
 ### Rebooting, re-provisioning, halting and destroying vagrant
@@ -171,23 +183,26 @@ $ vagrant destroy
 ### Whats installed?
 * PHP 7.3
 * PHP FPM
-* Apache 2.4
 * Ruby
 * Ruby SASS
+* Go
+* Apache 2.4
 * Mailhog
 * phpMyAdmin
+* PHPCS
 * Composer
 * Git
 * memcached
 * mySQL
+* mongoDB
 * aws cli
 * wp cli
 * xdebug
-
-Soon:
 * nodeJS
 * npm
 * gulp
+
+Soon:
 * Vue tools
 * React tools
 
@@ -203,7 +218,7 @@ $ sudo xdebug_off
 ```
 
 ##### Integrate with VSCode
-install the "php_debug" package, and reload VSCode.  A debug launch file has 
+install the "php_debug" package, and reload VSCode.  A debug launch file has
 been added to this repo so things so work out of the box.
 
 ##### Stress testing
@@ -212,3 +227,9 @@ you can use Apache Benchmark to simulate traffic, and thus induce errors and war
 ```
 $ ab -c 10 -t 10 -k https://www.epi.org
 ```
+
+### mongoDB
+
+Mongo is not enabled by default as this VM is primarily for WordPress development.
+
+To enable, SSH into the VM and follow these instructions: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#run-mongodb-community-edition

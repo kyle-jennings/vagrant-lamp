@@ -67,6 +67,9 @@ Vagrant.configure('2') do |config|
     raise  Vagrant::Errors::VagrantError.new, "vagrant-disksize plugin is missing. Please install it using 'vagrant plugin install vagrant-disksize' and rerun 'vagrant up'"
   end
 
+  unless Vagrant.has_plugin?("vagrant-hostsupdater")
+    raise  Vagrant::Errors::VagrantError.new, "vagrant-hostsupdater plugin is missing. Please install it using 'vagrant plugin install vagrant-hostsupdater' and rerun 'vagrant up'"
+  end
 
   # Private Network (default)
   #
@@ -93,8 +96,6 @@ Vagrant.configure('2') do |config|
     v.name = File.basename(vvv_pwd)
   end
 
-
-  config.disksize.size = '50GB'
   # https://github.com/sprotheroe/vagrant-disksize/issues/37#issuecomment-573349769
   # config.vm.provision "shell", inline: <<-SHELL
   #   parted /dev/sda resizepart 1 100%
@@ -126,9 +127,6 @@ Vagrant.configure('2') do |config|
     abort('Vagrant version must be newer than 1.6.0')
   end
 
-  unless defined? VagrantPlugins::HostsUpdater
-    puts 'Host updater plugin not installed, you\'ll need to update your host file manually.'
-  end
 
   # Sync these folders to /srv
   ['databases', 'config', 'www'].each do |dir|
@@ -184,7 +182,14 @@ Vagrant.configure('2') do |config|
 
 
   # Set host machine's host files
-  hostnames = ['vagrant.loc', 'www.vagrant.loc', 'database.loc', 'www.database.loc', 'mailhog.loc', 'www.mailhog.loc']
+  hostnames = [
+    'vagrant.loc',
+    'www.vagrant.loc',
+    'database.loc',
+    'www.database.loc',
+    'mailhog.loc',
+    'www.mailhog.loc'
+  ]
   yaml_file = File.join(vagrant_dir, 'sites-custom.yml')
   yaml = YAML.load_file(yaml_file)
 
