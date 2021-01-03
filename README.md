@@ -13,6 +13,33 @@ whom are forced to use Apache such as using AWS Elastic Beanstalk running AMI1.
 Still very much a WIP but this should get devs up and running provided they set
 up their projects following a required recipes.
 
+
+## Whats installed?
+* PHP 7.3
+* PHP FPM
+* Ruby
+* Ruby SASS
+* Go
+* Apache 2.4
+* Mailhog
+* phpMyAdmin
+* PHPCS
+* Composer
+* Git
+* memcached
+* mySQL
+* mongoDB
+* aws cli
+* wp cli
+* xdebug
+* nodeJS
+* npm
+* gulp
+
+Soon:
+* Vue tools
+* React tools
+
 <br/>
 
 # Installation
@@ -190,31 +217,6 @@ $ vagrant halt
 $ vagrant destroy
 ```
 
-## Whats installed?
-* PHP 7.3
-* PHP FPM
-* Ruby
-* Ruby SASS
-* Go
-* Apache 2.4
-* Mailhog
-* phpMyAdmin
-* PHPCS
-* Composer
-* Git
-* memcached
-* mySQL
-* mongoDB
-* aws cli
-* wp cli
-* xdebug
-* nodeJS
-* npm
-* gulp
-
-Soon:
-* Vue tools
-* React tools
 
 <br/>
 
