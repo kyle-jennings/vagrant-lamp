@@ -13,35 +13,44 @@ whom are forced to use Apache such as using AWS Elastic Beanstalk running AMI1.
 Still very much a WIP but this should get devs up and running provided they set
 up their projects following a required recipes.
 
+<br/>
 
-## installation
+# Installation
 Before you get started, you'll need Virtual Box and vagrant
 
-### Installation - The First Vagrant Up
+## Required software
 
 1. Start with any local operating system such as Mac OS X, Linux, or Windows.
     * For Windows 8 or higher it is recommended that you run the cmd window as Administrator
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-1. Install [Vagrant](https://www.vagrantup.com/downloads.html)
+2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+3. Install [Vagrant](https://www.vagrantup.com/downloads.html)
+4. Install the vagrant plugins listed below
 
+## Required Vagrant Addons
 
-### Required Vagrant Addons
+### 1. vagrant-hostsupdater
 
-1. vagrant-hostsupdater - This plugin changes your host machine's /etc/hosts file to
+This plugin changes your host machine's /etc/hosts file to
 map the various websites on the VM to your computer.  This allows you to reach
 the websites in your browser with URLs vs IP addresses.
 
 Install the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin
 with `$ vagrant plugin install vagrant-hostsupdater`
 
-2. vagrant-disksize - this plugin changes the VMs disksize from the 10GB default to 100.
+<br />
+
+### 2. vagrant-disksize
+
+this plugin changes the VMs disksize from the 10GB default to 100.
 
 Install the [vagrant-disksize](https://github.com/sprotheroe/vagrant-disksize) plugin
 with `$ vagrant plugin install vagrant-disksize`
 
-## Getting Started
+<br/>
 
-### Configure your sites!
+# Getting Started
+
+## Configure your sites
 
 Each directory in the root of www is treated as a project, and will be synched
 into Vagrant to be served as a website.
@@ -102,8 +111,7 @@ DB_HOST: localhost
 TABLE_PREFIX: wp_
 ```
 
-Below are a couple examples
-sites:
+Example sites config:
 
 ```yaml
   server.loc:
@@ -142,11 +150,14 @@ sites:
 ```
 
 
-### Vagrant Up
+## Vagrant Up
 
 After you have configure your sites, open a terminal window and navigate to the Vagrant directory.
 Then just issue the following command:
-`$ vagrant up`
+
+```
+$ vagrant up
+```
 
 Vagrant will then start installing and configuring all the things for you.  Assuming
 you have the 'host-updater' plugin installed, when Vagrant is finished provisioning you should be able
@@ -174,12 +185,12 @@ $ vagrant --provision
 $ vagrant halt
 ```
 
-**Turn off, and also delete your machine or databases**
+**Turn off, and also delete your machine and databases**
 ```
 $ vagrant destroy
 ```
 
-### Whats installed?
+## Whats installed?
 * PHP 7.3
 * PHP FPM
 * Ruby
@@ -205,18 +216,22 @@ Soon:
 * Vue tools
 * React tools
 
-### Debuging
+<br/>
+
+# Extras
+
+## PHP Debuging
 
 xdebug is installed and configured to broadcast its logging to be digesting by things like VScode.
 
-##### enabling and disabling xdebug
+### enabling and disabling xdebug
 SSH into the VM and enable and issue the following commands to turn xdebug on or off:
 ```
 $ sudo xdebug_on
 $ sudo xdebug_off
 ```
 
-##### Integrate with VSCode
+### Integrate with VSCode
 install the "php_debug" package, and reload VSCode.  A debug launch file has
 been added to this repo so things so work out of the box.
 
@@ -227,8 +242,21 @@ you can use Apache Benchmark to simulate traffic, and thus induce errors and war
 $ ab -c 10 -t 10 -k https://www.epi.org
 ```
 
-### mongoDB
+
+## mongoDB
 
 Mongo is not enabled by default as this VM is primarily for WordPress development.
 
 To enable, SSH into the VM and follow these instructions: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#run-mongodb-community-edition
+
+<br />
+
+# Todo
+
+* user specified AWS creds
+* user specified Github creds
+* site config specified init files per site
+* UI toggles for XDebug
+* UI toggles for MongoDB
+* user specified Vagrant settings (ie - disk size config, nginx)
+* rename project
