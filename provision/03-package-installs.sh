@@ -18,19 +18,24 @@ apt_package_check_list=(
   software-properties-common
   # PHP7
   #
-  # Our base packages for php7.4. As long as php7.4-fpm and php7.4-cli are
+  # Our base packages for php7.4. As long as php*-fpm and php*-cli are
   # installed, there is no need to install the general php7.4 package, which
   # can sometimes install apache as a requirement.
-  php7.4
-  php7.4-common
   php7.4-fpm
   php7.4-cli
+
+  # Common and dev packages for php
+  php7.4-common
   php7.4-dev
 
   # Extra PHP modules that we find useful
+  php-pear
+  php-pcov
+
   php7.4-bcmath
   php7.4-curl
   php7.4-gd
+  php7.4-intl
   php7.4-mbstring
   php7.4-mysql
   php7.4-imap
@@ -38,8 +43,8 @@ apt_package_check_list=(
   php7.4-soap
   php7.4-xml
   php7.4-zip
+  php7.4-yaml
 
-  php-pear
   php-imagick
   php-memcache
   php-memcached
@@ -52,9 +57,6 @@ apt_package_check_list=(
 
   # mysql is the default database
   mysql-server
-
-  # mongoDB for other fun things
-  mongodb-org
 
   # caching things
   memcached
@@ -90,8 +92,10 @@ apt_package_check_list=(
   # trouble with in Linux.
   dos2unix
 
-  # nodejs for use by grunt
+  # gnu compiler
   g++
+
+  # nodejs for use by grunt
   nodejs
 
   # Ruby
@@ -103,21 +107,18 @@ noroot() {
   sudo -EH -u "vagrant" "$@";
 }
 
-# First we need to
+# First we need to add various apt repos
 add_ppa() {
   sudo add-apt-repository ppa:ondrej/php -y
   sudo apt-add-repository -y ppa:brightbox/ruby-ng
   curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
 
-  wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
-
   sudo apt-get update -y
 }
 
+# Loop through each of our packages that should be installed on the system. If
+# not yet installed, it should be added to the array of packages to install.
 package_check() {
-  # Loop through each of our packages that should be installed on the system. If
-  # not yet installed, it should be added to the array of packages to install.
   local pkg
   local package_version
 
@@ -135,6 +136,7 @@ package_check() {
   done
 }
 
+# installs all of our defined packages, runs apt-get update first. or it should anyway
 package_install() {
   package_check
 
@@ -176,18 +178,26 @@ package_install() {
     apt-key export C7917B12 | apt-key add -
 
     # Update all of the package references before installing anything
-    echo "Running apt-get update..."
+    echo ",.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,"
+    echo ",.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,"
+    echo "Running apt-get update:"
+    echo ${apt_package_install_list[@]}
+    echo ",.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,"
+    echo ",.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,"
+
+
     apt-get update -y
 
     # Install required packages
     echo "Installing apt-get packages..."
     apt-get install -y ${apt_package_install_list[@]}
 
-    # Clean up apt caches
+    # Clean up apt-get caches
     apt-get clean
   fi
 }
 
+# install various NPM packages such as gulp and webpack
 npm_installs(){
   #ln -s /usr/bin/nodejs /usr/bin/node
   if [ ! -d ~/.npm ]; then
@@ -228,6 +238,7 @@ ack_grep_install() {
   fi
 }
 
+# installed and configs composer
 composer_install() {
 
   sh /vagrant/config/scripts/xdebug_off
@@ -264,10 +275,12 @@ composer_install() {
 
 }
 
+# install sass
 sass_install() {
   sudo gem install sass -v 3.4.25
 }
 
+# installs shyaml - this program parse YAML code from the shell. its awful
 shyaml_install() {
   if [[ ! -f /usr/local/bin/shyaml ]]; then
     sudo pip -q install shyaml
@@ -275,7 +288,6 @@ shyaml_install() {
     echo "shyaml is already installed"
   fi
 }
-
 
 # Installs the AWS cli
 aws_cli() {
@@ -335,63 +347,6 @@ webgrind_install() {
   fi
 }
 
-redis_admin_install() {
-
-  if [[ ! -d "/srv/www/default/redis" ]]; then
-    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/erikdubbelboer/phpRedisAdmin"
-    cd /srv/www/default
-    wget -q -O php-redis-admin.zip "https://github.com/erikdubbelboer/phpRedisAdmin/archive/master.zip"
-    unzip php-redis-admin.zip
-    mv php-redis-admin* redis-admin
-    rm php-redis-admin.zip
-  else
-    echo "phpRedisAdmin is already installed."
-  fi
-  systemctl enable redis-server.service
-}
-
-# Download and extract phpMemcachedAdmin to provide a dashboard view and
-# admin interface to the goings on of memcached when running
-memcached_admin_install() {
-  if [[ ! -d "/srv/www/default/memcached" ]]; then
-    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/phpmemcacheadmin"
-    cd /srv/www/default
-    wget -q -O php-memcached-admin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
-    tar -xf phpmemcachedadmin.tar.gz
-    mv phpmemcacheadmin* memcached
-    rm phpmemcachedadmin.tar.gz
-  else
-    echo "phpMemcachedAdmin already installed."
-  fi
-}
-
-varnish_config() {
-  if [[ -d "/etc/default" ]]; then
-    cp -f "/srv/config/varnish/varnish" "/etc/default/" 2>/dev/null
-  fi
-  if [[ -d "/etc/varnish" ]]; then
-    cp -f  "/srv/config/varnish/default.vcl" "/etc/varnish" 2>/dev/null
-  fi
-
-  cp -f "/srv/config/varnish/varnish.service" "/lib/systemd/system/" 2>/dev/null
-  systemctl daemon-reload
-  systemctl restart varnish
-}
-
-# Checkout Opcache Status to provide a dashboard for viewing statistics
-# about PHP's built in opcache.
-opcache_admin_install() {
-  if [[ ! -d "/srv/www/default/opcache" ]]; then
-    echo -e "\nDownloading Opcache Status, see https://github.com/rlerdorf/opcache-status/"
-    cd /srv/www/default
-    git clone "https://github.com/rlerdorf/opcache-status.git" opcache
-    cp opcache/opcache.php opcache/index.php
-  else
-    echo -e "\nUpdating Opcache Status"
-    cd /srv/www/default/opcache
-    git pull --rebase origin master
-  fi
-}
 
 # installs phpmyadmin
 phpmyadmin_setup() {
@@ -449,10 +404,43 @@ mailhog_install() {
   systemctl start mailhog
 }
 
+# changes ownership of the user installed stuff for vagrant to use
 usr_bin_chown() {
   chown -R vagrant:www-data /usr/local/bin
 }
 
+# redis cache install
+redis_admin_install() {
+
+  if [[ ! -d "/srv/www/default/redis" ]]; then
+    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/erikdubbelboer/phpRedisAdmin"
+    cd /srv/www/default
+    wget -q -O php-redis-admin.zip "https://github.com/erikdubbelboer/phpRedisAdmin/archive/master.zip"
+    unzip php-redis-admin.zip
+    mv php-redis-admin* redis-admin
+    rm php-redis-admin.zip
+  else
+    echo "phpRedisAdmin is already installed."
+  fi
+  systemctl enable redis-server.service
+}
+
+# Download and extract phpMemcachedAdmin to provide a dashboard view and
+# admin interface to the goings on of memcached when running
+memcached_admin_install() {
+  if [[ ! -d "/srv/www/default/memcached" ]]; then
+    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/phpmemcacheadmin"
+    cd /srv/www/default
+    wget -q -O php-memcached-admin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
+    tar -xf phpmemcachedadmin.tar.gz
+    mv phpmemcacheadmin* memcached
+    rm phpmemcachedadmin.tar.gz
+  else
+    echo "phpMemcachedAdmin already installed."
+  fi
+}
+
+# sets up varnish
 varnish_config() {
   if [[ -d "/etc/default" ]]; then
     cp -f "/srv/config/varnish/varnish" "/etc/default/" 2>/dev/null
@@ -464,6 +452,21 @@ varnish_config() {
   cp -f "/srv/config/varnish/varnish.service" "/lib/systemd/system/" 2>/dev/null
   systemctl daemon-reload
   systemctl restart varnish
+}
+
+# Checkout Opcache Status to provide a dashboard for viewing statistics
+# about PHP's built in opcache.
+opcache_admin_install() {
+  if [[ ! -d "/srv/www/default/opcache" ]]; then
+    echo -e "\nDownloading Opcache Status, see https://github.com/rlerdorf/opcache-status/"
+    cd /srv/www/default
+    git clone "https://github.com/rlerdorf/opcache-status.git" opcache
+    cp opcache/opcache.php opcache/index.php
+  else
+    echo -e "\nUpdating Opcache Status"
+    cd /srv/www/default/opcache
+    git pull --rebase origin master
+  fi
 }
 
 
@@ -481,11 +484,11 @@ aws_cli
 go_install
 mailhog_install
 phpmyadmin_setup
-#redis_admin_install
-#memcached_admin_install
-opcache_admin_install
-#varnish_config
 webgrind_install
 php_codesniff
 npm_installs
 usr_bin_chown
+opcache_admin_install
+#redis_admin_install
+#memcached_admin_install
+#varnish_config

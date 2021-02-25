@@ -87,6 +87,9 @@ apache_config() {
   a2enmod proxy_connect
   a2enmod proxy_html
   a2enmod proxy_fcgi
+  a2enmod proxy_fcgi setenvif
+  a2enconf php7.4-fpm
+
   phpenmod mailhog
 
   usermod -a -G www-data vagrant
