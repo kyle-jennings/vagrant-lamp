@@ -18,26 +18,26 @@ apt_package_check_list=(
   software-properties-common
   # PHP7
   #
-  # Our base packages for php7.4. As long as php7.4-fpm and php7.4-cli are
-  # installed, there is no need to install the general php7.4 package, which
+  # Our base packages for php7.3. As long as php7.3-fpm and php7.3-cli are
+  # installed, there is no need to install the general php7.3 package, which
   # can sometimes install apache as a requirement.
-  php7.4
-  php7.4-common
-  php7.4-fpm
-  php7.4-cli
-  php7.4-dev
+  php7.3
+  php7.3-common
+  php7.3-fpm
+  php7.3-cli
+  php7.3-dev
 
   # Extra PHP modules that we find useful
-  php7.4-bcmath
-  php7.4-curl
-  php7.4-gd
-  php7.4-mbstring
-  php7.4-mysql
-  php7.4-imap
-  php7.4-json
-  php7.4-soap
-  php7.4-xml
-  php7.4-zip
+  php7.3-bcmath
+  php7.3-curl
+  php7.3-gd
+  php7.3-mbstring
+  php7.3-mysql
+  php7.3-imap
+  php7.3-json
+  php7.3-soap
+  php7.3-xml
+  php7.3-zip
 
   php-pear
   php-imagick
@@ -48,7 +48,7 @@ apt_package_check_list=(
   php-redis
 
   apache2
-  libapache2-mod-php7.4
+  libapache2-mod-php7.3
 
   # mysql is the default database
   mysql-server
