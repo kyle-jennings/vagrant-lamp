@@ -1,202 +1,6 @@
 #!/bin/bash
 
 
-# PACKAGE INSTALLATION
-#
-# Build a bash array to pass all of the packages we want to install to a single
-# apt-get command. This avoids doing all the leg work each time a package is
-# set to install. It also allows us to easily comment out or add single
-# packages. We set the array as empty to begin with so that we can append
-# individual packages to it as required.
-apt_package_install_list=()
-
-# Start with a bash array containing all packages we want to install in the
-# virtual machine. We'll then loop through each of these and check individual
-# status before adding them to the apt_package_install_list array.
-apt_package_check_list=(
-
-  software-properties-common
-  # PHP7
-  #
-  # Our base packages for php7.4. As long as php*-fpm and php*-cli are
-  # installed, there is no need to install the general php7.4 package, which
-  # can sometimes install apache as a requirement.
-  php7.4-fpm
-  php7.4-cli
-
-  # Common and dev packages for php
-  php7.4-common
-  php7.4-dev
-
-  # Extra PHP modules that we find useful
-  php-pear
-  php-pcov
-
-  php7.4-bcmath
-  php7.4-curl
-  php7.4-gd
-  php7.4-intl
-  php7.4-mbstring
-  php7.4-mysql
-  php7.4-imap
-  php7.4-json
-  php7.4-soap
-  php7.4-xml
-  php7.4-zip
-  php7.4-yaml
-
-  php-imagick
-  php-memcache
-  php-memcached
-  php-ssh2
-  php-xdebug
-  php-redis
-
-  apache2
-  libapache2-mod-php7.4
-
-  # mysql is the default database
-  mysql-server
-
-  # caching things
-  memcached
-  redis-server
-  varnish
-
-  # other packages that come in handy
-  imagemagick
-  subversion
-  git
-  # git-lfs # cunable to locate
-  zip
-  unzip
-  ngrep
-  curl
-  make
-  vim
-  colordiff
-  postfix
-  python-pip
-
-  # ntp service to keep clock current
-  ntp
-
-  # Req'd for i18n tools
-  gettext
-
-  # Req'd for Webgrind
-  graphviz
-
-  # dos2unix
-  # Allows conversion of DOS style line endings to something we'll have less
-  # trouble with in Linux.
-  dos2unix
-
-  # gnu compiler
-  g++
-
-  # nodejs for use by grunt
-  nodejs
-
-  # Ruby
-  ruby
-
-)
-
-noroot() {
-  sudo -EH -u "vagrant" "$@";
-}
-
-# First we need to add various apt repos
-add_ppa() {
-  sudo add-apt-repository ppa:ondrej/php -y
-  sudo apt-add-repository -y ppa:brightbox/ruby-ng
-  curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
-
-  sudo apt-get update -y
-}
-
-# Loop through each of our packages that should be installed on the system. If
-# not yet installed, it should be added to the array of packages to install.
-package_check() {
-  local pkg
-  local package_version
-
-  for pkg in "${apt_package_check_list[@]}"; do
-    package_version=$(dpkg -s "${pkg}" 2>&1 | grep 'Version:' | cut -d " " -f 2)
-    if [[ -n "${package_version}" ]]; then
-      space_count="$(expr 20 - "${#pkg}")" #11
-      pack_space_count="$(expr 30 - "${#package_version}")"
-      real_space="$(expr ${space_count} + ${pack_space_count} + ${#package_version})"
-      printf " * $pkg %${real_space}.${#package_version}s ${package_version}\n"
-    else
-      echo " *" $pkg [not installed]
-      apt_package_install_list+=($pkg)
-    fi
-  done
-}
-
-# installs all of our defined packages, runs apt-get update first. or it should anyway
-package_install() {
-  package_check
-
-  # MySQL
-  #
-  # Use debconf-set-selections to specify the default password for the root MySQL
-  # account. This runs on every provision, even if MySQL has been installed. If
-  # MySQL is already installed, it will not affect anything.
-
-  echo mysql-server mysql-server/root_password password "root" | debconf-set-selections
-  echo mysql-server mysql-server/root_password_again password "root" | debconf-set-selections
-
-  # Postfix
-  #
-  # Use debconf-set-selections to specify the selections in the postfix setup. Set
-  # up as an 'Internet Site' with the host name 'vvv'. Note that if your current
-  # Internet connection does not allow communication over port 25, you will not be
-  # able to send mail, even with postfix installed.
-  echo postfix postfix/main_mailer_type select Internet Site | debconf-set-selections
-  echo postfix postfix/mailname string vvv | debconf-set-selections
-
-  # Disable ipv6 as some ISPs/mail servers have problems with it
-  echo "inet_protocols = ipv4" >> "/etc/postfix/main.cf"
-
-
-  if [[ ${#apt_package_install_list[@]} = 0 ]]; then
-    echo -e "No apt packages to install.\n"
-  else
-    # Before running `apt-get update`, we should add the public keys for
-    # the packages that we are installing from non standard sources via
-    # our appended apt source.list
-
-    # Retrieve the Nginx signing key from nginx.org
-    # echo "Applying Nginx signing key..."
-    # wget --quiet "http://nginx.org/keys/nginx_signing.key" -O- | apt-key add -
-
-    # Apply the nodejs assigning key
-    apt-key adv --quiet --keyserver "hkp://keyserver.ubuntu.com:80" --recv-key C7917B12 2>&1 | grep "gpg:"
-    apt-key export C7917B12 | apt-key add -
-
-    # Update all of the package references before installing anything
-    echo ",.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,"
-    echo ",.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,"
-    echo "Running apt-get update:"
-    echo ${apt_package_install_list[@]}
-    echo ",.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,"
-    echo ",.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,,.~^~.,"
-
-
-    apt-get update -y
-
-    # Install required packages
-    echo "Installing apt-get packages..."
-    apt-get install -y ${apt_package_install_list[@]}
-
-    # Clean up apt-get caches
-    apt-get clean
-  fi
-}
-
 # install various NPM packages such as gulp and webpack
 npm_installs(){
   #ln -s /usr/bin/nodejs /usr/bin/node
@@ -220,10 +24,14 @@ npm_installs(){
 
   echo "installing gulp-cli"
   npm install -g gulp-cli
+
   echo "installing webpack"
   npm install -g webpack
 }
 
+noroot() {
+  sudo -EH -u "vagrant" "$@";
+}
 
 ack_grep_install() {
   # ack-grep
@@ -343,7 +151,8 @@ webgrind_install() {
   else
     echo -e "\nUpdating webgrind..."
     cd /srv/www/default/webgrind
-    git pull --rebase origin master
+    git pull origin master
+    # git pull --rebase origin master
   fi
 }
 
@@ -465,16 +274,15 @@ opcache_admin_install() {
   else
     echo -e "\nUpdating Opcache Status"
     cd /srv/www/default/opcache
-    git pull --rebase origin master
+    git pull origin master
+    # git pull --rebase origin master
   fi
 }
-
 
 echo '-------------------------'
 echo "Installing all the things"
 echo '-------------------------'
-add_ppa
-package_install
+
 ack_grep_install
 composer_install
 sass_install
@@ -489,6 +297,6 @@ php_codesniff
 npm_installs
 usr_bin_chown
 opcache_admin_install
-#redis_admin_install
-#memcached_admin_install
-#varnish_config
+redis_admin_install
+memcached_admin_install
+varnish_config

@@ -59,7 +59,7 @@ Vagrant.configure('2') do |config|
   # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
   # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
   # to your host computer, it is cached for future use under the specified box name.
-  config.vm.box = 'ubuntu/xenial64'
+  config.vm.box = 'bento/ubuntu-20.04'
   config.vm.hostname = 'vagrant'
   #config.vm.disk :disk, size: "100GB", primary: true
 
@@ -176,7 +176,11 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :shell, :path => File.join( 'provision', '01-network-check.sh' )
   config.vm.provision :shell, :path => File.join( 'provision', '02-env-config.sh' )
-  config.vm.provision :shell, :path => File.join( 'provision', '03-package-installs.sh' )
+
+  config.vm.provision :shell, :path => File.join( 'provision', '03-preinstall.sh' )
+  config.vm.provision :shell, :path => File.join( 'provision', '03.2-package-installs.sh' )
+  config.vm.provision :shell, :path => File.join( 'provision', '03.9-postinstall.sh' )
+
   config.vm.provision :shell, :path => File.join( 'provision', '04-web-services-prep.sh' )
   config.vm.provision :shell, inline: '/bin/bash ' + File.join( 'provision', '05-provision-sites.sh' )
 
