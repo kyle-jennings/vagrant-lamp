@@ -105,7 +105,7 @@ xdebug_log_conf() {
 }
 
 build_dashboard_css() {
-  cd /srv/www/default/dashboard/src
+  cd /srv/www/default/dashboard
   if [ ! -d node_modules ]; then
     npm install --silent
   fi
