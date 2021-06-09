@@ -36,6 +36,7 @@
       
       <div class="alert alert-secondary">
         <h4>Adding a New Site</h4>
+
         Create or modify sites.yml under the sites section to add a site, here's an example:
         <pre>
           example:
@@ -52,6 +53,8 @@
               TABLE_PREFIX: wp_
         </pre>
         So if a site exists in www/example/httpdocs, it will be accessible at http://example.loc
+
+				note - the "env" section is optional and is used to set environment variables such as DB_HOST
 
         Remember, in YAML whitespace matters, and you need to reprovision on changes, so run
         <code>vagrant reload --provision</code>

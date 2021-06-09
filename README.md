@@ -15,8 +15,8 @@ up their projects following a required recipes.
 
 
 ## Whats installed?
-* PHP 7.3
-* PHP FPM
+* PHP 7.4
+* PHP FPM (7.4)
 * Ruby
 * Ruby SASS
 * Go
@@ -27,18 +27,13 @@ up their projects following a required recipes.
 * Composer
 * Git
 * memcached
-* mySQL
-* mongoDB
+* mySQL 8
 * aws cli
 * wp cli
 * xdebug
 * nodeJS
 * npm
 * gulp
-
-Soon:
-* Vue tools
-* React tools
 
 <br/>
 
