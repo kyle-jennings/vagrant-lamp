@@ -82,12 +82,12 @@ with `$ vagrant plugin install vagrant-disksize`
 Each directory in the root of www is treated as a project, and will be synched
 into Vagrant to be served as a website.
 
-In order to server your websites, you'll need to create a file called "sites-custom.yml" in the root
+In order to server your websites, you'll need to create a file called "sites.yml" in the "custom" dir
 of the vagrant directory.  This file defines your sites, the urls to access them, and other configurations
 needed for Apache to properly serve them.
 
 
-The sites-custom.yml file needs to be structured with the following (anything wraped in {} is something you change):
+The sites.yml file needs to be structured with the following (anything wraped in {} is something you change):
 
 ```yaml
 sites:
@@ -188,9 +188,9 @@ $ vagrant up
 
 Vagrant will then start installing and configuring all the things for you.  Assuming
 you have the 'host-updater' plugin installed, when Vagrant is finished provisioning you should be able
-to access your sites at one of hte URLs you defined in the 'sites-custom.yml' file.
+to access your sites at one of hte URLs you defined in the 'sites.yml' file.
 
-NOTE - don't forget to create the project folders you referenced in the 'sites-custom.yml' file,
+NOTE - don't forget to create the project folders you referenced in the 'sites.yml' file,
 otherwise Apache will throw an error.
 
 ### Rebooting, re-provisioning, halting and destroying vagrant
@@ -245,20 +245,27 @@ $ ab -c 10 -t 10 -k https://www.epi.org
 ```
 
 
-## mongoDB
-
-Mongo is not enabled by default as this VM is primarily for WordPress development.
-
-To enable, SSH into the VM and follow these instructions: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#run-mongodb-community-edition
-
 <br />
 
 # Todo
 
 * user specified AWS creds
 * user specified Github creds
-* site config specified init files per site
+* site config specified init files per site or
+* UX for configuring site settings
 * UI toggles for XDebug
-* UI toggles for MongoDB
+* option for nginx
 * user specified Vagrant settings (ie - disk size config, nginx)
 * rename project
+
+# Changelog (finally)
+
+### 6/2021
+* updated vagrant box to Ubuntu 20.04 LTS
+* mysql updated to 8
+* php 7.4
+* moved sites custom configs and other custom configs to their own folder named... custom
+* added custom splash option
+* removed shyaml and replaced vhost building with ruby script
+* removed requirements for vagrant plugins: hostsupdater and disksize
+* added support for vagrant plugin hostmanager

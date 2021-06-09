@@ -10,7 +10,7 @@ class SitesParser
   def init
     @pwd            = File.expand_path(File.dirname(__FILE__))
     @dir            = File.expand_path("../..", @pwd)
-    @config_file    = "sites-custom.yml"
+    @config_file    = "sites.yml"
     @config_path    = File.join(@dir, 'custom', @config_file)
     @vhost_dir      = "/etc/apache2/sites-enabled"
     @vhost_template = "vhost-template.conf"

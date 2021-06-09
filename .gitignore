@@ -14,10 +14,10 @@
 */**/*.sql
 
 # ignore custom things
-custom/sites-custom.yml
+custom/sites.yml
 custom/system.yml
 custom/splash.rb
-custom/custom-commands.rb
+custom/commands.rb
 
 # we want to keep the default site's skeleton however
 /www/*

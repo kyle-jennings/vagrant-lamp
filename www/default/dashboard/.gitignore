@@ -1,0 +1,15 @@
+# Compiled assets
+*.sublime-workspace
+
+.DS_Store
+dist
+
+# dev dependencies
+node_modules
+npm-debug.log
+js/vendor
+
+*.hot-update.js
+*.hot-update.json
+
+.cachebusted

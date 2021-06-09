@@ -16,10 +16,6 @@ Vagrant.configure('2') do |config|
 
   # whitelist when we show the logo, else it'll show on global Vagrant commands
   if [ 'up', 'halt', 'resume', 'suspend', 'status', 'provision', 'reload', 'ssh' ].include? ARGV[0] then
-    show_logo = true
-  end
-
-  if show_logo then
     # Regular Colors
     black="\033[38;5;0m"
     red="\033[38;5;1m"
@@ -41,7 +37,10 @@ Vagrant.configure('2') do |config|
     on_white="\033[48;5;7m"
     line="#{on_red}#{white}"
     reset="\033[0m"
-
+    puts "\n"
+    puts 'Vagrant development environment and VVV clone supporint apache'
+    puts 'https://github.com/kyle-jennings/vagrant-lamp'
+    puts "\n"
     splash_default = <<-HEREDOC
 #{red}                       #{reset}
 #{red}                       #{reset}
@@ -53,26 +52,28 @@ Vagrant.configure('2') do |config|
 #{red}       Ubuntu          #{reset}
 #{red}                       #{reset}
     HEREDOC
+    puts "\n"
+    puts 'By Kyle Jennings'
+    puts "https://kylejennings.codes"
+    puts "\n"
 
     if File.file?(File.join(custom_folder, 'splash.rb')) then
       begin
         require File.join(custom_folder, 'splash.rb')
-        # puts splash
       rescue
-        puts splash_default
       end
-    else
-      puts splash_default
     end
+
+    puts splash_default
   end
 
 
 
   # ensure that the the sites custom file exists
-  sites_custom_file = File.join(custom_folder, 'sites-custom.yml')
+  sites_custom_file = File.join(custom_folder, 'sites.yml')
   if File.file?(sites_custom_file) == false then
-    # FileUtils.cp( File.join(vagrant_dir, 'sites-example.yml'), File.join(vagrant_dir, 'sites-custom.yml') )
-    abort('You do not have a sites-custom.yml file.  Please rename the sites-example.yml file to sites-custom.yml and place into the "custom" folder')
+    FileUtils.cp( File.join(custom_folder, 'sites.example.yml'), sites_custom_file )
+    abort('You do not have a sites.yml file.  We created one for you, please add some site configs andd try again.')
   end
 
   # Default Ubuntu Box
