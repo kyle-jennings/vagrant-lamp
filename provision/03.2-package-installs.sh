@@ -9,8 +9,10 @@
 # packages. We set the array as empty to begin with so that we can append
 # individual packages to it as required.
 apt_package_install_list=()
+php_package_install_list=()
 
-php_package_list=(
+
+php_package_check_list=(
   php7.4-fpm
   php7.4-cli
   php7.4-common
@@ -52,7 +54,7 @@ apt_package_check_list=(
   mysql-server
 
   # caching things
-  # memcached
+  memcached
   # redis-server
   # varnish
 
@@ -96,7 +98,7 @@ php_package_check() {
   local pkg
   local package_version
 
-  for pkg in "${php_package_list[@]}"; do
+  for pkg in "${php_package_check_list[@]}"; do
     package_version=$(dpkg -s "${pkg}" 2>&1 | grep 'Version:' | cut -d " " -f 2)
     if [[ -n "${package_version}" ]]; then
       space_count="$(expr 20 - "${#pkg}")" #11

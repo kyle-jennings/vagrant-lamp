@@ -8,8 +8,14 @@ VAGRANT_EXPERIMENTAL="disks"
 
 Vagrant.configure('2') do |config|
 
+  if Vagrant.has_plugin?("vagrant-hostmanager") then
+    config.hostmanager.enabled = false
+  end
+
+  custom_folder = File.join(vagrant_dir, 'custom');
+
   # whitelist when we show the logo, else it'll show on global Vagrant commands
-  if [ 'up', 'halt', 'resume', 'suspend', 'status', 'provision', 'reload' ].include? ARGV[0] then
+  if [ 'up', 'halt', 'resume', 'suspend', 'status', 'provision', 'reload', 'ssh' ].include? ARGV[0] then
     show_logo = true
   end
 
@@ -36,8 +42,7 @@ Vagrant.configure('2') do |config|
     line="#{on_red}#{white}"
     reset="\033[0m"
 
-
-    splash = <<-HEREDOC
+    splash_default = <<-HEREDOC
 #{red}                       #{reset}
 #{red}                       #{reset}
 #{red}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄·  #{reset}
@@ -49,10 +54,26 @@ Vagrant.configure('2') do |config|
 #{red}                       #{reset}
     HEREDOC
 
-
-    puts splash
+    if File.file?(File.join(custom_folder, 'splash.rb')) then
+      begin
+        require File.join(custom_folder, 'splash.rb')
+        # puts splash
+      rescue
+        puts splash_default
+      end
+    else
+      puts splash_default
+    end
   end
 
+
+
+  # ensure that the the sites custom file exists
+  sites_custom_file = File.join(custom_folder, 'sites-custom.yml')
+  if File.file?(sites_custom_file) == false then
+    # FileUtils.cp( File.join(vagrant_dir, 'sites-example.yml'), File.join(vagrant_dir, 'sites-custom.yml') )
+    abort('You do not have a sites-custom.yml file.  Please rename the sites-example.yml file to sites-custom.yml and place into the "custom" folder')
+  end
 
   # Default Ubuntu Box
   #
@@ -61,14 +82,9 @@ Vagrant.configure('2') do |config|
   # to your host computer, it is cached for future use under the specified box name.
   config.vm.box = 'bento/ubuntu-20.04'
   config.vm.hostname = 'vagrant'
-  #config.vm.disk :disk, size: "100GB", primary: true
 
   unless Vagrant.has_plugin?("vagrant-disksize")
     raise  Vagrant::Errors::VagrantError.new, "vagrant-disksize plugin is missing. Please install it using 'vagrant plugin install vagrant-disksize' and rerun 'vagrant up'"
-  end
-
-  unless Vagrant.has_plugin?("vagrant-hostsupdater")
-    raise  Vagrant::Errors::VagrantError.new, "vagrant-hostsupdater plugin is missing. Please install it using 'vagrant plugin install vagrant-hostsupdater' and rerun 'vagrant up'"
   end
 
   # Private Network (default)
@@ -113,15 +129,6 @@ Vagrant.configure('2') do |config|
 
   show_logo = false
 
-  # read in the YAML files
-  if File.file?(File.join(vagrant_dir, 'sites-custom.yml')) == false then
-    FileUtils.cp( File.join(vagrant_dir, 'sites-example.yml'), File.join(vagrant_dir, 'sites-custom.yml') )
-  end
-
-  if File.file?(File.join(vagrant_dir, 'sites-custom.yml')) == false then
-    abort('Not found: sites-custom.yml or sites-example.yml')
-  end
-
   vagrant_version = Vagrant::VERSION.sub(/^v/, '')
   if vagrant_version <= '1.6.0'
     abort('Vagrant version must be newer than 1.6.0')
@@ -130,13 +137,10 @@ Vagrant.configure('2') do |config|
 
   # Sync these folders to /srv
   ['databases', 'config', 'www'].each do |dir|
-    if File.exists?(File.join(vagrant_dir, dir)) then
-      config.vm.synced_folder dir + '/', '/srv/' + dir, :owner => "vagrant", :mount_options => [ "dmode=775", "fmode=774" ]
-    else
-      puts('Hey now, the "' + dir + '" directory is missing.  We are creating it for you..' )
+    if !File.exists?(File.join(vagrant_dir, dir)) then
       system('mkdir ' + dir)
-      abort('Created the directory!  Try your command again')
     end
+      config.vm.synced_folder dir + '/', '/srv/' + dir, :owner => "vagrant", :mount_options => [ "dmode=775", "fmode=774" ]
   end
 
   # custom triggers
@@ -166,65 +170,61 @@ Vagrant.configure('2') do |config|
   #
   # Note that if you find yourself using a Customfile for anything crazy or specifying
   # different provisioning, then you may want to consider a new Vagrantfile entirely.
-  if File.exists?(File.join(vagrant_dir,'Customfile')) then
-    eval(IO.read(File.join(vagrant_dir,'Customfile')), binding)
-  end
+
+  # if File.exists?(File.join(vagrant_dir,'Customfile')) then
+  #   eval(IO.read(File.join(vagrant_dir,'Customfile')), binding)
+  # end
 
 
   # Provisioning
   config.vm.synced_folder 'provision/', '/home/vagrant/provision'
+  config.vm.synced_folder 'custom/', '/home/vagrant/custom'
 
   config.vm.provision :shell, :path => File.join( 'provision', '01-network-check.sh' )
   config.vm.provision :shell, :path => File.join( 'provision', '02-env-config.sh' )
 
+  # ## install the things
   config.vm.provision :shell, :path => File.join( 'provision', '03-preinstall.sh' )
   config.vm.provision :shell, :path => File.join( 'provision', '03.2-package-installs.sh' )
   config.vm.provision :shell, :path => File.join( 'provision', '03.9-postinstall.sh' )
 
   config.vm.provision :shell, :path => File.join( 'provision', '04-web-services-prep.sh' )
-  config.vm.provision :shell, inline: '/bin/bash ' + File.join( 'provision', '05-provision-sites.sh' )
+  config.vm.provision :shell, inline: <<-SHELL
+    ruby $(pwd)/provision/lib/sites-parser.rb
+  SHELL
 
-
-  # Set host machine's host files
-  hostnames = [
-    'vagrant.loc',
-    'www.vagrant.loc',
-    'database.loc',
-    'www.database.loc',
-    'mailhog.loc',
-    'www.mailhog.loc'
-  ]
-  yaml_file = File.join(vagrant_dir, 'sites-custom.yml')
-  yaml = YAML.load_file(yaml_file)
-
-  if ! yaml['sites'].kind_of? Hash then
-    yaml['sites'] = Hash.new
-  end
-
-  yaml['sites'].each do |site, args|
-    if ! args['hosts'].kind_of? Array then
-      args['hosts'] = Array.new
-    end
-    hostnames.concat(args['hosts'])
-  end
-
-  hostnames.flatten.uniq
-
-  # Pass the found host names to the hostsupdater plugin so it can perform magic.
-  config.hostsupdater.aliases = hostnames
-  config.hostsupdater.remove_on_suspend = true
-
-  # restart all web services
   config.vm.provision :shell, :path => File.join( 'provision', '06-restart-web-services.sh' ), run: 'always'
 
-  # Triggers
-  # These are run when vagrant is brought up, down, and destroyed
-  # config.trigger.after :up do |trigger|
-  #   trigger.name = '~~~ Vagrant provisioning ~~~'
-  #   trigger.run_remote = { inline: 'bash /srv/config/triggers/db_restore' }
-  #   trigger.on_error = :continue
-  # end
+  # Set host machine's host files
+  if Vagrant.has_plugin?("vagrant-hostmanager") then
+    hostnames = [
+      'vagrant.loc',
+      'www.vagrant.loc',
+      'database.loc',
+      'www.database.loc',
+      'mailhog.loc',
+      'www.mailhog.loc'
+    ]
+    yaml = YAML.load_file(sites_custom_file)
+    if ! yaml['sites'].kind_of? Hash then
+      yaml['sites'] = Hash.new
+    end
 
+    yaml['sites'].each do |site, args|
+      if ! args['hosts'].kind_of? Array then
+        args['hosts'] = Array.new
+      end
+      hostnames.concat(args['hosts'])
+    end
+
+    hostnames.flatten.uniq
+    config.hostmanager.aliases = hostnames
+    config.hostmanager.manage_host = true
+    config.vm.provision :hostmanager
+  end
+
+
+  # Triggers
   # config.trigger.after :provision do |trigger|
   #   trigger.name = '~~~ Vagrant provisioning ~~~'
   #   trigger.run_remote = { inline: 'bash /srv/config/triggers/db_update' }
@@ -236,6 +236,5 @@ Vagrant.configure('2') do |config|
   #   trigger.run_remote = { inline: 'bash /srv/config/triggers/db_backups' }
   #   trigger.on_error = :continue
   # end
-
 
 end

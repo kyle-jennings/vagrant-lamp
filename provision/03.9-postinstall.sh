@@ -88,14 +88,6 @@ sass_install() {
   sudo gem install sass -v 3.4.25
 }
 
-# installs shyaml - this program parse YAML code from the shell. its awful
-shyaml_install() {
-  if [[ ! -f /usr/local/bin/shyaml ]]; then
-    sudo pip -q install shyaml
-  else
-    echo "shyaml is already installed"
-  fi
-}
 
 # Installs the AWS cli
 aws_cli() {
@@ -227,7 +219,9 @@ redis_admin_install() {
     wget -q -O php-redis-admin.zip "https://github.com/erikdubbelboer/phpRedisAdmin/archive/master.zip"
     unzip php-redis-admin.zip
     mv php-redis-admin* redis-admin
-    rm php-redis-admin.zip
+    if [[ -f php-redis-admin.zip ]]; then
+      rm php-redis-admin.zip
+    fi
   else
     echo "phpRedisAdmin is already installed."
   fi
@@ -286,7 +280,6 @@ echo '-------------------------'
 ack_grep_install
 composer_install
 sass_install
-shyaml_install
 wp_cli
 aws_cli
 go_install

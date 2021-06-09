@@ -14,9 +14,10 @@
 */**/*.sql
 
 # ignore custom things
-/sites-custom.yml
-/splash
-/splash-custom
+custom/sites-custom.yml
+custom/system.yml
+custom/splash.rb
+custom/custom-commands.rb
 
 # we want to keep the default site's skeleton however
 /www/*
@@ -31,6 +32,5 @@
 !/www/default/index.php
 !/www/default/dashboard/
 !/www/default/phpinfo/
-
 
 node_modules
