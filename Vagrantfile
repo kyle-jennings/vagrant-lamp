@@ -15,6 +15,14 @@ Vagrant.configure('2') do |config|
   custom_folder = File.join(vagrant_dir, 'custom');
 
   # whitelist when we show the logo, else it'll show on global Vagrant commands
+  #
+  # bash raw code colors
+  # https://gist.github.com/vratiu/9780109
+  #
+  # more modern termincal colors with varying support
+  # https://misc.flogisoft.com/bash/tip_colors_and_formatting
+  #
+
   if [ 'up', 'halt', 'resume', 'suspend', 'status', 'provision', 'reload', 'ssh' ].include? ARGV[0] then
     # Regular Colors
     black = "\033[38;5;0m"
@@ -26,6 +34,7 @@ Vagrant.configure('2') do |config|
     cyan = "\033[38;5;6m"
     white = "\033[38;5;7m"
     orange = "\e[38;5;202m"
+    purple = "\e[38;5;92m"
 
     # Background
     on_black = "\033[48;5;0m"
@@ -36,9 +45,12 @@ Vagrant.configure('2') do |config|
     on_magenta = "\033[48;5;5m"
     on_cyan = "\033[48;5;6m"
     on_white = "\033[48;5;7m"
+    on_orange = "\033[48;5;202m"
+    on_purple = "\033[48;5;92m"
 
     # color combos
-    line = "#{on_red}#{white}"
+    white_on_red = "#{on_red}#{white}"
+    white_on_purple = "#{on_purple}#{white}"
 
     # misc
     underline = "\033[4m"
@@ -50,15 +62,15 @@ Vagrant.configure('2') do |config|
     puts "#{orange}" + 'Vagrant development environment and VVV clone supporint apache' + "#{reset}"
     puts "#{blue}#{underline}" + 'https://github.com/kyle-jennings/vagrant-lamp' + "#{reset}"
     splash_default = <<-HEREDOC
-#{red}                       #{reset}
-#{red}                       #{reset}
-#{red}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄·  #{reset}
-#{red} ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█  #{reset}
-#{red} ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█  #{reset}
-#{red}  ███  ███  ███ ▐█ ▪▐▌ #{reset}
-#{red} . ▀  . ▀  . ▀   ▀  ▀  #{reset}
-#{red}       Ubuntu          #{reset}
-#{red}                       #{reset}
+#{purple}                       #{reset}
+#{purple}                       #{reset}
+#{purple}  ▌ ▐· ▌ ▐· ▌ ▐· ▄▄▄·  #{reset}
+#{purple} ▪█·█▌▪█·█▌▪█·█▌▐█ ▀█  #{reset}
+#{purple} ▐█▐█•▐█▐█•▐█▐█•▄█▀▀█  #{reset}
+#{purple}  ███  ███  ███ ▐█ ▪▐▌ #{reset}
+#{purple} . ▀  . ▀  . ▀   ▀  ▀  #{reset}
+#{purple}       Ubuntu          #{reset}
+#{purple}                       #{reset}
     HEREDOC
     puts splash_default
 
@@ -67,7 +79,7 @@ Vagrant.configure('2') do |config|
     puts '---'
     puts "\n"
 
-    sleep(10)
+    sleep(5)
 
 
     if File.file?(File.join(custom_folder, 'splash.rb')) then
