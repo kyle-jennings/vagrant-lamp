@@ -2,7 +2,7 @@
     "[php]": {
         "editor.formatOnSave": false,
         "editor.quickSuggestions": { "comments": true },
-        "editor.defaultFormatter": "junstyle.php-cs-fixer",
+        "editor.defaultFormatter": "wongjn.php-sniffer",
         "editor.tabSize": 4,
         "editor.insertSpaces": false
     },

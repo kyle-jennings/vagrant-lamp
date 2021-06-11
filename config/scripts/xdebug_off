@@ -1,5 +1,7 @@
 #!/bin/bash
 sudo phpdismod xdebug
 
-# find /etc/init.d/ -name "php*-fpm" -exec bash -c 'sudo service "$(basename "$0")" restart' {} \;
+find /etc/init.d/ -name "php*-fpm" -exec bash -c 'sudo service "$(basename "$0")" restart' {} \;
 sudo service apache2 reload
+
+echo 'off'

@@ -31,11 +31,11 @@ php_package_check_list=(
   php7.4-xml
   php7.4-zip
   php7.4-yaml
+  php7.4-xdebug
   php-imagick
   php-memcache
   php-memcached
   php-ssh2
-  php-xdebug
   php-redis
 )
 

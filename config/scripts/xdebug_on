@@ -1,8 +1,5 @@
 #!/bin/bash
 sudo phpenmod xdebug
 
-# find /etc/init.d/ -name "php*-fpm" -exec bash -c 'sudo service "$(basename "$0")" restart' {} \;
+find /etc/init.d/ -name "php*-fpm" -exec bash -c 'sudo service "$(basename "$0")" restart' {} \;
 sudo service apache2 reload
-# Ensure the log file for xdebug is group writeable.
-sudo touch /var/log/xdebug-remote.log
-sudo chmod 664 /var/log/xdebug-remote.log

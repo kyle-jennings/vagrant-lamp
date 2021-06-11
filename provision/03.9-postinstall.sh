@@ -134,37 +134,12 @@ php_codesniff() {
   fi
 }
 
-# Webgrind install (for viewing callgrind/cachegrind files produced by
-# xdebug profiler)
-webgrind_install() {
-  if [[ ! -d "/srv/www/default/webgrind" ]]; then
-    echo -e "\nDownloading webgrind, see https://github.com/michaelschiller/webgrind.git"
-    git clone "https://github.com/michaelschiller/webgrind.git" "/srv/www/default/webgrind"
-  else
-    echo -e "\nUpdating webgrind..."
-    cd /srv/www/default/webgrind
-    git pull origin master
-    # git pull --rebase origin master
-  fi
+
+# changes ownership of the user installed stuff for vagrant to use
+usr_bin_chown() {
+  chown -R vagrant:www-data /usr/local/bin
 }
 
-
-# installs phpmyadmin
-phpmyadmin_setup() {
-  # Download phpMyAdmin
-
-  if [[ ! -d "/srv/www/default/database" ]]; then
-    echo "Downloading phpMyAdmin..."
-    cd /srv/www/default
-    wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.tar.gz"
-    tar -xf phpmyadmin.tar.gz
-    rm phpmyadmin.tar.gz
-    mv phpMy* database
-  else
-    echo "PHPMyAdmin already installed."
-  fi
-  cp "/srv/config/phpmyadmin/config.inc.php" "/srv/www/default/database/"
-}
 
 # install go - needed for mailhog
 go_install() {
@@ -205,17 +180,46 @@ mailhog_install() {
   systemctl start mailhog
 }
 
-# changes ownership of the user installed stuff for vagrant to use
-usr_bin_chown() {
-  chown -R vagrant:www-data /usr/local/bin
+
+# Webgrind install (for viewing callgrind/cachegrind files produced by
+# xdebug profiler)
+webgrind_install() {
+  if [[ ! -d "/srv/www/default/tools/webgrind" ]]; then
+    echo -e "\nDownloading webgrind, see https://github.com/michaelschiller/webgrind.git"
+    git clone "https://github.com/michaelschiller/webgrind.git" "/srv/www/default/tools/webgrind"
+  else
+    echo -e "\nUpdating webgrind..."
+    cd /srv/www/default/tools/webgrind
+    git pull origin master
+    # git pull --rebase origin master
+  fi
 }
+
+
+# installs phpmyadmin
+phpmyadmin_setup() {
+  # Download phpMyAdmin
+
+  if [[ ! -d "/srv/www/default/tools/database" ]]; then
+    echo "Downloading phpMyAdmin..."
+    cd /srv/www/default/tools
+    wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/5.1.1/phpMyAdmin-5.1.1-all-languages.tar.gz"
+    tar -xf phpmyadmin.tar.gz
+    rm phpmyadmin.tar.gz
+    mv phpMy* database
+  else
+    echo "PHPMyAdmin already installed."
+  fi
+  cp "/srv/config/phpmyadmin/config.inc.php" "/srv/www/default/tools/database/"
+}
+
 
 # redis cache install
 redis_admin_install() {
 
-  if [[ ! -d "/srv/www/default/redis" ]]; then
+  if [[ ! -d "/srv/www/default/tools/redis" ]]; then
     echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/erikdubbelboer/phpRedisAdmin"
-    cd /srv/www/default
+    cd /srv/www/default/tools
     wget -q -O php-redis-admin.zip "https://github.com/erikdubbelboer/phpRedisAdmin/archive/master.zip"
     unzip php-redis-admin.zip
     mv php-redis-admin* redis-admin
@@ -231,15 +235,32 @@ redis_admin_install() {
 # Download and extract phpMemcachedAdmin to provide a dashboard view and
 # admin interface to the goings on of memcached when running
 memcached_admin_install() {
-  if [[ ! -d "/srv/www/default/memcached" ]]; then
+  if [[ ! -d "/srv/www/default/tools/memcached" ]]; then
     echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/phpmemcacheadmin"
-    cd /srv/www/default
+    cd /srv/www/default/tools
     wget -q -O php-memcached-admin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
     tar -xf phpmemcachedadmin.tar.gz
     mv phpmemcacheadmin* memcached
     rm phpmemcachedadmin.tar.gz
   else
     echo "phpMemcachedAdmin already installed."
+  fi
+}
+
+
+# Checkout Opcache Status to provide a dashboard for viewing statistics
+# about PHP's built in opcache.
+opcache_admin_install() {
+  if [[ ! -d "/srv/www/default/tools/opcache" ]]; then
+    echo -e "\nDownloading Opcache Status, see https://github.com/rlerdorf/opcache-status/"
+    cd /srv/www/default/tools
+    git clone "https://github.com/rlerdorf/opcache-status.git" opcache
+    cp opcache/opcache.php opcache/index.php
+  else
+    echo -e "\nUpdating Opcache Status"
+    cd /srv/www/default/opcache
+    git pull origin master
+    # git pull --rebase origin master
   fi
 }
 
@@ -257,21 +278,6 @@ varnish_config() {
   systemctl restart varnish
 }
 
-# Checkout Opcache Status to provide a dashboard for viewing statistics
-# about PHP's built in opcache.
-opcache_admin_install() {
-  if [[ ! -d "/srv/www/default/opcache" ]]; then
-    echo -e "\nDownloading Opcache Status, see https://github.com/rlerdorf/opcache-status/"
-    cd /srv/www/default
-    git clone "https://github.com/rlerdorf/opcache-status.git" opcache
-    cp opcache/opcache.php opcache/index.php
-  else
-    echo -e "\nUpdating Opcache Status"
-    cd /srv/www/default/opcache
-    git pull origin master
-    # git pull --rebase origin master
-  fi
-}
 
 echo '-------------------------'
 echo "Installing all the things"

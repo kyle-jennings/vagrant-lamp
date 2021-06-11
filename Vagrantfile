@@ -59,7 +59,7 @@ Vagrant.configure('2') do |config|
 
     puts "\n"
     puts '---'
-    puts "#{orange}" + 'Vagrant development environment and VVV clone supporint apache' + "#{reset}"
+    puts "#{orange}" + 'Vagrant development environment and shameless VVV clone supporting apache' + "#{reset}"
     puts "#{blue}#{underline}" + 'https://github.com/kyle-jennings/vagrant-lamp' + "#{reset}"
     splash_default = <<-HEREDOC
 #{purple}                       #{reset}
@@ -165,12 +165,12 @@ Vagrant.configure('2') do |config|
     if !File.exists?(File.join(vagrant_dir, dir)) then
       system('mkdir ' + dir)
     end
-      config.vm.synced_folder dir + '/', '/srv/' + dir, :owner => "vagrant", :mount_options => [ "dmode=775", "fmode=774" ]
+      config.vm.synced_folder dir + '/', '/srv/' + dir, :owner => "vagrant", :mount_options => [ "dmode=775", "fmode=777" ]
   end
 
   # custom triggers
   if File.exists?(File.join(vagrant_dir, 'triggers')) then
-    config.vm.synced_folder 'triggers/', '/srv/config/triggers/custom/', :owner => 'www-data', :mount_options => [ 'dmode=775', 'fmode=774' ]
+    config.vm.synced_folder 'triggers/', '/srv/config/triggers/custom/', :owner => 'www-data', :mount_options => [ 'dmode=775', 'fmode=777' ]
   end
 
   # logs
@@ -225,10 +225,6 @@ Vagrant.configure('2') do |config|
     hostnames = [
       'vagrant.loc',
       'www.vagrant.loc',
-      'database.loc',
-      'www.database.loc',
-      'mailhog.loc',
-      'www.mailhog.loc'
     ]
     yaml = YAML.load_file(sites_custom_file)
     if ! yaml['sites'].kind_of? Hash then
