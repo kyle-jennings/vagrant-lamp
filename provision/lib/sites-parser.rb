@@ -34,11 +34,11 @@ class SitesParser
     sites['sites'].each do |name, site|
       args      = {
         'sitename'  => name,
-        'url'       => site['hosts'][0],
+        'host'      => site['host'],
         'directory' => site['directory'],
         'root'      => site['site_root'] || '' ,
-        'vhost'     => vhost_dir + site['hosts'][0],
-        'aliases'   => site['hosts'].length() > 1 ? site['hosts'][1...].join(' ') : nil ,
+        'vhost'     => vhost_dir + site['host'],
+        'aliases'   => site['aliases'].join(' ') || nil ,
         'env'       => site['env'] || nil
       }
       args['dirname'] = args['directory'] + '/' + args['root']
@@ -62,7 +62,7 @@ class SitesParser
 
 
     text = File.read(template_file)
-    text = text.gsub(/\{\{URL\}\}/, args['url'])
+    text = text.gsub(/\{\{HOST\}\}/, args['host'])
     text = text.gsub(/\{\{DIRNAME\}\}/, args['dirname'])
 
     text = text.gsub(/\{\{SITENAME\}\}/, args['sitename'])
@@ -71,7 +71,7 @@ class SitesParser
       text = text.gsub(/#ServerAlias/, 'ServerAlias')
     end
 
-    if args['aliases'].include? 'www.' + args['url']
+    if args['aliases'].include? 'www.' + args['host']
       text = text.gsub(/#Rewrite/, 'Rewrite')
     end
 

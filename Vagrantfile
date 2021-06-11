@@ -232,10 +232,11 @@ Vagrant.configure('2') do |config|
     end
 
     yaml['sites'].each do |site, args|
-      if ! args['hosts'].kind_of? Array then
-        args['hosts'] = Array.new
+      hostnames.push(args['host'])
+      if ! args['aliases'].kind_of? Array then
+        args['aliases'] = Array.new
       end
-      hostnames.concat(args['hosts'])
+      hostnames.concat(args['aliases'])
     end
 
     hostnames.flatten.uniq

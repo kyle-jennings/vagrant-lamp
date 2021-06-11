@@ -13,12 +13,17 @@
 /databases/*.sql
 */**/*.sql
 
+node_modules
+
 # ignore custom things
 custom/sites.yml
 custom/system.yml
 custom/splash.rb
 custom/commands.rb
 custom/*
+!custom/sites.example.yml
+!custom/splash.example.rb
+
 
 # we want to keep the default site's skeleton however
 /www/*
@@ -26,12 +31,10 @@ custom/*
 /www/default/*
 !/www/default/dashboard
 !/www/default/dashboard/*
-/www/default/dashboard/src/package-lock.json
-/www/default/dashboard/dist/css
-/www/default/dashboard/dist/fonts
-/www/default/dashboard/dist/fonts/*
+!/www/default/api
+!/www/default/site-config
+!/www/default/_src
+!/www/default/dist
 !/www/default/index.php
 !/www/default/dashboard/
 !/www/default/phpinfo/
-
-node_modules
