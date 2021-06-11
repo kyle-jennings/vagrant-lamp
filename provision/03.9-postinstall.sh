@@ -217,18 +217,19 @@ phpmyadmin_setup() {
 # redis cache install
 redis_admin_install() {
 
-  if [[ ! -d "/srv/www/default/tools/redis" ]]; then
-    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/erikdubbelboer/phpRedisAdmin"
+  if [[ ! -d "/srv/www/default/tools/memcached" ]]; then
+    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/php-memcached-admin"
     cd /srv/www/default/tools
-    wget -q -O php-redis-admin.zip "https://github.com/erikdubbelboer/phpRedisAdmin/archive/master.zip"
-    unzip php-redis-admin.zip
-    mv php-redis-admin* redis-admin
-    if [[ -f php-redis-admin.zip ]]; then
-      rm php-redis-admin.zip
-    fi
+    wget -q -O phpmemcacheadmin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
+    tar -xf phpmemcacheadmin.tar.gz
+    rm phpmemcacheadmin*tar.gz
+    mv phpRedis* redis
+    cd redis
+    composer install
   else
-    echo "phpRedisAdmin is already installed."
+    echo "phpMemcachedAdmin already installed."
   fi
+
   systemctl enable redis-server.service
 }
 
@@ -236,12 +237,13 @@ redis_admin_install() {
 # admin interface to the goings on of memcached when running
 memcached_admin_install() {
   if [[ ! -d "/srv/www/default/tools/memcached" ]]; then
-    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/phpmemcacheadmin"
+    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/php-memcached-admin"
     cd /srv/www/default/tools
-    wget -q -O php-memcached-admin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
-    tar -xf phpmemcachedadmin.tar.gz
-    mv phpmemcacheadmin* memcached
-    rm phpmemcachedadmin.tar.gz
+    wget -q -O phpmemcacheadmin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
+
+    tar -xf phpmemcacheadmin.tar.gz --directory memcached
+    rm phpmemcacheadmin*tar.gz
+    mv phpmemcacheadmin* memcache
   else
     echo "phpMemcachedAdmin already installed."
   fi
@@ -258,7 +260,7 @@ opcache_admin_install() {
     cp opcache/opcache.php opcache/index.php
   else
     echo -e "\nUpdating Opcache Status"
-    cd /srv/www/default/opcache
+    cd /srv/www/default/tools/opcache
     git pull origin master
     # git pull --rebase origin master
   fi

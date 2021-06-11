@@ -18,6 +18,7 @@ custom/sites.yml
 custom/system.yml
 custom/splash.rb
 custom/commands.rb
+custom/*
 
 # we want to keep the default site's skeleton however
 /www/*
