@@ -48,12 +48,11 @@ $fa-font-path: '../fonts';
 @import 'bootstrap/spinners';
 @import 'bootstrap/utilities';
 @import 'bootstrap/print';
+@import 'bootstrap/list-group';
+@import 'bootstrap/card';
 
 
-@import 'components/list-group';
-@import 'components/button';
-@import 'components/card';
-@import 'components/type';
+// @import 'components/type';
 @import 'components/label';
 @import 'components/fade-transition.scss';
 

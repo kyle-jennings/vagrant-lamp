@@ -30,7 +30,7 @@ export default {
   },
   template: `
   <div :class="formGroupClass" class="form-group">
-    <label class="label-large" v-if="showName" for="">{{name}}</label>
+    <label class="label-large" v-if="showName" for="">{{name | prettyStrings }}</label>
     <input type="text" class="form-control" :value="value" />
     <div class="input-group-append" v-if="inRepeatable">
       <button class="btn btn-danger" type="button" v-on:click="removeRow">

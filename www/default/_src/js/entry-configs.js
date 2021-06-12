@@ -5,6 +5,12 @@ import Repeatable from  './vue-components/Repeatable';
 import KeyValue from  './vue-components/KeyValue';
 import TextArea from  './vue-components/TextArea';
 
+Vue.filter('prettyStrings', function (value) {
+  if (!value) return ''
+  value = value.toString();
+  value = value.replace(/_/g, ' ');
+  return value.charAt(0).toUpperCase() + value.slice(1);
+});
 
 new Vue({
   el: '#js--view-key-config',

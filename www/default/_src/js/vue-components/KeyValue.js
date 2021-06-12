@@ -24,16 +24,14 @@ export default {
 
     <div class="col-md-4">
       <label>Key</label>
-      <input type="text" class="form-control mb-4" :value="key">
+      <input type="text" class="form-control" :value="key">
     </div>
     
     <div class="col-md-8">
       <label>Value</label>
-      <div class="input-group mb-5">
+      <div class="input-group">
         <input type="text" class="form-control" :value="keyVal">
         <div class="input-group-append">
-          <!-- <div class="input-group-text bg-danger">
-            </div> -->
           <button class="btn btn-danger" type="button" v-on:click="removeRow">
             <i class="fas fa-minus-circle text-white"></i>
           </button>

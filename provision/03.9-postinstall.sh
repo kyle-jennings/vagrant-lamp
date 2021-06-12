@@ -217,7 +217,7 @@ phpmyadmin_setup() {
 # redis cache install
 redis_admin_install() {
 
-  if [[ ! -d "/srv/www/default/tools/memcached" ]]; then
+  if [[ ! -d "/srv/www/default/tools/redis" ]]; then
     echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/php-memcached-admin"
     cd /srv/www/default/tools
     wget -q -O phpmemcacheadmin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
@@ -241,7 +241,7 @@ memcached_admin_install() {
     cd /srv/www/default/tools
     wget -q -O phpmemcacheadmin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
 
-    tar -xf phpmemcacheadmin.tar.gz --directory memcached
+    tar -xf phpmemcacheadmin.tar.gz
     rm phpmemcacheadmin*tar.gz
     mv phpmemcacheadmin* memcache
   else

@@ -66,7 +66,7 @@ export default {
   },
   template: `
   <div class="form-group repeatable">
-    <label class="label-large" for="">{{name}}</label>
+    <label class="label-large" for="">{{name | prettyStrings }}</label>
     <component 
       v-for="(e, i) in this.fieldValues"
       :key="i"
