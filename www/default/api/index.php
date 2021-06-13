@@ -10,11 +10,16 @@ header( 'Access-Control-Max-Age: 1000' );
 header( 'Content-type:application/json' );
 
 function vvva_ajax_rebuild_vhosts( $data = null ) {
-	error_log( 'rebuilding vhosts!' );
+
+	if ( is_readable( SRV_ROOT . '/provision/lib/vhost-builder.php' ) ) {
+		include SRV_ROOT . '/provision/lib/vhost-builder.php';
+	}
+
+	sleep(3);
 	$response = json_encode(
 		[
 			'status' => 'ok',
-			'data'   => dirname( dirname( __FILE__ ) ),
+			'data'   => 'boom',
 			'action' => 'rebuild_vhosts',
 		]
 	);

@@ -80,6 +80,9 @@ new Vue({
 
       return 'Field';
     },
+    submit: function () {
+      
+    },
   },
   beforeMount: function () {
     const obj = {
@@ -140,7 +143,13 @@ new Vue({
       </transition-group>
       
       <!-- <transition name="fade" v-if="currentSiteConfigs" > -->
-        <button type="submit" class="btn btn-primary" v-if="currentSiteConfigs">Submit</button>
+        <button 
+          type="submit"
+          class="btn btn-primary" 
+          v-if="currentSiteConfigs"v-on:click.prevent="submit"
+        >
+          Submit
+        </button>
       <!-- </transition> -->
 
     </form>

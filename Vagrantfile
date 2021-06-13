@@ -13,7 +13,7 @@ Vagrant.configure('2') do |config|
   end
 
   custom_folder = File.join(vagrant_dir, 'custom');
-
+  custom_examples_folder = File.join(vagrant_dir, 'config', 'custom-examples');
   # whitelist when we show the logo, else it'll show on global Vagrant commands
   #
   # bash raw code colors
@@ -96,7 +96,7 @@ Vagrant.configure('2') do |config|
   # ensure that the the sites custom file exists
   sites_custom_file = File.join(custom_folder, 'sites.yml')
   if File.file?(sites_custom_file) == false then
-    FileUtils.cp( File.join(custom_folder, 'sites.example.yml'), sites_custom_file )
+    FileUtils.cp( File.join(custom_examples_folder, 'sites.example.yml'), sites_custom_file )
   end
 
   # Default Ubuntu Box

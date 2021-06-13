@@ -104,6 +104,7 @@ apache_config() {
 
   sudo usermod -a -G www-data vagrant
   sudo usermod -a -G vagrant www-data
+  sudo usermod -a -G www-data root
 }
 
 

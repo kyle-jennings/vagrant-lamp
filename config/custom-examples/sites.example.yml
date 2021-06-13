@@ -89,16 +89,32 @@ sites:
       ENV_NAME2: ENV_VALUE2
       ENV_NAME3: ENV_VALUE3
 
-  wordpress-loc:
-    host: example2.loc
-    aliases:
-      - www.example2.loc
-    directory: example2
-
-  wordpress-core-dev:
-    host: example3.loc
-    aliases:
-      - www.example3.loc
-    directory: example3
-    site_root: app/httpdocs
-    description: Add a short description for your site
+sites-fields:
+  host:
+    required: true
+    type: string
+    format: fqdn
+  aliases:
+    required: false
+    type: array
+    array_type: strings
+  directory:
+    required: true
+    type: string
+  site_root:
+    required: false
+    type: string
+    format: fqdn
+  description:
+    required: false
+    type: string
+    string_type: textarea
+  image:
+    required: false
+    type: string
+    format: filename
+    filetype: image
+  env:
+    required: false
+    type: hash
+    hash_types: string
