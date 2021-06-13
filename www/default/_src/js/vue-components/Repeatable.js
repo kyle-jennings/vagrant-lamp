@@ -81,6 +81,7 @@ export default {
         type="button"
         class="btn btn-primary"
         v-on:click="addRow"
+        :disabled="$root.busy"
       >
         <i class="fas fa-plus-circle"></i>
       </button>

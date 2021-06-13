@@ -31,9 +31,14 @@ export default {
   template: `
   <div :class="formGroupClass" class="form-group">
     <label class="label-large" v-if="showName" for="">{{name | prettyStrings }}</label>
-    <input type="text" class="form-control" :value="value" />
+    <input type="text" class="form-control" 
+      :value="value" :disabled="$root.busy"
+    />
     <div class="input-group-append" v-if="inRepeatable">
-      <button class="btn btn-danger" type="button" v-on:click="removeRow">
+      <button class="btn btn-danger" type="button"
+        v-on:click="removeRow"
+        :disabled="this.$root.busy"
+      >
         <i class="fas fa-minus-circle text-white"></i>
       </button>
 

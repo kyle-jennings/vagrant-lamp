@@ -34,14 +34,22 @@ create_ssl_certs(){
 
   if [[ ! -e ${DIR}/server.crt ]]; then
     echo "Sign the certificate using the above private key..."
-    CERT="$(openssl \
-            -req \
-            -days 3650 \
-            -new -x509 \
-            -sha256 \
-            -key ${DIR}/server.key \
-            -out ${DIR}/server.crt \
-            -subj /CN=*.loc/CN=*.common.loc 2>&1)"
+    CERT="$(openssl req \
+        -new \
+        -x509 \
+        -key ${DIR}/server.key \
+        -out ${DIR}/server.crt \
+        -days 3650 \
+        -subj /CN=*.loc/CN=*.common.loc 2>&1)"
+    # CERT="$(openssl \
+    #         -req \
+    #         -days 3650 \
+    #         -new \
+    #         -x509 \
+    #         -sha256 \
+    #         -key ${DIR}/server.key \
+    #         -out ${DIR}/server.crt \
+    #         -subj /CN=*.loc/CN=*.common.loc 2>&1)"
     echo "$CERT"
   fi
 

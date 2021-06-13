@@ -1,6 +1,6 @@
 require 'yaml'
 
-class SitesParser
+class VhostBuilder
 
   attr_reader :dir, :config_file, :config_path, :vhost_dir, :vhost_template, :foo,
 
@@ -90,5 +90,5 @@ class SitesParser
 
 end # end class
 
-sites = SitesParser.new
-sites.init
+builder = VhostBuilder.new
+builder.init

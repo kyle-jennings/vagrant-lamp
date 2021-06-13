@@ -25,6 +25,7 @@ new Vue({
     currentSiteConfigs: null,
     sites: [],
     AJAX_URL: '/api',
+    busy: false,
   },
   watch: {
     currentSite: function() {
@@ -52,6 +53,24 @@ new Vue({
   },
   computed: {},
   methods: {
+    rebuildVhosts: function (data) {
+      const obj = {
+        action: 'rebuild-vhosts',
+        data: null,
+      }
+      this.busy = true;
+      XHR(this.AJAX_URL, obj, 'json')
+        .then((res) => {
+          const { response } = res.target;
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.busy = false;
+        });
+    },
     setType: function (name, value) {
       if ( Array.isArray(value) || typeof value === 'object' ) {
         return 'Repeatable'
@@ -85,10 +104,23 @@ new Vue({
       <form>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Your sites</label>
-          <select class="form-control js--key-select" data-action="site-config" v-model="currentSite">
+          <select class="form-control js--key-select"
+            data-action="site-config"
+            v-model="currentSite"
+            :disabled="busy"
+          >
             <option selected="true" disabled="disabled">-select site-</option>
             <option v-for="site in sites" :value="site">{{site}}</option>
           </select>
+        </div>
+        <div class="form-group">
+          <button type="submit"
+            class="btn btn-primary js--rebuild-vhost"
+            v-on:click.prevent="rebuildVhosts"
+            :disabled="busy"
+          >
+            Rebuld vhosts
+          </button>
         </div>
       </form>
     </div>

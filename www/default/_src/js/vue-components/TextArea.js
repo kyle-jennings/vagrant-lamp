@@ -9,6 +9,6 @@ export default {
   template: `
   <div class="form-group">
     <label class="label-large" for="">{{name}}</label><br />
-    <textarea style="width: 100%" rows="5">{{value}}</textarea>
+    <textarea style="width: 100%" rows="5" :disabled="$root.busy">{{value}}</textarea>
   </div>`,
 };

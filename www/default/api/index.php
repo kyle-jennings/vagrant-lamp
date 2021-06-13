@@ -9,9 +9,21 @@ header( 'Access-Control-Allow-Credentials: true' );
 header( 'Access-Control-Max-Age: 1000' );
 header( 'Content-type:application/json' );
 
+function vvva_ajax_rebuild_vhosts( $data = null ) {
+	error_log( 'rebuilding vhosts!' );
+	$response = json_encode(
+		[
+			'status' => 'ok',
+			'data'   => dirname( dirname( __FILE__ ) ),
+			'action' => 'rebuild_vhosts',
+		]
+	);
 
+	echo $response;
+	exit;
+}
 
-function vvva_ajax_site_list ( $data = null ) {
+function vvva_ajax_site_list( $data = null ) {
 
 	$response = json_encode(
 		[
@@ -26,9 +38,8 @@ function vvva_ajax_site_list ( $data = null ) {
 
 /**
  * get the selected site settings
- *
  */
-function vvva_ajax_site_config ( $name = null ) {
+function vvva_ajax_site_config( $name = null ) {
 	$response = json_encode(
 		[
 			'status' => 'ok',
@@ -42,7 +53,6 @@ function vvva_ajax_site_config ( $name = null ) {
 
 /**
  * Toggle the xdebug stuff
- *
  */
 function vvva_ajax_xdebug( $data = 'off' ) {
 
@@ -68,7 +78,7 @@ function vvva_ajax_xdebug( $data = 'off' ) {
 if ( isset( $_GET, $_GET['action'] ) ) {
 	$action = str_replace( '-', '_', $_GET['action'] );
 
-	$data   = isset( $_GET['data'] ) ? json_decode( $_GET['data'] ) : null;
+	$data = isset( $_GET['data'] ) ? json_decode( $_GET['data'] ) : null;
 
 	if ( function_exists( 'vvva_ajax_' . $action ) ) {
 		call_user_func( 'vvva_ajax_' . $action, $data );

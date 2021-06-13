@@ -97,7 +97,6 @@ Vagrant.configure('2') do |config|
   sites_custom_file = File.join(custom_folder, 'sites.yml')
   if File.file?(sites_custom_file) == false then
     FileUtils.cp( File.join(custom_folder, 'sites.example.yml'), sites_custom_file )
-    abort('You do not have a sites.yml file.  We created one for you, please add some site configs andd try again.')
   end
 
   # Default Ubuntu Box
@@ -107,10 +106,6 @@ Vagrant.configure('2') do |config|
   # to your host computer, it is cached for future use under the specified box name.
   config.vm.box = 'bento/ubuntu-20.04'
   config.vm.hostname = 'vagrant'
-
-  unless Vagrant.has_plugin?("vagrant-disksize")
-    raise  Vagrant::Errors::VagrantError.new, "vagrant-disksize plugin is missing. Please install it using 'vagrant plugin install vagrant-disksize' and rerun 'vagrant up'"
-  end
 
   # Private Network (default)
   #
@@ -131,18 +126,15 @@ Vagrant.configure('2') do |config|
     v.customize ['modifyvm', :id, '--cpus', 2]
     v.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     v.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
-    config.disksize.size = "100GB"
+
+    if Vagrant.has_plugin?("vagrant-disksize")
+      config.disksize.size = "100GB"
+    end
+
     # Set the box name in VirtualBox to match the working directory.
     vvv_pwd = Dir.pwd
     v.name = File.basename(vvv_pwd)
   end
-
-  # https://github.com/sprotheroe/vagrant-disksize/issues/37#issuecomment-573349769
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   parted /dev/sda resizepart 1 100%
-  #   pvresize /dev/sda1
-  #   lvresize -rl +100%FREE /dev/mapper/vagrant--vg-root
-  # SHELL
 
   # SSH Agent Forwarding
   #
@@ -152,20 +144,20 @@ Vagrant.configure('2') do |config|
   config.ssh.insert_key = false
 
 
-  show_logo = false
-
   vagrant_version = Vagrant::VERSION.sub(/^v/, '')
   if vagrant_version <= '1.6.0'
     abort('Vagrant version must be newer than 1.6.0')
   end
 
+  config.vm.synced_folder 'provision/', '/srv/provision'
+  config.vm.synced_folder 'custom/',    '/srv/custom'
 
   # Sync these folders to /srv
   ['databases', 'config', 'www'].each do |dir|
     if !File.exists?(File.join(vagrant_dir, dir)) then
       system('mkdir ' + dir)
     end
-      config.vm.synced_folder dir + '/', '/srv/' + dir, :owner => "vagrant", :mount_options => [ "dmode=775", "fmode=777" ]
+    config.vm.synced_folder dir + '/', '/srv/' + dir, :owner => "vagrant", :mount_options => [ "dmode=775", "fmode=777" ]
   end
 
   # custom triggers
@@ -174,13 +166,11 @@ Vagrant.configure('2') do |config|
   end
 
   # logs
-  if File.exists?(File.join(vagrant_dir, 'logs')) then
-    config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "vagrant", :mount_options => [ "dmode=777", "fmode=777" ]
-  else
-    puts('Hey now, the "logs" directory is missing.  We are creating it for you..' )
+  if ! File.exists?(File.join(vagrant_dir, 'logs')) then
     system('mkdir ' + 'logs')
-    abort('Created the directory!  Try your command again')
   end
+
+  config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "vagrant", :mount_options => [ "dmode=777", "fmode=777" ]
 
   config.vm.provision 'fix-no-tty', type: 'shell' do |s|
     s.privileged = false
@@ -202,9 +192,6 @@ Vagrant.configure('2') do |config|
 
 
   # Provisioning
-  config.vm.synced_folder 'provision/', '/home/vagrant/provision'
-  config.vm.synced_folder 'custom/', '/home/vagrant/custom'
-
   config.vm.provision :shell, :path => File.join( 'provision', '01-network-check.sh' )
   config.vm.provision :shell, :path => File.join( 'provision', '02-env-config.sh' )
 
@@ -215,13 +202,14 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :shell, :path => File.join( 'provision', '04-web-services-prep.sh' )
   config.vm.provision :shell, inline: <<-SHELL
-    ruby $(pwd)/provision/lib/sites-parser.rb
+    php /srv/provision/lib/vhost-builder.php
   SHELL
+  # ruby $(pwd)/provision/lib/vhost-builder.rb
 
   config.vm.provision :shell, :path => File.join( 'provision', '06-restart-web-services.sh' ), run: 'always'
 
   # Set host machine's host files
-  if Vagrant.has_plugin?("vagrant-hostmanager") then
+  if Vagrant.has_plugin?('vagrant-hostmanager') || Vagrant.has_plugin?('vagrant-goodhosts') then
     hostnames = [
       'vagrant.loc',
       'www.vagrant.loc',
@@ -240,10 +228,16 @@ Vagrant.configure('2') do |config|
     end
 
     hostnames.flatten.uniq
+  end
+
+  if Vagrant.has_plugin?('vagrant-hostmanager')
     config.hostmanager.aliases = hostnames
     config.hostmanager.manage_host = true
     config.vm.provision :hostmanager
+  elsif Vagrant.has_plugin?('vagrant-goodhosts')
+    config.goodhosts.aliases = hostnames
   end
+
 
 
   # Triggers
