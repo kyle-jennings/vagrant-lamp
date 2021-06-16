@@ -9,6 +9,25 @@ header( 'Access-Control-Allow-Credentials: true' );
 header( 'Access-Control-Max-Age: 1000' );
 header( 'Content-type:application/json' );
 
+
+function vvva_ajax_update_site_file ( $data ) {
+
+	$file = '/vagrant/custom/sites.yml';
+	if ( ! is_readable( $file ) ) {
+		return [];
+	}
+
+	$yaml = yaml_parse_file( $file );
+	$sitename = $data->sitename;
+	error_log( $sitename );
+	$yaml['sites'][ $sitename ] = $data;
+	error_log( json_encode( $yaml['sites'] ) );
+	// error_log( yaml_emit( $yaml['sites'] ) );
+
+	// file_put_contents( 'test-yaml.yml', yaml_emit( $yaml ) );
+}
+
+
 function vvva_ajax_rebuild_vhosts( $data = null ) {
 
 	if ( is_readable( SRV_ROOT . '/provision/lib/vhost-builder.php' ) ) {
@@ -41,14 +60,30 @@ function vvva_ajax_site_list( $data = null ) {
 	exit;
 }
 
+function vvva_ajax_new_site_form () {
+
+	$response = json_encode(
+		[
+			'status' => 'ok',
+			'data'   => get_sites_structure(),
+			'action' => 'site_config',
+		]
+	);
+	echo $response;
+	exit;
+}
+
+
 /**
  * get the selected site settings
  */
 function vvva_ajax_site_config( $name = null ) {
+
+
 	$response = json_encode(
 		[
 			'status' => 'ok',
-			'data'   => get_specic_site_confgs( $name ),
+			'data'   => fill_out_sites( $name ), //get_specic_site_confgs( $name ),
 			'action' => 'site_config',
 		]
 	);

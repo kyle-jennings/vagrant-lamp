@@ -8,11 +8,16 @@ VAGRANT_EXPERIMENTAL="disks"
 
 Vagrant.configure('2') do |config|
 
+  vagrant_version = Vagrant::VERSION.sub(/^v/, '')
+  if vagrant_version <= '1.6.0'
+    abort('Vagrant version must be newer than 1.6.0')
+  end
+
   if Vagrant.has_plugin?("vagrant-hostmanager") then
     config.hostmanager.enabled = false
   end
 
-  custom_folder = File.join(vagrant_dir, 'custom');
+  custom_folder          = File.join(vagrant_dir, 'custom');
   custom_examples_folder = File.join(vagrant_dir, 'config', 'custom-examples');
   # whitelist when we show the logo, else it'll show on global Vagrant commands
   #
@@ -25,37 +30,37 @@ Vagrant.configure('2') do |config|
 
   if [ 'up', 'halt', 'resume', 'suspend', 'status', 'provision', 'reload', 'ssh' ].include? ARGV[0] then
     # Regular Colors
-    black = "\033[38;5;0m"
-    red = "\033[38;5;1m"
-    green = "\033[38;5;2m"
-    yellow = "\033[38;5;3m"
-    blue = "\033[38;5;4m"
+    black   = "\033[38;5;0m"
+    red     = "\033[38;5;1m"
+    green   = "\033[38;5;2m"
+    yellow  = "\033[38;5;3m"
+    blue    = "\033[38;5;4m"
     magenta = "\033[38;5;5m"
-    cyan = "\033[38;5;6m"
-    white = "\033[38;5;7m"
-    orange = "\e[38;5;202m"
-    purple = "\e[38;5;92m"
+    cyan    = "\033[38;5;6m"
+    white   = "\033[38;5;7m"
+    orange  = "\e[38;5;202m"
+    purple  = "\e[38;5;92m"
 
     # Background
-    on_black = "\033[48;5;0m"
-    on_red = "\033[48;5;1m"
-    on_green = "\033[48;5;2m"
-    on_yellow = "\033[48;5;3m"
-    on_blue = "\033[48;5;4m"
+    on_black   = "\033[48;5;0m"
+    on_red     = "\033[48;5;1m"
+    on_green   = "\033[48;5;2m"
+    on_yellow  = "\033[48;5;3m"
+    on_blue    = "\033[48;5;4m"
     on_magenta = "\033[48;5;5m"
-    on_cyan = "\033[48;5;6m"
-    on_white = "\033[48;5;7m"
-    on_orange = "\033[48;5;202m"
-    on_purple = "\033[48;5;92m"
+    on_cyan    = "\033[48;5;6m"
+    on_white   = "\033[48;5;7m"
+    on_orange  = "\033[48;5;202m"
+    on_purple  = "\033[48;5;92m"
 
     # color combos
-    white_on_red = "#{on_red}#{white}"
+    white_on_red    = "#{on_red}#{white}"
     white_on_purple = "#{on_purple}#{white}"
 
     # misc
     underline = "\033[4m"
-    reset = "\033[0m"
-    blink = "\033[5m"
+    reset     = "\033[0m"
+    blink     = "\033[5m"
 
     puts "\n"
     puts '---'
@@ -79,8 +84,9 @@ Vagrant.configure('2') do |config|
     puts '---'
     puts "\n"
 
-    sleep(5)
-
+    if ! ['ssh' ].include? ARGV[0] then
+      sleep(5)
+    end
 
     if File.file?(File.join(custom_folder, 'splash.rb')) then
       begin
@@ -104,7 +110,7 @@ Vagrant.configure('2') do |config|
   # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
   # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
   # to your host computer, it is cached for future use under the specified box name.
-  config.vm.box = 'bento/ubuntu-20.04'
+  config.vm.box      = 'bento/ubuntu-20.04'
   config.vm.hostname = 'vagrant'
 
   # Private Network (default)
@@ -141,24 +147,25 @@ Vagrant.configure('2') do |config|
   # Enable agent forwarding on vagrant ssh commands. This allows you to use ssh keys
   # on your host machine inside the guest. See the manual for `ssh-add`.
   config.ssh.forward_agent = true
-  config.ssh.insert_key = false
+  config.ssh.insert_key    = false
 
-
-  vagrant_version = Vagrant::VERSION.sub(/^v/, '')
-  if vagrant_version <= '1.6.0'
-    abort('Vagrant version must be newer than 1.6.0')
+  config.vm.provision 'fix-no-tty', type: 'shell' do |s|
+    s.privileged = false
+    s.inline     = 'sudo sed -i "/tty/!s/mesg n/tty -s \\&\\& mesg n/" /root/.profile'
   end
 
   config.vm.synced_folder 'provision/', '/srv/provision'
   config.vm.synced_folder 'custom/',    '/srv/custom'
 
   # Sync these folders to /srv
-  ['databases', 'config', 'www'].each do |dir|
+  ['databases', 'config', 'www', 'dashboard'].each do |dir|
     if !File.exists?(File.join(vagrant_dir, dir)) then
       system('mkdir ' + dir)
     end
     config.vm.synced_folder dir + '/', '/srv/' + dir, :owner => "vagrant", :mount_options => [ "dmode=775", "fmode=777" ]
   end
+
+  config.vm.synced_folder 'dashboard-tools', '/srv/dashboard-tools', :owner => "vagrant", :mount_options => [ "dmode=555", "fmode=555" ]
 
   # custom triggers
   if File.exists?(File.join(vagrant_dir, 'triggers')) then
@@ -171,11 +178,6 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.synced_folder "logs/", "/var/log/apache2", :owner => "vagrant", :mount_options => [ "dmode=777", "fmode=777" ]
-
-  config.vm.provision 'fix-no-tty', type: 'shell' do |s|
-    s.privileged = false
-    s.inline = 'sudo sed -i "/tty/!s/mesg n/tty -s \\&\\& mesg n/" /root/.profile'
-  end
 
   # Customfile - POSSIBLY UNSTABLE
   #
@@ -213,6 +215,7 @@ Vagrant.configure('2') do |config|
     hostnames = [
       'vagrant.loc',
       'www.vagrant.loc',
+      'tools.vagrant.loc',
     ]
     yaml = YAML.load_file(sites_custom_file)
     if ! yaml['sites'].kind_of? Hash then

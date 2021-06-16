@@ -5,7 +5,9 @@ export default {
       type: Boolean,
       default: true,
     },
-    value: String
+    value: String,
+    isRepeatable: Boolean,
+    nameTag: String,
   },
   components: {},
   data: () => ({
@@ -13,12 +15,15 @@ export default {
   }),
   watch: {},
   computed: {
+    getNameTag: function () {
+      return this.nameTag || this.name;
+    },
     formGroupClass: function () {
       return this.inRepeatable ? 'input-group' : '';
     },
     inRepeatable: function () {
       return this.parentType === 'Repeatable';
-    }
+    },
   },
   methods: {
     removeRow: function () {
@@ -33,6 +38,7 @@ export default {
     <label class="label-large" v-if="showName" for="">{{name | prettyStrings }}</label>
     <input type="text" class="form-control" 
       :value="value" :disabled="$root.busy"
+      :name="getNameTag"
     />
     <div class="input-group-append" v-if="inRepeatable">
       <button class="btn btn-danger" type="button"

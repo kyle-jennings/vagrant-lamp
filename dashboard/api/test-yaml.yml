@@ -1,0 +1,52 @@
+---
+sites:
+  epi: ~
+  wordpress:
+    display_name: Vanilla WordPress
+    host: wordpress.loc
+    aliases:
+    - www.wordpress.loc
+    directory: wordpress
+  benjamin:
+    display_name: Benjamin Theme
+    host: benjamin.loc
+    aliases:
+    - www.benjamin.loc
+    directory: benjamin.loc
+    site_root: public
+    env:
+      DB_NAME: benjamin
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_HOST: localhost
+      TABLE_PREFIX: wp_
+      SECURE_AUTH_KEY: 983ddfkl;v2$%^e57*%78cvb96fret45
+      AUTH_KEY: $%^e57)(@%^vb96frdfghdf83ddfkl;v2
+      LOGGED_IN_KEY: -{_R$`mD$>}xu0GM(+wgy#mt7fH=u85XVWgJR:P<FbNrF)lz4S.K*[v6pDDT!7
+      NONCE_KEY: k-o.-?nqhzqMi8^XIlGu,:Ld28,_]GwV_a;hUhdNtN@<th|h%-4!CJ[Y%ji`r
+      AUTH_SALT: '@_IJ5|90f-p0>+ZQB3(g<@+%e|-P}&=CcfQ+.2?M+92nw}A4k[hrrfX5-8u%R'
+      SECURE_AUTH_SALT: 7SP?.}onIS+Alz7+cbaeUh!yROD90PrYI4v+5ZG6RT@e.=&Ckmt5NlF+bAamJ`K
+      LOGGED_IN_SALT: 9Sys(reIz`XN&--_.(K3P8;iy1U+N[u?Br9qQO5s:blPZ&eb*&PpuSt9Fe;g1?
+      NONCE_SALT: '#Y4W,dm%amblaBgiA7+#RLz?A?-u~[-h|i|=!wZS#b4J^zD{>@fwHv|$],^h2'
+  bootswatches:
+    display_name: Bootswatch Theme
+    host: bootswatches.loc
+    aliases:
+    - www.bootswatches.loc
+    directory: bootswatches
+    site_root: public
+    env:
+      DB_NAME: bootswatches
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_HOST: localhost
+      TABLE_PREFIX: wp_
+      SECURE_AUTH_KEY: 983ddfkl;v2$%^e57*%78cvb96fret45
+      AUTH_KEY: $%^e57)(@%^vb96frdfghdf83ddfkl;v2
+      LOGGED_IN_KEY: -{_R$`mD$>}xu0GM(+wgy#mt7fH=u85XVWgJR:P<FbNrF)lz4S.K*[v6pDDT!7
+      NONCE_KEY: k-o.-?nqhzqMi8^XIlGu,:Ld28,_]GwV_a;hUhdNtN@<th|h%-4!CJ[Y%ji`r
+      AUTH_SALT: '@_IJ5|90f-p0>+ZQB3(g<@+%e|-P}&=CcfQ+.2?M+92nw}A4k[hrrfX5-8u%R'
+      SECURE_AUTH_SALT: 7SP?.}onIS+Alz7+cbaeUh!yROD90PrYI4v+5ZG6RT@e.=&Ckmt5NlF+bAamJ`K
+      LOGGED_IN_SALT: 9Sys(reIz`XN&--_.(K3P8;iy1U+N[u?Br9qQO5s:blPZ&eb*&PpuSt9Fe;g1?
+      NONCE_SALT: '#Y4W,dm%amblaBgiA7+#RLz?A?-u~[-h|i|=!wZS#b4J^zD{>@fwHv|$],^h2'
+...

@@ -8,7 +8,7 @@ export default {
   methods: {},
   template: `
   <div class="form-group">
-    <label class="label-large" for="">{{name}}</label><br />
-    <textarea style="width: 100%" rows="5" :disabled="$root.busy">{{value}}</textarea>
+    <label class="label-large" for="">{{name | prettyStrings}}</label><br />
+    <textarea style="width: 100%" rows="5" :name="name" :disabled="$root.busy">{{value}}</textarea>
   </div>`,
 };

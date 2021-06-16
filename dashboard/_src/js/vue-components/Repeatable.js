@@ -46,6 +46,9 @@ export default {
 
       this.fieldValues.push(val);
     },
+    getNameTag: function (e, i, name) {
+      return name + '[' + i + ']';
+    },
     removeRow: function(data) {
       this.fieldValues.splice(data, 1);
     }
@@ -70,10 +73,13 @@ export default {
     <component 
       v-for="(e, i) in this.fieldValues"
       :key="i"
+      :idx="i"
       :is="setType"
-      :name="i"
+      :name="name"
       :value="e"
       :showName="showName"
+      :isRepeatable="true"
+      :nameTag="getNameTag(e,i, name)"
       v-on:removeRow="removeRow"
     />
     <div>

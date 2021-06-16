@@ -77,10 +77,11 @@
 sites:
 
   example:
+    display_name: Example
+    directory: default
     host: example.loc
     aliases:
       - www.example.loc
-    directory: default
     site_root: app
     description: Add a short description for your site
     image: logo.jpg
@@ -89,11 +90,27 @@ sites:
       ENV_NAME2: ENV_VALUE2
       ENV_NAME3: ENV_VALUE3
 
-sites-fields:
+placeholders:
+  display_name: ''
+  description: ''
+  host: ''
+  aliases:
+    - ''
+  directory: ''
+  site_root: ''
+  image: ''
+  env:
+    '': ''
+
+schema:
   host:
     required: true
     type: string
     format: fqdn
+  description:
+    required: false
+    type: string
+    string_type: textarea
   aliases:
     required: false
     type: array
@@ -105,10 +122,6 @@ sites-fields:
     required: false
     type: string
     format: fqdn
-  description:
-    required: false
-    type: string
-    string_type: textarea
   image:
     required: false
     type: string

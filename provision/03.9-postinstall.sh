@@ -184,12 +184,12 @@ mailhog_install() {
 # Webgrind install (for viewing callgrind/cachegrind files produced by
 # xdebug profiler)
 webgrind_install() {
-  if [[ ! -d "/srv/www/default/tools/webgrind" ]]; then
+  if [[ ! -d "/srv/www/dashboard-tools/webgrind" ]]; then
     echo -e "\nDownloading webgrind, see https://github.com/michaelschiller/webgrind.git"
-    git clone "https://github.com/michaelschiller/webgrind.git" "/srv/www/default/tools/webgrind"
+    git clone "https://github.com/michaelschiller/webgrind.git" "/srv/www/dashboard-tools/webgrind"
   else
     echo -e "\nUpdating webgrind..."
-    cd /srv/www/default/tools/webgrind
+    cd /srv/www/dashboard-tools/webgrind
     git pull origin master
     # git pull --rebase origin master
   fi
@@ -200,9 +200,9 @@ webgrind_install() {
 phpmyadmin_setup() {
   # Download phpMyAdmin
 
-  if [[ ! -d "/srv/www/default/tools/database" ]]; then
+  if [[ ! -d "/srv/www/dashboard-tools/database" ]]; then
     echo "Downloading phpMyAdmin..."
-    cd /srv/www/default/tools
+    cd /srv/www/dashboard-tools
     wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/5.1.1/phpMyAdmin-5.1.1-all-languages.tar.gz"
     tar -xf phpmyadmin.tar.gz
     rm phpmyadmin.tar.gz
@@ -210,19 +210,20 @@ phpmyadmin_setup() {
   else
     echo "PHPMyAdmin already installed."
   fi
-  cp "/srv/config/phpmyadmin/config.inc.php" "/srv/www/default/tools/database/"
+  cp "/srv/config/phpmyadmin/config.inc.php" "/srv/www/dashboard-tools/database/"
 }
 
 
 # redis cache install
 redis_admin_install() {
 
-  if [[ ! -d "/srv/www/default/tools/redis" ]]; then
-    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/php-memcached-admin"
-    cd /srv/www/default/tools
-    wget -q -O phpmemcacheadmin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
-    tar -xf phpmemcacheadmin.tar.gz
-    rm phpmemcacheadmin*tar.gz
+  if [[ ! -d "/srv/www/dashboard-tools/redis" ]]; then
+    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/erikdubbelboer/phpRedisAdmin"
+    cd /srv/www/dashboard-tools
+    rm -rf phpRedis
+    wget -q -O phpRedisAdmin.zip "https://github.com/erikdubbelboer/phpRedisAdmin/archive/master.zip"
+    unzip phpRedisAdmin.zip
+    rm -rf phpRedis*
     mv phpRedis* redis
     cd redis
     composer install
@@ -236,13 +237,13 @@ redis_admin_install() {
 # Download and extract phpMemcachedAdmin to provide a dashboard view and
 # admin interface to the goings on of memcached when running
 memcached_admin_install() {
-  if [[ ! -d "/srv/www/default/tools/memcached" ]]; then
-    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/php-memcached-admin"
-    cd /srv/www/default/tools
-    wget -q -O phpmemcacheadmin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
+  if [[ ! -d "/srv/www/dashboard-tools/memcached" ]]; then
+    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/phpmemcacheadmin/"
+    cd /srv/www/dashboard-tools
+    wget -q -O phpmemcacheadmin.zip "https://github.com/wp-cloud/phpmemcacheadmin/archive/refs/heads/master.zip"
 
-    tar -xf phpmemcacheadmin.tar.gz
-    rm phpmemcacheadmin*tar.gz
+    unzip phpmemcacheadmin.zip
+    rm -rf phpmemcache*
     mv phpmemcacheadmin* memcache
   else
     echo "phpMemcachedAdmin already installed."
@@ -253,14 +254,14 @@ memcached_admin_install() {
 # Checkout Opcache Status to provide a dashboard for viewing statistics
 # about PHP's built in opcache.
 opcache_admin_install() {
-  if [[ ! -d "/srv/www/default/tools/opcache" ]]; then
+  if [[ ! -d "/srv/www/dashboard-tools/opcache" ]]; then
     echo -e "\nDownloading Opcache Status, see https://github.com/rlerdorf/opcache-status/"
-    cd /srv/www/default/tools
+    cd /srv/www/dashboard-tools
     git clone "https://github.com/rlerdorf/opcache-status.git" opcache
     cp opcache/opcache.php opcache/index.php
   else
     echo -e "\nUpdating Opcache Status"
-    cd /srv/www/default/tools/opcache
+    cd /srv/www/dashboard-tools/opcache
     git pull origin master
     # git pull --rebase origin master
   fi

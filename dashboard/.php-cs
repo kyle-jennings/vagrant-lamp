@@ -1,0 +1,11 @@
+<?php
+
+return PhpCsFixer\Config::create()
+    ->setRules(
+        array(
+            
+        )
+    )
+    ->setIndent("\t")
+    ->setLineEnding("\n")
+;

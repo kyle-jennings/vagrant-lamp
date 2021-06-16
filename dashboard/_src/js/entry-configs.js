@@ -28,8 +28,8 @@ new Vue({
     busy: false,
   },
   watch: {
-    currentSite: function() {
-
+    currentSite: function(newVal, oldVal) {
+      if (newVal === 'new') return;
       const data   = this.currentSite;
       const action = 'site-config';
 
@@ -53,6 +53,24 @@ new Vue({
   },
   computed: {},
   methods: {
+    addSite: function () {
+      this.currentSite = 'new';
+      const data   = null
+      const action = 'new_site_form';
+
+      XHR(this.AJAX_URL, {action, data}, 'json')
+      .then((res) => {
+        this.currentSiteConfigs = null;
+        setTimeout(() => {
+          const response          = res.target.response;
+          this.currentSiteConfigs = response.data;
+        }, 1000);
+
+      })
+      .catch((err) => {
+        console.log('error', err);
+      });
+    },
     rebuildVhosts: function (data) {
       const obj = {
         action: 'rebuild-vhosts',
@@ -74,14 +92,71 @@ new Vue({
     setType: function (name, value) {
       if ( Array.isArray(value) || typeof value === 'object' ) {
         return 'Repeatable'
-      } else if ( value.length > 120 ) {
-        return 'TextArea';
       }
 
       return 'Field';
     },
     submit: function () {
-      
+      const $fields = document.querySelectorAll('form.main-form input[type="text"]');
+      window.$fields = $fields;
+      const obj = {};
+      const values = $fields.forEach(($e,i) => {
+        // console.log(i, $e.name, $e.value );
+        
+        const name    = $e.name;
+        const value   = $e.value;
+        const matches = name.match(/\[(.*?)\]/g);
+
+        // standard field
+        if (!matches) {
+          obj[name] = $e.value;
+          return;
+        }
+
+        // is repeatable field like array or key value pairs
+        const realName = name.substr(0, name.indexOf('['));
+        const is_obj = matches.length > 1;
+        obj[realName] = obj[realName] || (is_obj ? {} : []);
+        if (is_obj) {
+          const idx = matches[0];
+          obj[realName][idx] = obj[realName][idx] || { key: null, value: null };
+          
+          if( matches[1] === '[key]' ) {
+            obj[realName][idx].key = value;
+          } else if( matches[1] === '[value]' ) {
+            obj[realName][idx].value = value;
+          }
+
+          
+        } else {
+          obj[realName].push(value);
+        }
+      });
+
+      const newObj = {};
+      Object.keys(obj).forEach((e) => {
+        if (typeof obj[e] === 'object' && ! Array.isArray(obj[e]) ) {
+          Object.values(obj[e]).forEach(n => {
+            newObj[n.key] = n.value;
+          })
+          obj[e] = newObj;
+        }
+      });
+
+      obj.sitename = this.currentSite;
+      this.busy = true;
+      XHR(
+        this.AJAX_URL, {
+          action: 'update-site-file',
+          data: obj,
+        },
+        'json'
+      )
+        .then(res => {})
+        .catch(err => {})
+        .finally(() => {
+          this.busy = false;
+        });
     },
   },
   beforeMount: function () {
@@ -107,7 +182,7 @@ new Vue({
       <form>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Your sites</label>
-          <select class="form-control js--key-select"
+          <select class="form-control"
             data-action="site-config"
             v-model="currentSite"
             :disabled="busy"
@@ -124,12 +199,23 @@ new Vue({
           >
             Rebuld vhosts
           </button>
+
+          <button
+            type="button"
+            class="btn btn-success"
+            v-on:click="addSite"
+            :disabled="$root.busy"
+          >
+            <i class="fas fa-plus-circle"></i>
+          </button>
+
         </div>
+        
       </form>
     </div>
 
   <div class="col-md-9">
-    <form>
+    <form class="main-form">
       <transition-group name="fade">
         <component
           v-for="(config, idx) in currentSiteConfigs"
