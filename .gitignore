@@ -27,6 +27,7 @@ custom/*
 
 # we want to keep the default site's skeleton however
 /www/*
+/www
 !/www/default
 /www/default/*
 !/www/default/dashboard
