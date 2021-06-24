@@ -28,7 +28,7 @@ Vagrant.configure('2') do |config|
   # https://misc.flogisoft.com/bash/tip_colors_and_formatting
   #
 
-  if [ 'up', 'halt', 'resume', 'suspend', 'status', 'provision', 'reload', 'ssh' ].include? ARGV[0] then
+  if [ 'up', 'resume', 'suspend', 'provision', 'reload', 'ssh' ].include? ARGV[0] then
     # Regular Colors
     black   = "\033[38;5;0m"
     red     = "\033[38;5;1m"

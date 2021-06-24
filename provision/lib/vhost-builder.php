@@ -44,20 +44,19 @@ class VhostBuilder {
 
 		foreach ( $sites as $key => $site ) {
 			$args = [
-				'sitename' => $key,
-				'host'     => $site['host'],
-				'dirname'  => $site['directory'],
-				'vhost'    => self::$vhost_dir . $site['host'],
-				'root'     => @$site['site_root'] ?: '',
-				'aliases'  => implode( ' ', $site['aliases'] ) ?: null,
-				'env'      => @$site['env'] ?: null,
+				'sitename'  => $key,
+				'host'      => $site['host'],
+				'dirname'   => $site['directory'],
+				'vhost'     => self::$vhost_dir . $site['host'],
+				'site_root' => @$site['site_root'] ?:null,
+				'aliases'   => implode( ' ', $site['aliases'] ) ?: null,
+				'env'       => @$site['env'] ?: null,
 			];
-
 			if ( ! isset( $site['host'], $site['directory'] ) ) {
 				error_log( 'Missing hostname or directory for ' . $key );
 				continue;
 			}
-
+			$args['dirname'] = $args['site_root'] ? $args['dirname'] . '/'. $args['site_root'] : $args['dirname'];
 			if ( $args['env'] ) {
 				$env         = array_map(
 					function ( $val, $key ) {
@@ -79,6 +78,7 @@ class VhostBuilder {
 		$text = file_get_contents( self::$template_file );
 		$text = str_replace( '{{HOST}}', $args['host'], $text );
 		$text = str_replace( '{{DIRNAME}}', $args['dirname'], $text );
+		$text = str_replace( '{{SITENAME}}', $args['sitename'], $text );
 		$text = str_replace( '{{SITENAME}}', $args['sitename'], $text );
 
 		if ( isset( $args['aliases'] ) ) {

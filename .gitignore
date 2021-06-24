@@ -31,6 +31,7 @@ custom/*
 /www/default/*
 !/www/default/dashboard
 !/www/default/dashboard/*
+/www/default/dashboard-tools
 !/www/default/api
 !/www/default/site-config
 !/www/default/_src
