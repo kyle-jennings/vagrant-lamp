@@ -28,15 +28,15 @@ custom/*
 # we want to keep the default site's skeleton however
 /www/*
 /www
-!/www/default
-/www/default/*
-!/www/default/dashboard
-!/www/default/dashboard/*
-/www/default/dashboard-tools
-!/www/default/api
-!/www/default/site-config
-!/www/default/_src
-!/www/default/dist
-!/www/default/index.php
-!/www/default/dashboard/
-!/www/default/phpinfo/
+!/dashboard-tools
+/dashboard-tools/*
+!/dashboard-tools/dashboard
+!/dashboard-tools/dashboard/*
+/dashboard-tools/dashboard-tools
+!/dashboard-tools/api
+!/dashboard-tools/site-config
+!/dashboard-tools/_src
+!/dashboard-tools/dist
+!/dashboard-tools/index.php
+!/dashboard-tools/dashboard/
+!/dashboard-tools/phpinfo/
