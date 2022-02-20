@@ -13,6 +13,7 @@ php_package_install_list=()
 
 
 php_package_check_list=(
+  php7.4
   php7.4-fpm
   php7.4-cli
   php7.4-common
@@ -184,6 +185,7 @@ package_install() {
 
     # Clean up apt-get caches
     apt-get clean
+
   fi
 }
 

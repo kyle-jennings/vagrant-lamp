@@ -8,6 +8,14 @@ VAGRANT_EXPERIMENTAL="disks"
 
 Vagrant.configure('2') do |config|
 
+  # Default Ubuntu Box
+  #
+  # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
+  # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
+  # to your host computer, it is cached for future use under the specified box name.
+  config.vm.box      = 'bento/ubuntu-20.04'
+  config.vm.hostname = 'vagrant'
+
   vagrant_version = Vagrant::VERSION.sub(/^v/, '')
   if vagrant_version <= '1.6.0'
     abort('Vagrant version must be newer than 1.6.0')
@@ -104,14 +112,6 @@ Vagrant.configure('2') do |config|
   if File.file?(sites_custom_file) == false then
     FileUtils.cp( File.join(custom_examples_folder, 'sites.example.yml'), sites_custom_file )
   end
-
-  # Default Ubuntu Box
-  #
-  # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
-  # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
-  # to your host computer, it is cached for future use under the specified box name.
-  config.vm.box      = 'bento/ubuntu-20.04'
-  config.vm.hostname = 'vagrant'
 
   # Private Network (default)
   #

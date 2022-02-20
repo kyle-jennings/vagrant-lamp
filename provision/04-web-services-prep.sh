@@ -97,7 +97,9 @@ apache_config() {
   a2enmod proxy_html
   a2enmod proxy_fcgi
   a2enmod proxy_fcgi setenvif
+  a2dismod php8.1
   a2enconf php7.4-fpm
+  update-alternatives --set php /usr/bin/php7.4
 
   echo enabling php support: mailhog
   sudo phpenmod mailhog
