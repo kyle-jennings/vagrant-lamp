@@ -124,15 +124,9 @@ mysql_config() {
   mysql -u root -proot -e "ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';"
   mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"
   mysql -u root -proot -e "FLUSH PRIVILEGES;"
+  mysql -u root -proot -e "set sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION,NO_AUTO_VALUE_ON_ZERO';"
 }
 
-echo '-------------------------------'
-echo "Installing your custom sites"
-echo '-------------------------------'
-clear_vhosts
-copy_default_vhosts
-clear_certs
-create_ssl_certs
 
 echo '-------------------------------'
 echo 'configuring services'
@@ -142,3 +136,11 @@ phpfpm_config
 memcached_config
 apache_config
 xdebug_log_conf
+
+echo '-------------------------------'
+echo "Installing your custom sites"
+echo '-------------------------------'
+clear_vhosts
+copy_default_vhosts
+clear_certs
+create_ssl_certs

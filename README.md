@@ -14,6 +14,15 @@ Still very much a WIP but this should get devs up and running provided they set
 up their projects following a required recipes.
 
 
+NOTE - I think the mysql version this version of ubuntu uses has different sql_modes
+this causes some crazy issues where we cant post anything, and the "new post" form is very broken.
+
+```
+  SET sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION,NO_AUTO_VALUE_ON_ZERO';
+```
+
+
+
 ## Whats installed?
 * PHP 7.4
 * PHP FPM (7.4)
