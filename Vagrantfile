@@ -13,7 +13,7 @@ Vagrant.configure('2') do |config|
   # This box is provided by Ubuntu vagrantcloud.com and is a nicely sized (332MB)
   # box containing the Ubuntu 14.04 Trusty 64 bit release. Once this box is downloaded
   # to your host computer, it is cached for future use under the specified box name.
-  config.vm.box      = 'bento/ubuntu-20.04'
+  config.vm.box      = 'bento/ubuntu-18.04'
   config.vm.hostname = 'vagrant'
 
   vagrant_version = Vagrant::VERSION.sub(/^v/, '')
@@ -117,10 +117,12 @@ Vagrant.configure('2') do |config|
   #
   # A private network is created by default. This is the IP address through which your
   # host machine will communicate to the guest.
-  config.vm.network :private_network, id: 'vagrant_prime', ip: '192.168.10.175'
+  config.vm.network :private_network, id: 'vagrant_prime', ip: '192.168.56.175'
 
   ## forward the mysql port to the localhost
   config.vm.network "forwarded_port", guest: 3306, host: 3306
+  config.vm.network "forwarded_port", guest: 80, host: 80
+  config.vm.network "forwarded_port", guest: 443, host: 443
 
 
   # Store the current version of Vagrant for use in conditionals when dealing

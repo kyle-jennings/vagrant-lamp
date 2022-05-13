@@ -28,7 +28,6 @@ custom/*
 # we want to keep the default site's skeleton however
 /www/*
 /www
-<<<<<<< HEAD
 !/dashboard-tools
 /dashboard-tools/*
 !/dashboard-tools/dashboard
@@ -41,20 +40,5 @@ custom/*
 !/dashboard-tools/index.php
 !/dashboard-tools/dashboard/
 !/dashboard-tools/phpinfo/
-=======
-!/default
-/*
-!/dashboard
-!/dashboard/*
-/dashboard-tools
-/dashboard-tools/
 
-
-!/api
-!/dashboard/site-config
-!/_src
-!/dist
-!/index.php
-!/dashboard/
-!/phpinfo/
->>>>>>> ef1c6a895e6279971675af878ab968e9d042c376
+dashboard/node_modules
