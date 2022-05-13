@@ -101,7 +101,8 @@ function get_installed_utils_dirs() {
 	}
 	$arr['mailhog'] = ':8025';
 
-	$arr['site-config'] = '/site-config/';
+	// $arr['site-config'] = '/site-config/';
+	$arr['phpinfo'] = '/phpinfo/';
 
 	return $arr;
 }
